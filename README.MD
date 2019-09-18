@@ -1,0 +1,1 @@
+SecurityContextPersistenceFilter -> UsernamePasswordAuthenticationFilter -> BasicAuthenticationFilter -> .... ExceptionTranslationFilter-> FilterSecurityInterceptor -> Restful API
