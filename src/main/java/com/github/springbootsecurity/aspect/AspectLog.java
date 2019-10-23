@@ -1,9 +1,11 @@
 package com.github.springbootsecurity.aspect;
 
+import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -22,7 +24,7 @@ import java.util.Arrays;
 @Component
 public class AspectLog {
 
-    @Pointcut("execution(* com.github.springbootsecurity.controller.impl.*.*(..))")
+    @Pointcut("execution(* com.github.springbootsecurity.controller.application.impl.*.*.*(..))")
     public void pointCut() {
     }
 
@@ -31,10 +33,10 @@ public class AspectLog {
      *
      * @param pdj 可执行体
      * @return return
-     * @throws Throwable Throwable
      */
     @Around(value = "pointCut()")
-    public Object logAround(ProceedingJoinPoint pdj) throws Throwable {
+    @SneakyThrows(Throwable.class)
+    public Object logAround(@NotNull ProceedingJoinPoint pdj) {
         System.out.println("运行...参数列表是:{" + Arrays.asList(pdj.getArgs()) + "}");
         return pdj.proceed();
     }

@@ -1,6 +1,5 @@
 package com.github.springbootsecurity.runner;
 
-import com.github.springbootsecurity.controller.impl.UserBookControllerImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserBookControllerImpl userBookControllerImpl = context.getBean(UserBookControllerImpl.class);
-        System.out.println(userBookControllerImpl);
+
     }
 }

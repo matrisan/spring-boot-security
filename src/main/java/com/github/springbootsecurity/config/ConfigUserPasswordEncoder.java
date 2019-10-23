@@ -28,7 +28,7 @@ public class ConfigUserPasswordEncoder {
     @Bean
     public PasswordEncoder createDelegatingPasswordEncoder() {
         String encodingId = "bcrypt";
-        Map<String, PasswordEncoder> encoders = new HashMap<>(16);
+        Map<String, PasswordEncoder> encoders = new HashMap<>(8);
         encoders.put(encodingId, new BCryptPasswordEncoder());
         encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
         encoders.put("scrypt", new SCryptPasswordEncoder());

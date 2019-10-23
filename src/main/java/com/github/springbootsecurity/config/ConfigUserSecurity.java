@@ -49,11 +49,11 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 // 使用表单登录
                 .formLogin()
                 // 指定登录页面
-//                .loginPage("/sign_in")
+                // .loginPage("/sign_in")
                 // 指定登录 URL
-//                .loginProcessingUrl("/login_form")
-//                .successHandler(successHandler)
-//                .failureHandler(failureHandler)
+                // .loginProcessingUrl("/login_form")
+                // .successHandler(successHandler)
+                // .failureHandler(failureHandler)
                 .and()
                 .authorizeRequests()
                 // 允许访问
@@ -70,7 +70,6 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .expiredSessionStrategy(event -> event.getResponse().getWriter().write("并发登录!\n"))
                 .and()
                 .and().exceptionHandling().accessDeniedPage("/403")
-
         ;
         http.csrf().disable();
 

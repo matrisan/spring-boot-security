@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 创建时间为 下午1:18 2019/9/18
@@ -24,9 +26,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnDTO<T> {
+public class ReturnDTO<T> implements Serializable {
+
+    private static final long serialVersionUID = 4396605270433694166L;
 
     private Integer status;
 
     private T data;
+
 }
