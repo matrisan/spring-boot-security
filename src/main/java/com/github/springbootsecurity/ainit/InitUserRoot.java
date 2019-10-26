@@ -8,6 +8,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class InitUserRoot {
     @Resource
     private ISystemUserJpaRepository repository;
 
-    //    @PostConstruct
+        @PostConstruct
     public void init() {
 //        repository.deleteAll();
         Set<SystemRoleDO> roleSet = Sets.newHashSet(SystemRoleDO.builder().name("ROLE_ROOT").note("超级管理员用户").build());

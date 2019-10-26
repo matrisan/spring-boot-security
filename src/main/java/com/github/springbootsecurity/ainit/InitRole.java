@@ -35,7 +35,7 @@ public class InitRole {
 
     private static final List<String> LIST = Lists.newArrayList("ROLE_ROOT", "ROLE_ADMIN", "ROLE_USER");
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Pageable pageable = PageRequest.of(0, 1000);
         Page<SystemRoleVO> page = roleService.findAllRoles(pageable);
