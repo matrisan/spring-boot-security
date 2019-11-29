@@ -66,11 +66,10 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 .and().authorizeRequests()
                 // 允许访问
-                .antMatchers("/code/image", "/authentication/form", "/", "/session/invalid", "/register", "captcha").permitAll()
+                .antMatchers("/code/*", "/authentication/form", "/", "/session/invalid", "/register", "captcha").permitAll()
                 // 任何请求,登录后可以访问
                 .anyRequest().authenticated()
                 .and()
