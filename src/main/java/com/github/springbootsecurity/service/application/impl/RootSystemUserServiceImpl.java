@@ -47,7 +47,7 @@ public class RootSystemUserServiceImpl implements IRootSystemUserService {
         List<SystemUserVO> list = pageDo.getContent().stream().map(one -> {
             SystemUserVO userVO = new SystemUserVO();
             BeanUtils.copyProperties(one, userVO);
-            userVO.setRoles(one.getRoles().stream().map(SystemRoleDO::getName).collect(Collectors.toSet()));
+            userVO.setRoles(one.getAuthorities().stream().map(SystemRoleDO::getName).collect(Collectors.toSet()));
             return userVO;
         }).collect(Collectors.toList());
         return new PageImpl<>(list, pageDo.getPageable(), pageDo.getTotalElements());
@@ -60,7 +60,7 @@ public class RootSystemUserServiceImpl implements IRootSystemUserService {
         systemUserDO.setPassword(passwordEncoder.encode(systemUserDTO.getPassword()));
         Set<SystemRoleDO> doSet = roleJpaRepository.findAllById(systemUserDTO.getRoles())
                 .stream().peek(one -> one.setUsers(null)).collect(Collectors.toSet());
-        systemUserDO.setRoles(doSet);
+        systemUserDO.setAuthorities(doSet);
         SystemUserDO userDO = userJpaRepository.save(systemUserDO);
         SystemUserVO userVO = new SystemUserVO();
         BeanUtils.copyProperties(userDO, userVO);

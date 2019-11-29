@@ -15,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -23,6 +24,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Date;
@@ -66,7 +69,12 @@ public class SystemRoleDO implements GrantedAuthority {
      * 配置多表关系
      */
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = SystemUserDO.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "system_user_role",
+            joinColumns = {@JoinColumn(name = "system_role_id", referencedColumnName = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "system_user_id", referencedColumnName = "user_id")}
+    )
     private Set<SystemUserDO> users;
 
     @Override

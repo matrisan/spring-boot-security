@@ -6,6 +6,7 @@ import com.github.springbootsecurity.repository.ISystemUserJpaRepository;
 import com.google.common.collect.Sets;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +41,7 @@ public class InitUserNormal {
         SystemUserDO systemUserDO = SystemUserDO.builder()
                 .username("user01")
                 .password(passwordEncoder.encode("123456"))
-                .roles(roleSet)
+                .authorities(roleSet)
                 .email("shaopro@qq.com")
                 .accountNonExpired(true)
                 .accountNonLocked(true)

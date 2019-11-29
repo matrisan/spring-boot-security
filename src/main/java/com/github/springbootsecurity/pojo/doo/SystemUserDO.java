@@ -47,8 +47,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString(exclude = {"roles"})
-@EqualsAndHashCode(exclude = {"roles"})
+@ToString(exclude = {"authorities"})
+@EqualsAndHashCode(exclude = {"authorities"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -71,6 +71,17 @@ public class SystemUserDO implements UserDetails {
 
     private String email;
 
+    private String note;
+
+    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "system_user_role",
+            joinColumns = {@JoinColumn(name = "system_user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "system_role_id", referencedColumnName = "role_id")}
+    )
+    @JsonIgnore
+    private Set<SystemRoleDO> authorities;
+
     private Boolean accountNonExpired;
 
     private Boolean accountNonLocked;
@@ -79,33 +90,17 @@ public class SystemUserDO implements UserDetails {
 
     private Boolean enabled;
 
-    private String note;
-
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = SystemRoleDO.class, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "system_user_role",
-            joinColumns = {@JoinColumn(name = "system_user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "system_role_id", referencedColumnName = "role_id")}
-    )
-    @JsonIgnore
-    private Set<SystemRoleDO> roles;
-
-    @CreatedBy
-    private Integer createBy;
-
-    @LastModifiedBy
-    private Integer lastModifiedBy;
-
     @CreatedDate
     private Date createDate;
 
     @LastModifiedDate
     private Date lastModifiedDate;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
+    @CreatedBy
+    private Long createBy;
+
+    @LastModifiedBy
+    private Long lastModifiedBy;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -126,6 +121,5 @@ public class SystemUserDO implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
 
 }

@@ -41,7 +41,7 @@ public class InitUserAdmin {
         SystemUserDO systemUserDO = SystemUserDO.builder()
                 .username("admin01")
                 .password(passwordEncoder.encode("123456"))
-                .roles(roleSet)
+                .authorities(roleSet)
                 .email("shaopro@qq.com")
                 .accountNonExpired(true)
                 .accountNonLocked(true)

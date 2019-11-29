@@ -40,7 +40,7 @@ public class InitUserRoot {
         SystemUserDO systemUserDO = SystemUserDO.builder()
                 .username("root")
                 .password(passwordEncoder.encode("123456"))
-                .roles(roleSet)
+                .authorities(roleSet)
                 .email("shaopro@qq.com")
                 .accountNonExpired(true)
                 .accountNonLocked(true)

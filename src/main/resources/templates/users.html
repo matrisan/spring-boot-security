@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body class="container">
+
+<h1>用户列表</h1>
+<br/>
+
+<h3 th:text="${title}">原型</h3>
+<div class="width:80%">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${users.size()} eq 0">
+            <td colspan="3">没有用户信息</td>
+        </tr>
+        <tr th:each="user : ${users} ">
+            <td th:text="${user.id}">111</td>
+            <td><a th:href="@{'/user/' + ${user.id}}" th:text="${user.name}">Ssd</a></td>
+            <td th:text="${user.email}">ss@qq.com</td>
+            <td><a th:href="@{'/user/update/' + ${user.id}}">编辑</a></td>
+            <td><a th:href="@{'/user/delete/' + ${user.id}}" onclick="return confirm('确认删除用户?')">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-2 control-label">
+        <a href="/user" class="btn btn-info">添加</a>
+    </div>
+</div>
+
+</body>
+</html>

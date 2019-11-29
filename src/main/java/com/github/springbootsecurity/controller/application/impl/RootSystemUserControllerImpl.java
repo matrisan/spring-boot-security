@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.controller.application.impl;
 
 import com.github.springbootsecurity.controller.application.IRootSystemUserController;
-import com.github.springbootsecurity.pojo.doo.SystemUserDO;
 import com.github.springbootsecurity.pojo.dto.ReturnDTO;
 import com.github.springbootsecurity.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.pojo.vo.SystemUserVO;
@@ -46,7 +45,7 @@ public class RootSystemUserControllerImpl implements IRootSystemUserController {
     @Override
     @GetMapping("/users")
     public ReturnDTO<Page<SystemUserVO>> findAllUsers(@PageableDefault(size = 5, page = 0, sort = "userId", direction = Sort.Direction.ASC)
-                                                            Pageable pageable) {
+                                                              Pageable pageable) {
         return ReturnDTO.<Page<SystemUserVO>>builder().status(0).data(service.findAllUsers(pageable)).build();
     }
 
