@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.service.application.impl;
+package com.github.springbootsecurity.security;
 
 
 import com.github.springbootsecurity.pojo.doo.SystemUserDO;

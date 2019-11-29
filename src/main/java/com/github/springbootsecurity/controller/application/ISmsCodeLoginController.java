@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
- * 创建时间为 下午7:14 2019/10/23
+ * 创建时间为 上午10:58 2019/11/29
  * 项目名称 spring-boot-security
  * </p>
  *
@@ -14,9 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  * @since 0.0.1
  */
 
-public interface ICaptchaController {
+public interface ISmsCodeLoginController {
 
-    void getCaptcha(HttpServletRequest request, HttpServletResponse response);
-
+    void getSmsCode(String mobile, HttpServletRequest request, HttpServletResponse response);
 
 }

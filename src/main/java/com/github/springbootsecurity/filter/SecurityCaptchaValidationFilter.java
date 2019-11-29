@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.filter;
 
-import com.github.springbootsecurity.exception.CaptchaException;
+import com.github.springbootsecurity.exception.VerificationCodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +46,7 @@ public class SecurityCaptchaValidationFilter extends OncePerRequestFilter {
                 StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             try {
                 validate(new ServletWebRequest(request));
-            } catch (CaptchaException exception) {
+            } catch (VerificationCodeException exception) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
                 return;
             }
@@ -65,13 +65,13 @@ public class SecurityCaptchaValidationFilter extends OncePerRequestFilter {
         // 如果次数次数小于0 说明验证码已经失效
         assert num != null;
         if (0 > num.intValue()) {
-            throw new CaptchaException("验证码过期!");
+            throw new VerificationCodeException("验证码过期!");
         }
         // 将session中的取出对应session id生成的验证码
         String serverCode = (String) session.getAttribute("SESSION_VERIFY_CODE_" + id);
         // 校验验证码
         if (null == serverCode || null == code || !serverCode.toUpperCase().equals(code.toUpperCase())) {
-            throw new CaptchaException("验证码错误!");
+            throw new VerificationCodeException("验证码错误!");
         }
     }
 }

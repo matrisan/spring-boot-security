@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.config;
 
 import com.github.springbootsecurity.filter.SecurityCaptchaValidationFilter;
-import com.github.springbootsecurity.filter.SecurityPasswordDecryptionFilter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
@@ -52,15 +51,13 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-
     @Resource
     private SecurityCaptchaValidationFilter captchaValidationFilter;
 
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
-        http.addFilterBefore(new SecurityPasswordDecryptionFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(captchaValidationFilter, SecurityPasswordDecryptionFilter.class)
+        http.addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 使用表单登录
                 .formLogin()
                 // 指定登录页面
@@ -88,7 +85,6 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().accessDeniedPage("/403")
         ;
         http.csrf().disable();
-
     }
 
     @Override

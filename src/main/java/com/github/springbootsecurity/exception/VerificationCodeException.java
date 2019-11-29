@@ -13,15 +13,17 @@ import org.springframework.security.core.AuthenticationException;
  * @since 0.0.1
  */
 
-public class CaptchaException extends AuthenticationException {
+public class VerificationCodeException extends AuthenticationException {
 
     private static final long serialVersionUID = -5415319408363885807L;
 
-    public CaptchaException(String msg, Throwable t) {
+    public VerificationCodeException(String msg) {
+        super(msg);
+    }
+
+    public VerificationCodeException(String msg, Throwable t) {
         super(msg, t);
     }
 
-    public CaptchaException(String msg) {
-        super(msg);
-    }
+
 }

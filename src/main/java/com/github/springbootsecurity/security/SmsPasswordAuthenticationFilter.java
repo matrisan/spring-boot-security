@@ -1,5 +1,7 @@
 package com.github.springbootsecurity.security;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -35,7 +37,7 @@ public class SmsPasswordAuthenticationFilter extends AbstractAuthenticationProce
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (postOnly && !request.getMethod().equals("POST")) {
+        if (postOnly && !"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String mobile = obtainMobile(request);
@@ -49,20 +51,19 @@ public class SmsPasswordAuthenticationFilter extends AbstractAuthenticationProce
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-    @Nullable
-    protected String obtainMobile(HttpServletRequest request) {
+    private String obtainMobile(@NotNull HttpServletRequest request) {
         return request.getParameter(mobileParameter);
     }
 
-    protected void setDetails(HttpServletRequest request, SmsAuthenticationToken authRequest) {
+    private void setDetails(HttpServletRequest request, @NotNull SmsAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
-
 
     public void setPostOnly(boolean postOnly) {
         this.postOnly = postOnly;
     }
 
+    @Contract(pure = true)
     public final String getUsernameParameter() {
         return mobileParameter;
     }

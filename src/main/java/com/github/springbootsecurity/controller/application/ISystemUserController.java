@@ -1,10 +1,12 @@
 package com.github.springbootsecurity.controller.application;
 
 import com.github.springbootsecurity.pojo.doo.SystemUserDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * <p>
- * 创建时间为 下午1:01 2019/9/18
+ * 创建时间为 下午3:13 2019/9/18
  * 项目名称 spring-boot-security
  * </p>
  *
@@ -13,14 +15,8 @@ import com.github.springbootsecurity.pojo.doo.SystemUserDO;
  * @since 0.0.1
  */
 
-public interface IUserRegisterController {
+public interface ISystemUserController {
 
-    /**
-     * 注册用户
-     *
-     * @param systemUserDO UserInfoDO
-     * @return UserInfoDO
-     */
-    SystemUserDO register(SystemUserDO systemUserDO);
+    Page<SystemUserDO> findAllUsers(Pageable pageable);
 
 }

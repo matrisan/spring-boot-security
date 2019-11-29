@@ -16,21 +16,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -67,27 +61,26 @@ public class SystemUserDO implements UserDetails {
     private String username;
 
     @NotBlank
+    @JsonIgnore
     private String password;
 
     private String email;
 
     private String note;
 
-    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "system_user_role",
-            joinColumns = {@JoinColumn(name = "system_user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "system_role_id", referencedColumnName = "role_id")}
-    )
     @JsonIgnore
-    private Set<SystemRoleDO> authorities;
+    private Set<GrantedAuthority> authorities;
 
+    @JsonIgnore
     private Boolean accountNonExpired;
 
+    @JsonIgnore
     private Boolean accountNonLocked;
 
+    @JsonIgnore
     private Boolean credentialsNonExpired;
 
+    @JsonIgnore
     private Boolean enabled;
 
     @CreatedDate

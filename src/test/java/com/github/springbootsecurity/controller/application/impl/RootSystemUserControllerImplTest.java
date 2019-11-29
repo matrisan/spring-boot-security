@@ -1,15 +1,10 @@
 package com.github.springbootsecurity.controller.application.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.github.springbootsecurity.pojo.doo.SystemRoleDO;
-import com.github.springbootsecurity.pojo.dto.SystemUserDTO;
-import com.google.common.collect.Sets;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -58,58 +53,5 @@ public class RootSystemUserControllerImplTest {
                 .getContentAsString();
     }
 
-    @Test
-    @SneakyThrows(Exception.class)
-    public void saveUser() {
-        mockMvc.perform(MockMvcRequestBuilders.post("/root/center/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JSON.toJSONString(getUserInfo())))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-    }
-
-    @Test
-    @SneakyThrows(Exception.class)
-    public void updateUser() {
-        mockMvc.perform(MockMvcRequestBuilders.post("/root/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JSON.toJSONString(getUserInfo())))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-    }
-
-    @Test
-    @SneakyThrows(Exception.class)
-    public void deleteUser() {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/root/user/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-    }
-
-    private SystemUserDTO getUserInfo() {
-        return SystemUserDTO.builder()
-                .username("TestUser4")
-                .password("111111")
-                .accountNonExpired(true)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
-                .roles(Sets.newHashSet(1L, 2L))
-//                .roles(Sets.newHashSet(SystemRoleDO.builder().roleId(2L).build()))
-                .enabled(true)
-                .note("user_all")
-                .build();
-
-    }
 
 }

@@ -40,6 +40,4 @@ public class ConfigUserPasswordEncoder {
         return new DelegatingPasswordEncoder(encodingId, encoders);
     }
 
-
-
 }
