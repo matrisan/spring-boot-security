@@ -1,5 +1,7 @@
 package com.github.springbootsecurity.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,8 @@ import javax.annotation.Resource;
  * @since 0.0.1
  */
 
+@Getter
+@Setter
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     @Resource

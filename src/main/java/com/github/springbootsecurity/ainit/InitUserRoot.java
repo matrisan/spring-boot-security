@@ -24,7 +24,7 @@ import java.util.Set;
  * @since 0.0.1
  */
 
-@DependsOn("initRole")
+//@DependsOn("initRole")
 @Component
 public class InitUserRoot {
 
@@ -40,7 +40,7 @@ public class InitUserRoot {
         SystemUserDO systemUserDO = SystemUserDO.builder()
                 .username("root")
                 .password(passwordEncoder.encode("123456"))
-                .authorities(authorities)
+//                .authorities(authorities)
                 .email("shaopro@qq.com")
                 .credentialsNonExpired(true)
                 .accountNonExpired(true)

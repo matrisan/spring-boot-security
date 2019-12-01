@@ -12,6 +12,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -68,8 +70,9 @@ public class SystemUserDO implements UserDetails {
 
     private String note;
 
-    @JsonIgnore
-    private Set<GrantedAuthority> authorities;
+//    @Transient
+//    @JsonIgnore
+//    private Set<GrantedAuthority> authorities;
 
     @JsonIgnore
     private Boolean accountNonExpired;
@@ -94,6 +97,11 @@ public class SystemUserDO implements UserDetails {
 
     @LastModifiedBy
     private Long lastModifiedBy;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

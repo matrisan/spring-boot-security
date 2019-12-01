@@ -1,8 +1,16 @@
 package com.github.springbootsecurity.service.application.impl;
 
+import com.github.springbootsecurity.pojo.doo.SmsCode;
+import com.github.springbootsecurity.service.application.ISmsCodeSenderService;
 import com.github.springbootsecurity.service.application.ISmsCodeService;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.social.connect.web.HttpSessionSessionStrategy;
+import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class SmsCodeServiceImpl implements ISmsCodeService {
 
+    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+
+    @Resource
+    private ISmsCodeSenderService senderService;
 
     @Override
     public void sendSmsCode(String mobile, HttpServletRequest request, HttpServletResponse response) {
@@ -29,5 +41,12 @@ public class SmsCodeServiceImpl implements ISmsCodeService {
 
 
     }
+
+    @NotNull
+    private SmsCode generater(ServletWebRequest request) {
+        String code = RandomStringUtils.randomNumeric(6);
+        return new SmsCode(code, 90);
+    }
+
 
 }

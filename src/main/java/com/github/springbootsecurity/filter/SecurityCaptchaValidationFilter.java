@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Component
+//@Component
 public class SecurityCaptchaValidationFilter extends OncePerRequestFilter {
 
     @Resource

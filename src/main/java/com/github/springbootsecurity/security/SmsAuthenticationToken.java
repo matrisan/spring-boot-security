@@ -20,24 +20,18 @@ import java.util.Collection;
 
 public class SmsAuthenticationToken extends AbstractAuthenticationToken {
 
-
     private static final long serialVersionUID = 2551197203205567977L;
 
-
     private final Object principal;
-
-
-    // ~ Constructors
-    // ===================================================================================================
 
     /**
      * This constructor can be safely used by any code that wishes to create a
      * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
      * will return <code>false</code>.
      */
-    public SmsAuthenticationToken(Object principal) {
+    public SmsAuthenticationToken(String mobile) {
         super(null);
-        this.principal = principal;
+        this.principal = mobile;
         setAuthenticated(false);
     }
 
@@ -47,15 +41,14 @@ public class SmsAuthenticationToken extends AbstractAuthenticationToken {
      * producing a trusted (i.e. {@link #isAuthenticated()} = <code>true</code>)
      * authentication token.
      *
-     * @param principal
+     * @param mobile
      * @param authorities
      */
-    public SmsAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+    public SmsAuthenticationToken(Object mobile, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.principal = principal;
+        this.principal = mobile;
         super.setAuthenticated(true);
     }
-
 
     @Override
     public Object getPrincipal() {
@@ -72,7 +65,6 @@ public class SmsAuthenticationToken extends AbstractAuthenticationToken {
         if (isAuthenticated) {
             throw new IllegalArgumentException("Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
         }
-
         super.setAuthenticated(false);
     }
 

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 0.0.1
  */
 
-public class SmsPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";
 
@@ -31,8 +31,8 @@ public class SmsPasswordAuthenticationFilter extends AbstractAuthenticationProce
 
     private boolean postOnly = true;
 
-    public SmsPasswordAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/login", "POST"));
+    public SmsCodeAuthenticationFilter() {
+        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
     }
 
     @Override

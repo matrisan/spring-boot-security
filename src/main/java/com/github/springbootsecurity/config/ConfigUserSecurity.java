@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.config;
 
-import com.github.springbootsecurity.filter.SecurityCaptchaValidationFilter;
+import com.github.springbootsecurity.filter.SecuritySmsValidationFilter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
@@ -45,21 +45,30 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
     @Resource
     private AuthenticationSuccessHandler successHandler;
 
+    @Resource
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull AuthenticationManagerBuilder auth) {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
+//    @Resource
+//    private SecurityCaptchaValidationFilter captchaValidationFilter;
+
     @Resource
-    private SecurityCaptchaValidationFilter captchaValidationFilter;
+    private SecuritySmsValidationFilter securitySmsValidationFilter;
 
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
-        http.addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
-                // 使用表单登录
-                .formLogin()
+//        http.addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+        http.addFilterBefore(securitySmsValidationFilter, UsernamePasswordAuthenticationFilter.class);
+        // 使用表单登录
+        http.formLogin()
                 // 指定登录页面
                 .loginPage("/login").defaultSuccessUrl("/success").permitAll()
                 // 自定义的登录接口
@@ -69,7 +78,8 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 .and().authorizeRequests()
                 // 允许访问
-                .antMatchers("/code/*", "/authentication/form", "/", "/session/invalid", "/register", "captcha").permitAll()
+                .antMatchers("/code/*", "/authentication/form", "/authentication/*", "/", "/session/invalid", "/register", "captcha")
+                .permitAll()
                 // 任何请求,登录后可以访问
                 .anyRequest().authenticated()
                 .and()
@@ -84,6 +94,7 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().accessDeniedPage("/403")
         ;
         http.csrf().disable();
+        http.apply(smsCodeAuthenticationSecurityConfig);
     }
 
     @Override

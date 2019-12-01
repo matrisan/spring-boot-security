@@ -1,6 +1,5 @@
 package com.github.springbootsecurity.controller.application.impl;
 
-import com.github.springbootsecurity.controller.application.ISystemUserController;
 import com.github.springbootsecurity.pojo.doo.SystemUserDO;
 import com.github.springbootsecurity.service.application.ISystemUserService;
 import org.springframework.data.domain.Page;
@@ -29,12 +28,11 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/root/center")
 @PreAuthorize("hasRole('ROLE_ROOT')")
-public class SystemUserControllerImpl implements ISystemUserController {
+public class SystemUserControllerImpl {
 
     @Resource
     private ISystemUserService service;
 
-    @Override
     @GetMapping("/users")
     public Page<SystemUserDO> findAllUsers(@PageableDefault(size = 5, page = 0, sort = "userId", direction = Sort.Direction.ASC)
                                                               Pageable pageable) {

@@ -27,7 +27,7 @@
 </form>
 
 <h3>短信登录</h3>
-<form action="/authentication/mobile" method="post">
+<form action="http://127.0.0.1:8080/authentication/mobile" method="post">
     <table>
         <tr>
             <td>手机号:</td>
@@ -37,7 +37,7 @@
             <td>短信验证码:</td>
             <td>
                 <input type="text" name="smsCode">
-                <a href="/code/sms?mobile=13012345678">发送验证码</a>
+                <a href="http://127.0.0.1:8080/code/sms?mobile=13012345678">发送验证码</a>
             </td>
         </tr>
         <tr>

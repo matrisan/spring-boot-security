@@ -22,7 +22,7 @@ import java.io.IOException;
  * @version 0.0.1
  * @since 0.0.1
  */
-@Configuration
+//@Configuration
 public class ConfigUserAuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     @SneakyThrows(IOException.class)
