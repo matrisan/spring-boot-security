@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import static com.github.springbootsecurity.security.SecurityConstant.SESSION_KEY_CODE_SMS;
 
 /**
  * <p>
@@ -43,21 +43,16 @@ public class SmsCodeLoginControllerImpl {
     @PreAuthorize("permitAll()")
     @GetMapping("/code/sms")
     public void getSmsCode(@NotNull HttpServletRequest request) throws ServletRequestBindingException {
-        // 获取到 session
-        HttpSession session = request.getSession();
-        // 取到 session id
-        String id = session.getId();
-        SmsCode smsCode = generater(new ServletWebRequest(request));
-        // 将验证码存入Session
-        session.setAttribute("SESSION_KEY_SMS_CODE", smsCode);
-//        sessionStrategy.setAttribute(new ServletWebRequest(request), "SESSION_KEY_SMS_CODE", smsCode);
+        ServletWebRequest servletWebRequest = new ServletWebRequest(request);
+        SmsCode smsCode = generate(servletWebRequest);
+        sessionStrategy.setAttribute(servletWebRequest, SESSION_KEY_CODE_SMS, smsCode);
         String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
         send(mobile, smsCode.getCode());
     }
 
 
     @NotNull
-    private SmsCode generater(ServletWebRequest request) {
+    private SmsCode generate(ServletWebRequest request) {
         String code = RandomStringUtils.randomNumeric(6);
         return new SmsCode(code, 90);
     }

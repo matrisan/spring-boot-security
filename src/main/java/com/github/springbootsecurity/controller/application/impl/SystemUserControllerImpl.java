@@ -26,16 +26,21 @@ import javax.annotation.Resource;
 
 
 @RestController
-@RequestMapping("/root/center")
 @PreAuthorize("hasRole('ROLE_ROOT')")
 public class SystemUserControllerImpl {
 
     @Resource
     private ISystemUserService service;
 
+    @GetMapping("/")
+    public String index() {
+        return "Hello";
+    }
+
+
     @GetMapping("/users")
     public Page<SystemUserDO> findAllUsers(@PageableDefault(size = 5, page = 0, sort = "userId", direction = Sort.Direction.ASC)
-                                                              Pageable pageable) {
+                                                   Pageable pageable) {
         return service.findAllUsers(pageable);
     }
 

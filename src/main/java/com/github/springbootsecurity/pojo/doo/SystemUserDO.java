@@ -72,10 +72,6 @@ public class SystemUserDO implements UserDetails {
 
     private String note;
 
-//    @Transient
-//    @JsonIgnore
-//    private Set<GrantedAuthority> authorities;
-
     @JsonIgnore
     private Boolean accountNonExpired;
 
