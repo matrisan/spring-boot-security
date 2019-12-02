@@ -37,7 +37,7 @@ public class InitUserRoot {
     @PostConstruct
     public void init() {
         Set<GrantedAuthority> authorities = Sets.newHashSet(new SimpleGrantedAuthority("ROLE_ROOT"));
-        SystemUserDO systemUserDO = SystemUserDO.builder()
+        SystemUserDO systemUser1 = SystemUserDO.builder()
                 .username("root")
                 .password(passwordEncoder.encode("123456"))
 //                .authorities(authorities)
@@ -48,7 +48,19 @@ public class InitUserRoot {
                 .enabled(true)
                 .note("root user")
                 .build();
-        repository.save(systemUserDO);
+        repository.save(systemUser1);
+        SystemUserDO systemUser2 = SystemUserDO.builder()
+                .username("13012345678")
+                .password(passwordEncoder.encode("123456"))
+//                .authorities(authorities)
+                .email("shaopro@qq.com")
+                .credentialsNonExpired(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .enabled(true)
+                .note("root user")
+                .build();
+        repository.save(systemUser2);
 
     }
 
