@@ -3,6 +3,7 @@ package com.github.springbootsecurity.config;
 import com.github.springbootsecurity.security.BackLoginCodeAuthenticationFilter;
 import com.github.springbootsecurity.security.BackLoginAuthenticationProvider;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,8 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,9 +42,20 @@ public class BackLoginAuthenticationSecurityConfig extends SecurityConfigurerAda
     @Resource
     private UserDetailsService userDetailsService;
 
+//    @Resource
+//    private BackLoginCodeAuthenticationFilter backLoginCodeAuthenticationFilter;
+
+//    @Resource
+//    private CompositeSessionAuthenticationStrategy compositeSessionAuthenticationStrategy;
+
+    @Resource
+    private ApplicationEventPublisher publisher;
     @Override
     public void configure(@NotNull HttpSecurity http) {
+        SessionAuthenticationStrategy sessionAuthenticationStrategy = http.getSharedObject(SessionAuthenticationStrategy.class);
         BackLoginCodeAuthenticationFilter backLoginCodeAuthenticationFilter = new BackLoginCodeAuthenticationFilter();
+        backLoginCodeAuthenticationFilter.setApplicationEventPublisher(publisher);
+        backLoginCodeAuthenticationFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
         backLoginCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         backLoginCodeAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
         backLoginCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);

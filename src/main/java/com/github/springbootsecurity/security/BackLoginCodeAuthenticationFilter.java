@@ -28,7 +28,7 @@ public class BackLoginCodeAuthenticationFilter extends AbstractAuthenticationPro
 
     private String mobileParameter = SPRING_SECURITY_FORM_MOBILE_KEY;
 
-    private boolean postOnly = true;
+    private boolean postOnly = false;
 
     public BackLoginCodeAuthenticationFilter() {
         super(new AntPathRequestMatcher("/authentication/back", "GET"));
@@ -40,12 +40,9 @@ public class BackLoginCodeAuthenticationFilter extends AbstractAuthenticationPro
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String mobile = obtainMobile(request);
-        if (mobile == null) {
-            mobile = "";
-        }
+        mobile = ((mobile == null) ? "" : mobile);
         mobile = mobile.trim();
         BackLoginAuthenticationToken authRequest = new BackLoginAuthenticationToken(mobile);
-        // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
