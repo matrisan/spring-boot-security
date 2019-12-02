@@ -1,8 +1,8 @@
 package com.github.springbootsecurity.config;
 
-import com.github.springbootsecurity.filter.SecuritySmsValidationFilter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.annotation.Resource;
 
@@ -44,9 +44,9 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
 
     @Resource
     private AuthenticationSuccessHandler successHandler;
-
+    //ConcurrentSessionFilter
     @Resource
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private BackLoginAuthenticationSecurityConfig backLoginAuthenticationSecurityConfig;
 
     @Override
     @SneakyThrows(Exception.class)
@@ -57,16 +57,14 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
 //    @Resource
 //    private SecurityCaptchaValidationFilter captchaValidationFilter;
 
-    @Resource
-    private SecuritySmsValidationFilter securitySmsValidationFilter;
+//    @Resource
+//    private SecurityBackLoginValidationFilter securityBackLoginValidationFilter;
 
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
 //        http.addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-        http.addFilterBefore(securitySmsValidationFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(securityBackLoginValidationFilter, UsernamePasswordAuthenticationFilter.class);
         // 使用表单登录
         http.formLogin()
                 // 指定登录页面
@@ -87,14 +85,14 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .invalidSessionUrl("/session/invalid")
-                .maximumSessions(2)
-                .maxSessionsPreventsLogin(true)
-                .expiredSessionStrategy(event -> event.getResponse().getWriter().write("并发登录!\n"))
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+                .expiredSessionStrategy(event -> event.getResponse().getWriter().write("maxSessionsPreventsLogin !\n"))
                 .and()
                 .and().exceptionHandling().accessDeniedPage("/403")
         ;
         http.csrf().disable();
-        http.apply(smsCodeAuthenticationSecurityConfig);
+        http.apply(backLoginAuthenticationSecurityConfig);
     }
 
     @Override

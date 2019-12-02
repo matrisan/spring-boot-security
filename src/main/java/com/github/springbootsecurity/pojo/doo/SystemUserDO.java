@@ -45,8 +45,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString(exclude = {"authorities"})
-@EqualsAndHashCode(exclude = {"authorities"})
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

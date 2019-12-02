@@ -24,25 +24,25 @@ import javax.annotation.Resource;
 
 @Getter
 @Setter
-public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
+public class BackLoginAuthenticationProvider implements AuthenticationProvider {
 
     @Resource
     private UserDetailsService userDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        SmsAuthenticationToken smsAuthenticationToken = (SmsAuthenticationToken) authentication;
-        UserDetails user = userDetailsService.loadUserByUsername((String) smsAuthenticationToken.getPrincipal());
+        BackLoginAuthenticationToken backLoginAuthenticationToken = (BackLoginAuthenticationToken) authentication;
+        UserDetails user = userDetailsService.loadUserByUsername((String) backLoginAuthenticationToken.getPrincipal());
         if (user == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
-        SmsAuthenticationToken authenticationResult = new SmsAuthenticationToken(user, user.getAuthorities());
-        authenticationResult.setDetails(smsAuthenticationToken.getDetails());
+        BackLoginAuthenticationToken authenticationResult = new BackLoginAuthenticationToken(user, user.getAuthorities());
+        authenticationResult.setDetails(backLoginAuthenticationToken.getDetails());
         return authenticationResult;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return SmsAuthenticationToken.class.isAssignableFrom(authentication);
+        return BackLoginAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

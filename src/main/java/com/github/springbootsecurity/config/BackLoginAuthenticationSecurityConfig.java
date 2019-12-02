@@ -1,7 +1,7 @@
 package com.github.springbootsecurity.config;
 
-import com.github.springbootsecurity.security.SmsCodeAuthenticationFilter;
-import com.github.springbootsecurity.security.SmsCodeAuthenticationProvider;
+import com.github.springbootsecurity.security.BackLoginCodeAuthenticationFilter;
+import com.github.springbootsecurity.security.BackLoginAuthenticationProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  */
 
 @Component
-public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class BackLoginAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
 
     @Resource
@@ -41,15 +41,15 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
     @Override
     public void configure(@NotNull HttpSecurity http) {
-        SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
-        smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
+        BackLoginCodeAuthenticationFilter backLoginCodeAuthenticationFilter = new BackLoginCodeAuthenticationFilter();
+        backLoginCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+        backLoginCodeAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
+        backLoginCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
 
-        SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
-        smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
-        http.authenticationProvider(smsCodeAuthenticationProvider)
-                .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        BackLoginAuthenticationProvider backLoginAuthenticationProvider = new BackLoginAuthenticationProvider();
+        backLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
+        http.authenticationProvider(backLoginAuthenticationProvider)
+                .addFilterAfter(backLoginCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }

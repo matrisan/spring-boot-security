@@ -41,8 +41,8 @@ import static com.github.springbootsecurity.security.SecurityConstant.SMS_CODE;
  */
 
 @Slf4j
-@Component
-public class SecuritySmsValidationFilter extends OncePerRequestFilter implements InitializingBean {
+//@Component
+public class SecurityBackLoginValidationFilter extends OncePerRequestFilter implements InitializingBean {
 
     @Resource
     private AuthenticationFailureHandler authenticationFailureHandler;
@@ -62,35 +62,8 @@ public class SecuritySmsValidationFilter extends OncePerRequestFilter implements
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-        log.info("SecuritySmsValidationFilter");
-        if (StringUtils.equalsIgnoreCase("/authentication/mobile", request.getRequestURI()) &&
-                StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
-            try {
-                validate(new ServletWebRequest(request));
-            } catch (VerificationCodeException exception) {
-                authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
-                return;
-            }
-        }
         filterChain.doFilter(request, response);
     }
 
-    private void validate(@NotNull ServletWebRequest servletWebRequest) throws VerificationCodeException, ServletRequestBindingException {
-        SmsCode smsCode = (SmsCode) sessionStrategy.getAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
-        String codeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), SMS_CODE);
-        if (StringUtils.isBlank(codeInRequest)) {
-            throw new VerificationCodeException("验证码不能为空字符串!");
-        }
-        if (smsCode == null) {
-            throw new VerificationCodeException("验证码不能为空!");
-        }
-        if (smsCode.expired()) {
-            sessionStrategy.removeAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
-            throw new VerificationCodeException("验证码过期!");
-        }
-        if (!StringUtils.equalsIgnoreCase(codeInRequest.trim(), smsCode.getCode())) {
-            throw new VerificationCodeException("验证码不匹配!");
-        }
-        sessionStrategy.removeAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
-    }
+
 }

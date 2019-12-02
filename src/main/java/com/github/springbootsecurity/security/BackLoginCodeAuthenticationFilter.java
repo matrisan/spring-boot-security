@@ -2,7 +2,6 @@ package com.github.springbootsecurity.security;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 0.0.1
  */
 
-public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class BackLoginCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";
 
@@ -31,13 +30,13 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
     private boolean postOnly = true;
 
-    public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+    public BackLoginCodeAuthenticationFilter() {
+        super(new AntPathRequestMatcher("/authentication/back", "GET"));
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (postOnly && !"POST".equals(request.getMethod())) {
+        if (postOnly && !"GET".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String mobile = obtainMobile(request);
@@ -45,7 +44,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             mobile = "";
         }
         mobile = mobile.trim();
-        SmsAuthenticationToken authRequest = new SmsAuthenticationToken(mobile);
+        BackLoginAuthenticationToken authRequest = new BackLoginAuthenticationToken(mobile);
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
@@ -55,7 +54,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         return request.getParameter(mobileParameter);
     }
 
-    private void setDetails(HttpServletRequest request, @NotNull SmsAuthenticationToken authRequest) {
+    private void setDetails(HttpServletRequest request, @NotNull BackLoginAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 

@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 
 
-public class SmsAuthenticationToken extends AbstractAuthenticationToken {
+public class BackLoginAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = 2551197203205567977L;
 
@@ -29,7 +29,7 @@ public class SmsAuthenticationToken extends AbstractAuthenticationToken {
      * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
      * will return <code>false</code>.
      */
-    public SmsAuthenticationToken(String mobile) {
+    public BackLoginAuthenticationToken(String mobile) {
         super(null);
         this.principal = mobile;
         setAuthenticated(false);
@@ -44,7 +44,7 @@ public class SmsAuthenticationToken extends AbstractAuthenticationToken {
      * @param mobile
      * @param authorities
      */
-    public SmsAuthenticationToken(Object mobile, Collection<? extends GrantedAuthority> authorities) {
+    public BackLoginAuthenticationToken(Object mobile, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = mobile;
         super.setAuthenticated(true);

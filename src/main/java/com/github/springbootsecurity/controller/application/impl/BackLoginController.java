@@ -29,7 +29,7 @@ import static com.github.springbootsecurity.security.SecurityConstant.SESSION_KE
  */
 @Slf4j
 @RestController
-public class SmsCodeLoginControllerImpl {
+public class BackLoginController {
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
