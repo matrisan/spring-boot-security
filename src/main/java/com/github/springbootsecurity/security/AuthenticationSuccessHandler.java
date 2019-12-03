@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private Boolean json = true;
 

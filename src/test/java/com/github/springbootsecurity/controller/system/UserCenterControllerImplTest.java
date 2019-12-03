@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.controller.application.impl;
+package com.github.springbootsecurity.controller.system;
 
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

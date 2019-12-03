@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.controller.application.impl;
+package com.github.springbootsecurity.controller.system;
 
 import lombok.SneakyThrows;
 import org.junit.Test;

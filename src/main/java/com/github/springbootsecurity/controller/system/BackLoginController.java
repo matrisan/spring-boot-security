@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.controller.application.impl;
+package com.github.springbootsecurity.controller.system;
 
 import com.github.springbootsecurity.pojo.doo.SmsCode;
 import lombok.extern.slf4j.Slf4j;

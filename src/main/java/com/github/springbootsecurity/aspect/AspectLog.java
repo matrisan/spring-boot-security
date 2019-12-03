@@ -24,7 +24,7 @@ import java.util.Arrays;
 @Component
 public class AspectLog {
 
-    @Pointcut("execution(* com.github.springbootsecurity.controller.application.impl.*.*.*(..))")
+    @Pointcut("execution(* com.github.springbootsecurity.controller.system.impl.*.*.*(..))")
     public void pointCut() {
     }
 

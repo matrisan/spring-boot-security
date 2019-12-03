@@ -3,7 +3,6 @@ package com.github.springbootsecurity.ainit;
 import com.github.springbootsecurity.pojo.doo.SystemUserDO;
 import com.github.springbootsecurity.repository.ISystemUserJpaRepository;
 import com.google.common.collect.Sets;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -50,7 +50,7 @@ public class InitUserRoot {
                 .build();
         repository.save(systemUser1);
         SystemUserDO systemUser2 = SystemUserDO.builder()
-                .username("13012345678")
+                .username("admin")
                 .password(passwordEncoder.encode("123456"))
 //                .authorities(authorities)
                 .email("shaopro@qq.com")
@@ -60,6 +60,9 @@ public class InitUserRoot {
                 .enabled(true)
                 .note("root user")
                 .build();
+        systemUser2.getAuthorities().clear();
+        Collection<GrantedAuthority> coll = (Collection<GrantedAuthority>) systemUser2.getAuthorities();
+        coll.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         repository.save(systemUser2);
 
     }
