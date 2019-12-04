@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.pojo.doo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,24 +12,28 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * <p>
@@ -49,9 +52,9 @@ import java.util.Set;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "system_user", indexes = {@Index(name = "IDX_USERNAME", columnList = "username", unique = true)})
+//@Entity
+//@EntityListeners(AuditingEntityListener.class)
+//@Table(name = "system_user", indexes = {@Index(name = "IDX_USERNAME", columnList = "username", unique = true)})
 public class SystemUserDO implements UserDetails {
 
     private static final long serialVersionUID = 6949655530047745714L;
@@ -96,10 +99,14 @@ public class SystemUserDO implements UserDetails {
     @LastModifiedBy
     private Long lastModifiedBy;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Sets.newHashSet(new SimpleGrantedAuthority("ROLE_ROOT"));
-    }
+    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "system_user_role",
+            joinColumns = {@JoinColumn(name = "system_user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "system_role_id", referencedColumnName = "role_id")}
+    )
+    private Collection<SystemRoleDO> authorities;
+
 
     @Override
     public boolean isAccountNonExpired() {

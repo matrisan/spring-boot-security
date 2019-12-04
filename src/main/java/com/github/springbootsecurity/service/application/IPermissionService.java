@@ -16,6 +16,6 @@ import org.springframework.security.core.Authentication;
 
 public interface IPermissionService {
 
-    boolean hasPermission(@NotNull Authentication authentication);
+    boolean hasPermission(@NotNull Authentication authentication, String path);
 
 }

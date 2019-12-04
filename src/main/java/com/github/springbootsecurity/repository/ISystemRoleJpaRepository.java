@@ -1,5 +1,6 @@
 //package com.github.springbootsecurity.repository;
 //
+//import com.github.springbootsecurity.pojo.doo.SystemRoleDO;
 //import com.github.springbootsecurity.pojo.doo.SystemUserDO;
 //import org.springframework.data.jpa.repository.JpaRepository;
 //
@@ -14,11 +15,8 @@
 // * @since 0.0.1
 // */
 //
-//public interface ISystemUserJpaRepository extends JpaRepository<SystemUserDO, Long> {
+//public interface ISystemRoleJpaRepository extends JpaRepository<SystemRoleDO, Long> {
 //
 //
-//    SystemUserDO findByUsernameEquals(String username);
-//
-//    SystemUserDO findSystemUserDOByUsernameIs(String username);
 //
 //}

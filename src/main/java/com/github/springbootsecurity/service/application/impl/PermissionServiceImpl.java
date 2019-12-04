@@ -3,15 +3,16 @@ package com.github.springbootsecurity.service.application.impl;
 import com.github.springbootsecurity.service.application.IPermissionService;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -34,11 +35,18 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public boolean hasPermission(@NotNull Authentication authentication) {
-        Object principal = authentication.getPrincipal();
-        Set<String> roleSet = ((UserDetails) principal).getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+    public boolean hasPermission(@NotNull Authentication authentication, String path) {
+//        Object principal = authentication.getPrincipal();
+//        Set<String> roleSet = ((UserDetails) principal).getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
 //        return roleSet.stream().flatMap(one -> NAME_ROLE.get(one).stream()).collect(Collectors.toSet()).contains(path);
-        return true;
+        Object principal = authentication.getPrincipal();
+        Collection<? extends GrantedAuthority> role = ((UserDetails) principal).getAuthorities();
+        for (GrantedAuthority authority : role) {
+            if (StringUtils.equals(authority.getAuthority(),"ROLE_ADMIN")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

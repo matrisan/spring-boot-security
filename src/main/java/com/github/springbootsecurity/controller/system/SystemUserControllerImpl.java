@@ -25,11 +25,11 @@ import javax.annotation.Resource;
 
 
 @RestController
-@PreAuthorize("hasRole('ROLE_ROOT')")
+@PreAuthorize("isAuthenticated()")
 public class SystemUserControllerImpl {
 
-    @Resource
-    private ISystemUserService service;
+//    @Resource
+//    private ISystemUserService service;
 
     @GetMapping("/")
     public String index() {
@@ -37,10 +37,10 @@ public class SystemUserControllerImpl {
     }
 
 
-    @GetMapping("/users")
-    public Page<SystemUserDO> findAllUsers(@PageableDefault(size = 5, page = 0, sort = "userId", direction = Sort.Direction.ASC)
-                                                   Pageable pageable) {
-        return service.findAllUsers(pageable);
-    }
+//    @GetMapping("/users")
+//    public Page<SystemUserDO> findAllUsers(@PageableDefault(size = 5, page = 0, sort = "userId", direction = Sort.Direction.ASC)
+//                                                   Pageable pageable) {
+//        return service.findAllUsers(pageable);
+//    }
 
 }
