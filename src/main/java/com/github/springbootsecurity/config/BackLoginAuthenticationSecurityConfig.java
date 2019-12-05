@@ -42,28 +42,22 @@ public class BackLoginAuthenticationSecurityConfig extends SecurityConfigurerAda
     @Resource
     private UserDetailsService userDetailsService;
 
-//    @Resource
-//    private BackLoginCodeAuthenticationFilter backLoginCodeAuthenticationFilter;
-
-//    @Resource
-//    private CompositeSessionAuthenticationStrategy compositeSessionAuthenticationStrategy;
-
     @Resource
     private ApplicationEventPublisher publisher;
     @Override
     public void configure(@NotNull HttpSecurity http) {
+        // 这行加 setSessionAuthenticationStrategy 使 maximumSessions(1) 配置生效
         SessionAuthenticationStrategy sessionAuthenticationStrategy = http.getSharedObject(SessionAuthenticationStrategy.class);
         BackLoginCodeAuthenticationFilter backLoginCodeAuthenticationFilter = new BackLoginCodeAuthenticationFilter();
-        backLoginCodeAuthenticationFilter.setApplicationEventPublisher(publisher);
         backLoginCodeAuthenticationFilter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy);
+        backLoginCodeAuthenticationFilter.setApplicationEventPublisher(publisher);
         backLoginCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         backLoginCodeAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
         backLoginCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
 
         BackLoginAuthenticationProvider backLoginAuthenticationProvider = new BackLoginAuthenticationProvider();
         backLoginAuthenticationProvider.setUserDetailsService(userDetailsService);
-        http.authenticationProvider(backLoginAuthenticationProvider)
-                .addFilterAfter(backLoginCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authenticationProvider(backLoginAuthenticationProvider).addFilterAfter(backLoginCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }

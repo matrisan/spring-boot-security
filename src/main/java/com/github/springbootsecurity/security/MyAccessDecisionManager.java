@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -25,11 +26,7 @@ import java.util.Iterator;
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-
-        if (CollectionUtils.isEmpty(configAttributes)) {
-            throw new AccessDeniedException("not allow");
-        }
+    public void decide(Authentication authentication, Object object, @NotNull Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 
         for (ConfigAttribute ca : configAttributes) {
             String needRole = ca.getAttribute();

@@ -1,16 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+<!--    <meta name="_csrf" content="${_csrf.token}" />-->
+<!--    &lt;!&ndash; default header name is X-CSRF-TOKEN &ndash;&gt;-->
+<!--    <meta name="_csrf_header" content="${_csrf.headerName}" />-->
+    <script src="../static/axios.min.js"></script>
+    <script src="../static/vue.min.js"></script>
 </head>
 <body>
+
+<div id="app">
+    <br>
+    <input type="button" value="GET请求" @click="getInfo()">
+    <p>{{get_data}}</p>
+</div>
+
 <h2>标准登录页面</h2>
 <h3>表单登录</h3>
-
+<a href="http://127.0.0.1:8080/api/v1/index">sdsds</img>
 
 <h3>表单登录</h3>
 <form action="http://127.0.0.1:8080/authentication/form" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <table>
         <tr>
             <td>用户名:</td>
@@ -21,7 +34,9 @@
             <td><input type="password" name="password"></td>
         </tr>
         <tr>
-            <td colspan="2"><button type="submit">登录</button></td>
+            <td colspan="2">
+                <button type="submit">登录</button>
+            </td>
         </tr>
     </table>
 </form>
@@ -41,10 +56,33 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><button type="submit">登录</button></td>
+            <td colspan="2">
+                <button type="submit">登录</button>
+            </td>
         </tr>
     </table>
 </form>
 
+
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            get_data: '...',
+            post_data: '...',
+            count_id: 1
+        },
+        methods: {
+            getInfo() {
+                axios({
+                    url: 'http://127.0.0.1:8080/api/v1/index'
+                }).then(response => {
+                    this.get_data = response.data;
+                })
+
+            },
+        }
+    });
+</script>
 </body>
 </html>
