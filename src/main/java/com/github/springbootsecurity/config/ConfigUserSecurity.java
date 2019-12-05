@@ -1,8 +1,13 @@
 package com.github.springbootsecurity.config;
 
+import com.github.springbootsecurity.security.MyAccessDecisionManager;
+import com.github.springbootsecurity.security.MyFilterInvocationSecurityMetadataSource;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -71,6 +78,14 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // 任何请求,登录后可以访问
                 .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                        object.setSecurityMetadataSource(mySecurityMetadataSource());
+                        object.setAccessDecisionManager(myAccessDecisionManager());
+                        return object;
+                    }
+                })
                 .and()
                 .logout().permitAll()
                 .and()
@@ -81,9 +96,20 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .expiredSessionStrategy(event -> event.getResponse().getWriter().write("maxSessionsPreventsLogin !\n"))
                 .and()
                 .and().exceptionHandling().accessDeniedPage("/403")
+
         ;
         http.csrf().disable();
         http.apply(backLoginAuthenticationSecurityConfig);
+    }
+
+    @Bean
+    public FilterInvocationSecurityMetadataSource mySecurityMetadataSource() {
+        return new MyFilterInvocationSecurityMetadataSource();
+    }
+
+    @Bean
+    public AccessDecisionManager myAccessDecisionManager() {
+        return new MyAccessDecisionManager();
     }
 
     @Override

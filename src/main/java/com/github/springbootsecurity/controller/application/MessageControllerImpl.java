@@ -20,7 +20,7 @@ import java.util.Date;
 @RestController
 public class MessageControllerImpl implements IMessageController {
 
-    @PreAuthorize("@permissionServiceImpl.hasPermission(authentication,'getMessage1')")
+//    @PreAuthorize("@permissionServiceImpl.hasPermission(authentication,'getMessage1')")
     @GetMapping("/message1")
     @Override
     public String getMessage1() {
