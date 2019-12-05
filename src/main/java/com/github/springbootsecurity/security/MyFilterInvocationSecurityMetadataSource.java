@@ -32,14 +32,15 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         urlRoleMap.put("/open/**", "ROLE_ANONYMOUS");
         urlRoleMap.put("/message1", "ROLE_ADMIN");
         urlRoleMap.put("/message2", "ROLE_ROOT");
-        urlRoleMap.put("/demo", "ROLE_USER");
+        urlRoleMap.put("/demo", "ROLE_ROOT");
     }
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         FilterInvocation fi = (FilterInvocation) object;
         String url = fi.getRequestUrl();
-        Set<String> set = urlRoleMap.entrySet().stream().filter(one -> antPathMatcher.match(one.getKey(), url))
+        Set<String> set = urlRoleMap.entrySet().stream()
+                .filter(one -> antPathMatcher.match(one.getKey(), url))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toSet());
         String[] array = new String[set.size()];
