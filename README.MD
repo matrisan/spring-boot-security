@@ -1,5 +1,10 @@
 SecurityContextPersistenceFilter -> UsernamePasswordAuthenticationFilter -> BasicAuthenticationFilter -> .... ExceptionTranslationFilter-> FilterSecurityInterceptor -> Restful API
 
+
+
+
+
+
 |登录请求
 UsernamePasswordAuthenticationFilter
 |  (Authentication未认证)

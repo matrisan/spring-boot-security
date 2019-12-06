@@ -2,7 +2,6 @@ package com.github.springbootsecurity.security;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Collection;
 
@@ -25,9 +24,9 @@ public class BackLoginAuthenticationToken extends AbstractAuthenticationToken {
     private final Object principal;
 
     /**
-     * This constructor can be safely used by any code that wishes to create a
-     * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
-     * will return <code>false</code>.
+     * 第一次调用使用使用这个组装凭证
+     *
+     * @param mobile 手机号码
      */
     public BackLoginAuthenticationToken(String mobile) {
         super(null);
@@ -36,13 +35,10 @@ public class BackLoginAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     /**
-     * This constructor should only be used by <code>AuthenticationManager</code> or
-     * <code>AuthenticationProvider</code> implementations that are satisfied with
-     * producing a trusted (i.e. {@link #isAuthenticated()} = <code>true</code>)
-     * authentication token.
+     * 这个构造方法只在用户身份被验证之后使用(一般只在AuthenticationProvider中验证通过后使用),
      *
-     * @param mobile
-     * @param authorities
+     * @param mobile      手机号码
+     * @param authorities 角色权限
      */
     public BackLoginAuthenticationToken(Object mobile, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);

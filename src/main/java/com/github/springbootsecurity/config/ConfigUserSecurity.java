@@ -2,7 +2,6 @@ package com.github.springbootsecurity.config;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.annotation.Resource;
 
@@ -44,7 +42,7 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
 
     @Resource
     private AuthenticationSuccessHandler successHandler;
-    //ConcurrentSessionFilter
+
     @Resource
     private BackLoginAuthenticationSecurityConfig backLoginAuthenticationSecurityConfig;
 
@@ -54,17 +52,9 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-//    @Resource
-//    private SecurityCaptchaValidationFilter captchaValidationFilter;
-
-//    @Resource
-//    private SecurityBackLoginValidationFilter securityBackLoginValidationFilter;
-
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
-//        http.addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class);
-//        http.addFilterBefore(securityBackLoginValidationFilter, UsernamePasswordAuthenticationFilter.class);
         // 使用表单登录
         http.formLogin()
                 // 指定登录页面

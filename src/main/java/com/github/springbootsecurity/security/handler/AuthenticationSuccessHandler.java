@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security;
+package com.github.springbootsecurity.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private Boolean json = true;
 
