@@ -27,11 +27,13 @@ public class ConfigUnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @SneakyThrows(IOException.class)
     @Override
-    public void commence(HttpServletRequest request, @NotNull HttpServletResponse response, AuthenticationException authException) {
+    public void commence(HttpServletRequest request,
+                         @NotNull HttpServletResponse response,
+                         AuthenticationException authException) {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println("Unauthorized EntryPoint ");
+        response.getWriter().println("Unauthorized EntryPoint!");
         response.getWriter().flush();
     }
 
