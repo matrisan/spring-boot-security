@@ -12,6 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -26,7 +28,9 @@ import java.util.Random;
  */
 
 @Builder
-public class CaptchaUtil {
+public class CaptchaUtil implements Serializable {
+
+    private static final long serialVersionUID = 908094369091154079L;
 
     private static final Random RANDOM = new Random();
 
@@ -146,11 +150,32 @@ public class CaptchaUtil {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Captcha {
+    public static class Captcha implements Serializable {
+
+        private static final long serialVersionUID = -4045096598706516582L;
 
         private String captcha;
 
-        private BufferedImage image;
+        private Integer maxRetry = 3;
+
+        private LocalDateTime expireTime = LocalDateTime.now().plusSeconds(60);
+
+        private transient BufferedImage image;
+
+        public Captcha(String captcha, BufferedImage image) {
+            this.captcha = captcha;
+            this.image = image;
+        }
+
+        public Captcha(String captcha, int expireIn, BufferedImage image) {
+            this.captcha = captcha;
+            this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
+            this.image = image;
+        }
+
+        public boolean isExpired() {
+            return LocalDateTime.now().isAfter(expireTime);
+        }
 
     }
 

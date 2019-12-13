@@ -1,8 +1,11 @@
 package com.github.springbootsecurity.common;
 
+import com.github.springbootsecurity.config.ConfigCaptchaProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.awt.Color;
 
 /**
@@ -19,10 +22,24 @@ import java.awt.Color;
 @Configuration
 public class ConfigCaptchaUtilBean {
 
+    @Resource
+    private ConfigCaptchaProperty property;
+
     @Bean
+    @ConditionalOnMissingBean
+    public CaptchaUtil defaultCaptchaUtil() {
+        return CaptchaUtil.builder()
+                .width(120).height(35).size(6).lines(8).fontSize(25).tilt(true)
+                .backgroundColor(Color.LIGHT_GRAY)
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public CaptchaUtil captchaUtil() {
         return CaptchaUtil.builder()
-                .width(120).height(35).size(6).lines(8).fontSize(25).tilt(true).backgroundColor(Color.LIGHT_GRAY)
+                .width(120).height(35).size(6).lines(8).fontSize(25).tilt(true)
+                .backgroundColor(Color.LIGHT_GRAY)
                 .build();
     }
 

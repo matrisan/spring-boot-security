@@ -1,11 +1,11 @@
 package com.github.springbootsecurity.service.application.impl;
 
 import com.github.springbootsecurity.common.CaptchaUtil;
+import com.github.springbootsecurity.config.ConfigSecurityConstant;
 import com.github.springbootsecurity.service.application.ICaptchaService;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -43,19 +42,11 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public void getCaptcha(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
         // 获取到 session
         HttpSession session = request.getSession();
-        // 取到 sessionid
-        String id = session.getId();
-        System.out.println("---------------" + id);
         // 利用图片工具生成图片
         CaptchaUtil.Captcha captcha = captchaUtil.createImage();
-        // 将验证码存入Session
-        session.setAttribute("SESSION_VERIFY_CODE_" + id, captcha.getCaptcha());
         // 打印验证码
         System.out.println(captcha.getCaptcha());
-        // 设置redis值的序列化方式
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
-        // 在redis中保存一个验证码最多尝试次数
-        redisTemplate.opsForValue().set(("VERIFY_CODE_" + id), "3", 1, TimeUnit.MINUTES);
+        session.setAttribute(ConfigSecurityConstant.SESSION_CAPTCHA_CODE, captcha);
         // 将图片输出给浏览器
         BufferedImage image = captcha.getImage();
         response.setContentType("image/png");

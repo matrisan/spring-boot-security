@@ -52,7 +52,6 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-
     @Resource
     private SecurityCaptchaValidationFilter captchaValidationFilter;
 
