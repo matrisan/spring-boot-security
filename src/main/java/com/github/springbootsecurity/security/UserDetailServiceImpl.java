@@ -31,21 +31,6 @@ import static org.springframework.security.crypto.factory.PasswordEncoderFactori
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-//    @Resource
-//    private ISystemUserJpaRepository repository;
-
-//    @SneakyThrows(UsernameNotFoundException.class)
-//    @Override
-//    public UserDetails loadUserByUsername(String username) {
-//        SystemUserDO systemUserDO = repository.findByUsernameEquals(username);
-//        if (null == systemUserDO) {
-//            throw new UsernameNotFoundException(username);
-//        }
-//        return systemUserDO;
-//    }
-
-
-//    @Resource
     private PasswordEncoder passwordEncoder = createDelegatingPasswordEncoder();
 
     private static final Map<String, SystemUserDO> MAP = Maps.newHashMap();
@@ -74,7 +59,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 .note("admin user")
                 .build());
     }
-
 
     @SneakyThrows(UsernameNotFoundException.class)
     @Override

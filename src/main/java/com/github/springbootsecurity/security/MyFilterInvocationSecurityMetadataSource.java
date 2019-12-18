@@ -28,6 +28,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     private final Map<String, String> urlRoleMap = new HashMap<>();
+
     {
         urlRoleMap.put("/open/**", "ROLE_ANONYMOUS");
         urlRoleMap.put("/message1", "ROLE_ADMIN");
