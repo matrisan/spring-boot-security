@@ -34,4 +34,12 @@ public class SayHiController {
     public DataDTO post(@RequestBody DataDTO data) {
         return data;
     }
+
+
+    @PostMapping("test")
+    public DataDTO error(@RequestBody DataDTO data) {
+        int a = 1 / 0;
+        return data;
+    }
+
 }
