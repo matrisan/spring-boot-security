@@ -1,8 +1,6 @@
-package com.github.springbootsecurity.audit.config;
+package com.github.springbootsecurity.risk.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.config.MongoConfigurationSupport;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 import javax.annotation.PostConstruct;

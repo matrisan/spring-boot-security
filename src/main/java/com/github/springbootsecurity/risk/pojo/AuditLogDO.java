@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.audit.pojo;
+package com.github.springbootsecurity.risk.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

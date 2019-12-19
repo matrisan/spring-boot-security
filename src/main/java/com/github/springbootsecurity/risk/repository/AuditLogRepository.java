@@ -1,6 +1,6 @@
-package com.github.springbootsecurity.audit.repository;
+package com.github.springbootsecurity.risk.repository;
 
-import com.github.springbootsecurity.audit.pojo.AuditLogDO;
+import com.github.springbootsecurity.risk.pojo.AuditLogDO;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
