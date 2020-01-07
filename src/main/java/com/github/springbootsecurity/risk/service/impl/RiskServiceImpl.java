@@ -28,7 +28,7 @@ public class RiskServiceImpl extends BaseRiskService<DataDO> {
     }
 
     @Override
-    public RiskDTO getRisk(@NotNull HttpServletRequest request, @NotNull DataDO data) {
+    public RiskDTO assembleRiskData(@NotNull HttpServletRequest request, @NotNull DataDO data) {
         return RiskDTO.builder()
                 .url(request.getRequestURI())
                 .data(data.getData())
