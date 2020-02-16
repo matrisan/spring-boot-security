@@ -69,7 +69,6 @@ public class UserAnnotationControllerImplTest {
     }
 
     @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
     @Test
     public void prePostFilter() {
     }

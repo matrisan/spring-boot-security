@@ -4,7 +4,6 @@ import com.github.springbootsecurity.pojo.doo.SystemRoleDO;
 import com.github.springbootsecurity.pojo.doo.SystemUserDO;
 import com.github.springbootsecurity.repository.ISystemUserJpaRepository;
 import com.google.common.collect.Sets;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ import java.util.Set;
  * @since 0.0.1
  */
 
-@DependsOn("initRole")
+//@DependsOn("initRole")
 @Component
 public class InitUserRoot {
 
@@ -33,13 +32,12 @@ public class InitUserRoot {
     @Resource
     private ISystemUserJpaRepository repository;
 
-        @PostConstruct
+    @PostConstruct
     public void init() {
-//        repository.deleteAll();
         Set<SystemRoleDO> roleSet = Sets.newHashSet(SystemRoleDO.builder().name("ROLE_ROOT").note("超级管理员用户").build());
         SystemUserDO systemUserDO = SystemUserDO.builder()
                 .username("root")
-                .password(passwordEncoder.encode("123456"))
+                .password(passwordEncoder.encode("shaodong"))
                 .authorities(roleSet)
                 .email("shaopro@qq.com")
                 .accountNonExpired(true)

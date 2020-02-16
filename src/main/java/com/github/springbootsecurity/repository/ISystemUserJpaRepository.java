@@ -16,9 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ISystemUserJpaRepository extends JpaRepository<SystemUserDO, Long> {
 
-
-    SystemUserDO findByUsernameEquals(String username);
-
-    SystemUserDO findSystemUserDOByUsernameIs(String username);
+    SystemUserDO findSystemUserDOByUsername(String username);
 
 }

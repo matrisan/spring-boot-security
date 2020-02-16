@@ -1,17 +1,16 @@
-package com.github.springbootsecurity.pojo.dto;
+package com.github.springbootsecurity.pojo.doo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 /**
  * <p>
- * 创建时间为 下午1:18 2019/9/18
+ * 创建时间为 下午2:38 2020/2/14
  * 项目名称 spring-boot-security
  * </p>
  *
@@ -20,18 +19,18 @@ import java.io.Serializable;
  * @since 0.0.1
  */
 
+
 @Getter
 @Setter
 @Builder
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnDTO<T> implements Serializable {
+public class SystemUserChangePasswordDTO {
 
-    private static final long serialVersionUID = 4396605270433694166L;
+    private String passwordOld;
 
-    private Integer status;
-
-    private T data;
+    private String passwordNew;
 
 }

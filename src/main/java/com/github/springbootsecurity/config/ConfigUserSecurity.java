@@ -1,7 +1,5 @@
 package com.github.springbootsecurity.config;
 
-import com.github.springbootsecurity.filter.SecurityCaptchaValidationFilter;
-import com.github.springbootsecurity.filter.SecurityPasswordDecryptionFilter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -52,32 +49,45 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-
-    @Resource
-    private SecurityCaptchaValidationFilter captchaValidationFilter;
-
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
-        http.addFilterBefore(new SecurityPasswordDecryptionFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(captchaValidationFilter, SecurityPasswordDecryptionFilter.class)
-                // 使用表单登录
-                .formLogin()
-                // 指定登录页面
-                .loginPage("/login").defaultSuccessUrl("/success").permitAll()
-                // 自定义的登录接口
-                .loginProcessingUrl("/authentication/form")
+//        http
+////              .addFilterBefore(new SecurityPasswordDecryptionFilter(), UsernamePasswordAuthenticationFilter.class)
+//                // 使用表单登录
+//                .formLogin()
+//                // 指定登录页面
+////              .loginPage("/login").defaultSuccessUrl("/success")
+//                .permitAll()
+//                // 自定义的登录接口
+//                .loginProcessingUrl("/login")
+////                .loginProcessingUrl("/authentication/form")
+////                .successHandler(successHandler)
+////                .failureHandler(failureHandler)
+//                // 定义哪些URL需要被保护、哪些不需要被保护
+//                .and().authorizeRequests()
+//                // 允许访问
+//                .antMatchers("/code/image", "/user/register", "/", "/session/invalid", "/register").permitAll()
+//                // 任何请求,登录后可以访问
+//                .anyRequest().authenticated()
+//                .and()
+//                .logout().permitAll()
+//                .and()
+//                .sessionManagement()
+//                .invalidSessionUrl("/session/invalid")
+//                .maximumSessions(2)
+//                .maxSessionsPreventsLogin(true)
+//                .expiredSessionStrategy(event -> event.getResponse().getWriter().write("并发登录!\n"))
+//                .and()
+//                .and().exceptionHandling().accessDeniedPage("/403")
+//        ;
+//        http.csrf().disable();
+
+
+        http.formLogin()
+                .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-
-                // 定义哪些URL需要被保护、哪些不需要被保护
-                .and().authorizeRequests()
-                // 允许访问
-                .antMatchers("/code/image", "/authentication/form", "/", "/session/invalid", "/register", "captcha").permitAll()
-                // 任何请求,登录后可以访问
-                .anyRequest().authenticated()
-                .and()
-                .logout().permitAll()
                 .and()
                 .sessionManagement()
                 .invalidSessionUrl("/session/invalid")
@@ -85,9 +95,8 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(true)
                 .expiredSessionStrategy(event -> event.getResponse().getWriter().write("并发登录!\n"))
                 .and()
-                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().csrf().disable()
         ;
-        http.csrf().disable();
 
     }
 
@@ -97,6 +106,7 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/static/js/**");
         web.ignoring().antMatchers("/static/css/**");
         web.ignoring().antMatchers("/static/image/**");
+        web.ignoring().antMatchers("/h2/**");
     }
 
 }
