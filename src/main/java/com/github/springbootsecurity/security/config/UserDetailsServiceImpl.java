@@ -1,0 +1,26 @@
+package com.github.springbootsecurity.security.config;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ * 创建时间为 下午8:13 2020/2/17
+ * 项目名称 spring-boot-security
+ * </p>
+ *
+ * @author 石少东
+ * @version 0.0.1
+ * @since 0.0.1
+ */
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
+    }
+}
