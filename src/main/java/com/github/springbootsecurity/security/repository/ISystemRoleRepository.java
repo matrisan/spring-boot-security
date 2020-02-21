@@ -1,6 +1,5 @@
 package com.github.springbootsecurity.security.repository;
 
-import com.github.springbootsecurity.security.pojo.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.SystemRoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 

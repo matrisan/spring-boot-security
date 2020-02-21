@@ -24,13 +24,14 @@ import java.util.Date;
  * @since 0.0.1
  */
 
+
 @Getter
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
-    @Column(columnDefinition = "INT(1) DEFAULT 0 COMMENT '改记录是否删除'")
+    @Column(columnDefinition = "INT DEFAULT 0 COMMENT '改记录是否删除'")
     private Boolean deleted;
 
     @CreatedDate
@@ -43,10 +44,10 @@ public class BaseEntity {
 
     @CreatedBy
     @Column(name = "create_by", columnDefinition = "BIGINT COMMENT '创建人'")
-    private Long createBy;
+    private String createBy;
 
     @LastModifiedBy
     @Column(name = "last_modified_by", columnDefinition = "BIGINT COMMENT '最后更新人'")
-    private Long lastModifiedBy;
+    private String lastModifiedBy;
 
 }

@@ -3,6 +3,8 @@ package com.github.springbootsecurity.security.repository;
 import com.github.springbootsecurity.security.pojo.SystemUserDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * <p>
  * 创建时间为 下午8:03 2020/2/17
@@ -15,4 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface ISystemUserRepository extends JpaRepository<SystemUserDO, Long> {
+
+    Optional<SystemUserDO> findSystemUserDOByUsername(String username);
+
 }
