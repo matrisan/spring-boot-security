@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -52,12 +53,12 @@ public class ConfigSystemSecurity extends WebSecurityConfigurerAdapter {
     private FilterInvocationSecurityMetadataSource metadataSource;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(@NotNull HttpSecurity http) throws Exception {
         http.csrf().disable();
         // 使用表单登录 // 自定义的登录接口
         http.formLogin().loginProcessingUrl("/login").successHandler(successHandler).failureHandler(failureHandler);

@@ -1,5 +1,7 @@
 package com.github.springbootsecurity.security.core;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -28,18 +32,18 @@ public class SystemAccessDecisionManager implements AccessDecisionManager {
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-        for (ConfigAttribute ca : configAttributes) {
-            String needRole = ca.getAttribute();
-            for (GrantedAuthority ga : authentication.getAuthorities()) {
-                if (antPathMatcher.match(needRole, ga.getAuthority())) {
-                    //匹配到有对应角色,则允许通过
-                    return;
-                }
-            }
+    public void decide(@NotNull Authentication authentication, Object object, @NotNull Collection<ConfigAttribute> configAttributes)
+            throws AccessDeniedException, InsufficientAuthenticationException {
+        Set<String> userRoles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        if (userRoles.contains("ROLE_ROOT")) {
+            return;
         }
-        //该url有配置权限,但是当然登录用户没有匹配到对应权限,则禁止访问
-        throw new AccessDeniedException("not allow");
+        Set<String> needRoles = configAttributes.stream().map(ConfigAttribute::getAttribute).collect(Collectors.toSet());
+        Collection<String> intersection = CollectionUtils.intersection(userRoles, needRoles);
+        if (intersection.size() <= 0) {
+            //匹配到有对应角色,则允许通过
+            throw new AccessDeniedException("not allow");
+        }
     }
 
     @Override
