@@ -32,7 +32,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     {
         urlRoleMap.put("/open/**", "ROLE_ANONYMOUS");
         urlRoleMap.put("/message1", "ROLE_ADMIN");
-        urlRoleMap.put("/message2", "ROLE_ROOT");
+        urlRoleMap.put("/message2/*", "ROLE_ROOT");
         urlRoleMap.put("/demo", "ROLE_ROOT");
     }
 
