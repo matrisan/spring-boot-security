@@ -66,6 +66,9 @@ public class SystemResourceDO extends BaseEntity implements Serializable {
     @Column(name = "url", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '资源URL'")
     private String url;
 
+    @Column(name = "method", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '资源请求方式'")
+    private String method;
+
     @Column(name = "note", nullable = false, length = 100, columnDefinition = "VARCHAR(100) COMMENT '资源URL'")
     private String note;
 
