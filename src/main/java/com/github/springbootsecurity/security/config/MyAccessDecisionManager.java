@@ -7,10 +7,10 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.AntPathMatcher;
 
+import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * <p>
@@ -25,13 +25,15 @@ import java.util.Iterator;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     @Override
     public void decide(Authentication authentication, Object object, @NotNull Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 
         for (ConfigAttribute ca : configAttributes) {
             String needRole = ca.getAttribute();
             for (GrantedAuthority ga : authentication.getAuthorities()) {
-                if (ga.getAuthority().equals(needRole)) {
+                if (antPathMatcher.match(needRole,ga.getAuthority())) {
                     //匹配到有对应角色,则允许通过
                     return;
                 }

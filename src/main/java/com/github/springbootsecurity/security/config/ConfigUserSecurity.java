@@ -62,27 +62,52 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
 
-        // 使用表单登录
-        http.formLogin()
-                // 自定义的登录接口
-                .loginProcessingUrl("/login")
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+                        fsi.setSecurityMetadataSource(mySecurityMetadataSource());
+                        fsi.setAccessDecisionManager(myAccessDecisionManager());
+                        return fsi;
+                    }
+                });
+
+        // 使用表单登录 // 自定义的登录接口
+        http.formLogin().loginProcessingUrl("/login").successHandler(successHandler).failureHandler(failureHandler);
+
+//        http.authorizeRequests()
+//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//                    @Override
+//                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+//                        object.setSecurityMetadataSource(mySecurityMetadataSource());
+//                        object.setAccessDecisionManager(myAccessDecisionManager());
+//                        return object;
+//                    }
+//                });
+
+//
+//        // 使用表单登录
+//        http.formLogin()
+//                // 自定义的登录接口
+//                .loginProcessingUrl("/login")
+//                .successHandler(successHandler)
+//                .failureHandler(failureHandler)
 //                // 定义哪些URL需要被保护、哪些不需要被保护
 //                .and().authorizeRequests()
 //                // 允许访问
 //                .antMatchers("/code/*", "/authentication/form", "/authentication/*", "/", "/session/invalid", "/register", "captcha")
 //                .permitAll()
-//                // 任何请求,登录后可以访问
+        // 任何请求,登录后可以访问
 //                .anyRequest().authenticated()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-                        object.setSecurityMetadataSource(mySecurityMetadataSource());
-                        object.setAccessDecisionManager(myAccessDecisionManager());
-                        return object;
-                    }
-                })
+//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//                    @Override
+//                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+//                        object.setSecurityMetadataSource(mySecurityMetadataSource());
+//                        object.setAccessDecisionManager(myAccessDecisionManager());
+//                        return object;
+//                    }
+//                })
 //                .and()
 //                .logout().permitAll()
 //                .and()
@@ -94,7 +119,6 @@ public class ConfigUserSecurity extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .and().exceptionHandling().accessDeniedPage("/403")
 
-        ;
         http.csrf().disable();
         http.apply(backLoginAuthenticationSecurityConfig);
     }
