@@ -40,6 +40,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         FilterInvocation fi = (FilterInvocation) object;
         String url = fi.getRequestUrl();
+        String method = fi.getRequest().getMethod();
         Set<String> set = urlRoleMap.entrySet().stream()
                 .filter(one -> antPathMatcher.match(one.getKey(), url))
                 .map(Map.Entry::getValue)
