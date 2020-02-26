@@ -1,9 +1,14 @@
 package com.github.springbootsecurity.security.config;
 
+import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Optional;
 
 /**
  * <p>
@@ -19,8 +24,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    @Resource
+    private ISystemUserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        repository.findAll();
+        Optional<SystemUserDO> optional = repository.findByUsernameEquals(username);
+        if (!optional.isPresent()) {
+            throw new UsernameNotFoundException("UsernameNotFoundException");
+        }
+        return optional.get();
     }
 }

@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -51,6 +53,8 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_resource", indexes = {@Index(columnList = "resource_name", name = "IDX_RESOURCE_NAME")})
+@DynamicInsert
+@DynamicUpdate
 public class SystemResourceDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1101310665812124141L;
@@ -84,7 +88,7 @@ public class SystemResourceDO extends BaseEntity implements Serializable {
     @JsonIgnoreProperties(value = {"parentResource"})
     private SystemResourceDO parentResource;
 
-    @ManyToMany(mappedBy = "systemResources")
+    @ManyToMany(mappedBy = "systemResources", fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = {"systemResources", "systemGroups", "systemUsers"})
     private Set<SystemRoleDO> systemRoles;
 

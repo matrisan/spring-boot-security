@@ -32,6 +32,6 @@ public class SystemResourceServiceImpl implements ISystemResourceService {
 
     @Override
     public SystemResourceDO findOneByUrlAndMethod(String url, String method) {
-        return null;
+        return repository.findByUrlEqualsAndMethodEquals(url,method).orElse(new SystemResourceDO());
     }
 }

@@ -43,10 +43,10 @@ public class BaseEntity {
 
     @CreatedBy
     @Column(name = "create_by", columnDefinition = "BIGINT COMMENT '创建人'")
-    private Long createBy;
+    private String createBy;
 
     @LastModifiedBy
     @Column(name = "last_modified_by", columnDefinition = "BIGINT COMMENT '最后更新人'")
-    private Long lastModifiedBy;
+    private String lastModifiedBy;
 
 }

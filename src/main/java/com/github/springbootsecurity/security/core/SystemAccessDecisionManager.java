@@ -9,7 +9,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
 import java.util.Set;
@@ -29,18 +28,18 @@ import java.util.stream.Collectors;
 @Component
 public class SystemAccessDecisionManager implements AccessDecisionManager {
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private static final String ROLE_ROOT = "ROLE_ROOT";
 
     @Override
     public void decide(@NotNull Authentication authentication, Object object, @NotNull Collection<ConfigAttribute> configAttributes)
             throws AccessDeniedException, InsufficientAuthenticationException {
         Set<String> userRoles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-        if (userRoles.contains("ROLE_ROOT")) {
+        if (userRoles.contains(ROLE_ROOT)) {
             return;
         }
         Set<String> needRoles = configAttributes.stream().map(ConfigAttribute::getAttribute).collect(Collectors.toSet());
         Collection<String> intersection = CollectionUtils.intersection(userRoles, needRoles);
-        if (intersection.size() <= 0) {
+        if (CollectionUtils.isEmpty(intersection)) {
             //匹配到有对应角色,则允许通过
             throw new AccessDeniedException("not allow");
         }

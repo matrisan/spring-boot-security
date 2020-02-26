@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,6 +54,8 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_group", indexes = {@Index(columnList = "group_name", name = "IDX_GROUP_NAME")})
+@DynamicInsert
+@DynamicUpdate
 public class SystemGroupDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 3948719216778809688L;

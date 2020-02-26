@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,6 +56,8 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_user", indexes = {@Index(columnList = "username", name = "IDX_USERNAME")})
+@DynamicInsert
+@DynamicUpdate
 public class SystemUserDO extends BaseEntity implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 7779871865149295381L;
@@ -69,7 +73,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '密码'")
     private String password;
 
-    @Column(name = "account_expired_date", nullable = false, columnDefinition = "DATETIME COMMENT '账号过期时间'")
+    @Column(name = "account_expired_date", columnDefinition = "DATETIME COMMENT '账号过期时间'")
     private Date accountExpiredDate;
 
     @Column(name = "account_non_locked", nullable = false, columnDefinition = "INT(1) DEFAULT 0 COMMENT '账号没有被锁定'")
@@ -94,7 +98,8 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
 
     @ManyToMany(
             targetEntity = SystemRoleDO.class,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.EAGER
     )
     @JoinTable(
             name = "system_role_user",
@@ -105,7 +110,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     private Set<SystemRoleDO> systemRoles;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<SystemRoleDO> getAuthorities() {
         return systemRoles;
     }
 

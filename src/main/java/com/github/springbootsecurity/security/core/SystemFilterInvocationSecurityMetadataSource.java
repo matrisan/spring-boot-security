@@ -8,12 +8,9 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,9 +37,7 @@ public class SystemFilterInvocationSecurityMetadataSource implements FilterInvoc
         String url = fi.getRequestUrl();
         String method = fi.getRequest().getMethod();
         SystemResourceDO resource = service.findOneByUrlAndMethod(url, method);
-        Set<String> set = resource.getSystemRoles().stream().map(SystemRoleDO::getRoleName).collect(Collectors.toSet());
-        String[] array = new String[set.size()];
-        set.toArray(array);
+        String[] array = resource.getSystemRoles().stream().map(SystemRoleDO::getRoleName).distinct().toArray(String[]::new);
         return SecurityConfig.createList(array);
     }
 

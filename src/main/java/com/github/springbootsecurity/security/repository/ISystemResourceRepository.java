@@ -3,6 +3,8 @@ package com.github.springbootsecurity.security.repository;
 import com.github.springbootsecurity.security.pojo.SystemResourceDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * <p>
  * 创建时间为 下午8:03 2020/2/17
@@ -15,4 +17,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface ISystemResourceRepository extends JpaRepository<SystemResourceDO, Long> {
+
+    Optional<SystemResourceDO> findByUrlEqualsAndMethodEquals(String url, String method);
 }

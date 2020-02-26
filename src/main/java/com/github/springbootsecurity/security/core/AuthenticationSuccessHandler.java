@@ -34,7 +34,8 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     private ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication)
+            throws IOException, ServletException {
         // 在这里判断是返回JSON 还是HTML
         if (json) {
             response.setContentType("application/json;charset=UTF-8");

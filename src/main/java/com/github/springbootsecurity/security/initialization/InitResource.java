@@ -25,14 +25,21 @@ public class InitResource {
     private ISystemResourceRepository repository;
 
     @PostConstruct
-    public void initResource() {
-        SystemResourceDO resource = SystemResourceDO.builder()
+    public void init() {
+        SystemResourceDO resource1 = SystemResourceDO.builder()
                 .resourceName("hello")
                 .url("/hello")
                 .method("get")
                 .note("test")
                 .build();
-        repository.save(resource);
+        repository.save(resource1);
+        SystemResourceDO resource2 = SystemResourceDO.builder()
+                .resourceName("index")
+                .url("/")
+                .method("get")
+                .note("index")
+                .build();
+        repository.save(resource2);
     }
 
 }

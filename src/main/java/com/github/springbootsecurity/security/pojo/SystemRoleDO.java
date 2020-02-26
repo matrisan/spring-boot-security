@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +51,8 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_role", indexes = {@Index(columnList = "role_name", name = "IDX_ROLE_NAME")})
+@DynamicInsert
+@DynamicUpdate
 public class SystemRoleDO extends BaseEntity implements GrantedAuthority, Serializable {
 
     private static final long serialVersionUID = 3274762729475775435L;

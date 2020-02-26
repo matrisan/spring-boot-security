@@ -59,11 +59,11 @@ public class ConfigSystemSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
-        http.csrf().disable();
         // 使用表单登录 // 自定义的登录接口
-        http.formLogin().loginProcessingUrl("/login").successHandler(successHandler).failureHandler(failureHandler);
-
-        http.authorizeRequests()
+        http.formLogin()
+                .loginProcessingUrl("/login").successHandler(successHandler).failureHandler(failureHandler)
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -73,6 +73,7 @@ public class ConfigSystemSecurity extends WebSecurityConfigurerAdapter {
                         return fsi;
                     }
                 });
+        http.csrf().disable();
     }
 
 

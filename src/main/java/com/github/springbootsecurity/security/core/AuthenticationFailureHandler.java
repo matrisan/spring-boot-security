@@ -33,7 +33,8 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     private ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+            throws IOException, ServletException {
         // 在这里判断是返回JSON 还是HTML
         if (json) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
