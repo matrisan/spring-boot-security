@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo;
+package com.github.springbootsecurity.security.pojo.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
@@ -73,6 +72,12 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '密码'")
     private String password;
 
+    @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户手机号码'")
+    private String phone;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    private String note;
+
     @Column(name = "account_expired_date", columnDefinition = "DATETIME COMMENT '账号过期时间'")
     private Date accountExpiredDate;
 
@@ -90,7 +95,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
 
     @ManyToOne(
             targetEntity = SystemGroupDO.class,
-            cascade = {CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = {CascadeType.REFRESH},
             fetch = FetchType.EAGER)
     @JoinColumn(name = "foreign_key_group_id", referencedColumnName = "group_id")
     @JsonIgnoreProperties(value = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})

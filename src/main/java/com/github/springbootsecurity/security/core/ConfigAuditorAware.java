@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.core;
 
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -35,11 +35,11 @@ public class ConfigAuditorAware implements AuditorAware<String> {
         if (null == authentication) {
             return Optional.of("System");
         }
-        SystemUserDO userDO = (SystemUserDO) authentication.getPrincipal();
-        if (null == userDO) {
-            return Optional.of("System");
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof SystemUserDO) {
+            return Optional.ofNullable(((SystemUserDO) principal).getUsername());
         }
-        return Optional.ofNullable(userDO.getUsername());
+        return Optional.of("System");
     }
 
 }

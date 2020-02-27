@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.config;
 
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

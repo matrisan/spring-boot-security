@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.repository;
 
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -21,5 +21,7 @@ public interface ISystemUserRepository extends JpaRepository<SystemUserDO, Long>
     Optional<SystemUserDO> findSystemUserDOByUsernameEquals(String username);
 
     Optional<SystemUserDO> findByUsernameEquals(String username);
+
+    boolean existsByUsernameEquals(String username);
 
 }

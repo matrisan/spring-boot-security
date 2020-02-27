@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.security.repository;
 
-import com.github.springbootsecurity.security.pojo.SystemGroupDO;
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,4 +15,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface ISystemRoleRepository extends JpaRepository<SystemRoleDO, Long> {
+
+    SystemRoleDO findByRoleNameEquals(String roleName);
+
+    boolean existsByRoleNameEquals(String roleName);
+
 }

@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo.mid;
+package com.github.springbootsecurity.security.pojo.table.mid;
 
 /**
  * <p>

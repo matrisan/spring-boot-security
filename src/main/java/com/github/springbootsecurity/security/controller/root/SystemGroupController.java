@@ -1,6 +1,6 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.root;
 
-import com.github.springbootsecurity.security.pojo.SystemGroupDO;
+import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +28,7 @@ import java.util.List;
 
 
 @RestController
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ROLE_ROOT')")
 @RequestMapping("/system/root")
 public class SystemGroupController {
 

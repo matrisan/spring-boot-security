@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.repository;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
+import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

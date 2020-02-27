@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo;
+package com.github.springbootsecurity.security.pojo.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,7 @@
-package com.github.springbootsecurity.security.initialization;
+package com.github.springbootsecurity.init;
 
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

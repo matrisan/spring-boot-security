@@ -1,7 +1,7 @@
-package com.github.springbootsecurity.security.initialization;
+package com.github.springbootsecurity.init;
 
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +24,7 @@ import java.util.Collections;
  * @since 0.0.1
  */
 
-@Component
+//@Component
 public class InitUser {
 
     @Resource
@@ -47,7 +47,6 @@ public class InitUser {
 
 
     private void createUser() {
-        initRoot("root", "123456", "ROLE_ROOT");
         initRoot("user", "123456", "ROLE_USER");
     }
 
@@ -63,6 +62,7 @@ public class InitUser {
         SystemUserDO systemUser = SystemUserDO.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
+                .note("")
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
                 .enabled(true)

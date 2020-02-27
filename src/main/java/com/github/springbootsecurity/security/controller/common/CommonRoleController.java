@@ -1,9 +1,7 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.common;
 
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
-import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,33 +29,33 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("permitAll()")
-@RequestMapping("/system/root")
-public class SystemUserController {
+@RequestMapping("/system/ops")
+public class CommonRoleController {
 
     @Resource
-    private ISystemUserRepository repository;
+    private ISystemRoleRepository repository;
 
-    @GetMapping("/user")
-    public List<SystemUserDO> findAll() {
+    @GetMapping("/role")
+    public List<SystemRoleDO> findAll() {
         return repository.findAll();
     }
 
-    @GetMapping("/user/{id}")
-    public SystemUserDO findById(@PathVariable Long id) {
+    @GetMapping("/role/{id}")
+    public SystemRoleDO findById(@PathVariable Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    @PostMapping("/user")
-    public SystemUserDO save(@RequestBody SystemUserDO systemGroup) {
+    @PostMapping("/role")
+    public SystemRoleDO save(@RequestBody SystemRoleDO systemGroup) {
         return repository.save(systemGroup);
     }
 
-    @PutMapping("/user")
-    public SystemUserDO update(@RequestBody SystemUserDO systemGroup) {
+    @PutMapping("/role")
+    public SystemRoleDO update(@RequestBody SystemRoleDO systemGroup) {
         return repository.save(systemGroup);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/role/{id}")
     public void deleteById(@PathVariable Long id) {
         repository.deleteById(id);
     }

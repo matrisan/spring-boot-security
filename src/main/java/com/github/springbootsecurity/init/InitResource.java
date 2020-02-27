@@ -1,6 +1,6 @@
-package com.github.springbootsecurity.security.initialization;
+package com.github.springbootsecurity.init;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
+import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
 import org.springframework.stereotype.Component;
 

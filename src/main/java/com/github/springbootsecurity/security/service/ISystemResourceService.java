@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.service;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
+import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 
 import java.util.List;
 

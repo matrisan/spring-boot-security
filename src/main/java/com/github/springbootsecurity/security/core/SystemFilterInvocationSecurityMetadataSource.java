@@ -1,7 +1,7 @@
 package com.github.springbootsecurity.security.core;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
+import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.service.ISystemResourceService;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>

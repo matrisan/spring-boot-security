@@ -3,16 +3,15 @@ package com.github.springbootsecurity.security.config;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -65,16 +64,28 @@ public class ConfigSystemSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
-                        fsi.setSecurityMetadataSource(metadataSource);
-                        fsi.setAccessDecisionManager(accessDecisionManager);
-                        return fsi;
-                    }
-                });
+//                .and()
+//                .logout().permitAll()
+//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//                    @Override
+//                    public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
+//                        fsi.setSecurityMetadataSource(metadataSource);
+//                        fsi.setAccessDecisionManager(accessDecisionManager);
+//                        return fsi;
+//                    }
+//                });
+        ;
         http.csrf().disable();
     }
 
+    @Override
+    public void configure(@NotNull WebSecurity web) {
+        web.ignoring().antMatchers("/static/js/**");
+        web.ignoring().antMatchers("/static/css/**");
+        web.ignoring().antMatchers("/static/image/**");
+
+        // 暂时关闭security功能
+        // web.ignoring().antMatchers("/**");
+    }
 
 }

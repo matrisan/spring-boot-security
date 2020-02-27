@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.service.impl;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
+import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
 import com.github.springbootsecurity.security.service.ISystemResourceService;
 import org.springframework.stereotype.Service;

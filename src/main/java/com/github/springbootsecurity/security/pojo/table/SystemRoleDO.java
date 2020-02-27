@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo;
+package com.github.springbootsecurity.security.pojo.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -43,8 +43,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString(exclude = {"systemGroups", "systemUsers"})
-@EqualsAndHashCode(callSuper = false, exclude = {"systemGroups", "systemUsers"})
+@ToString(exclude = {"systemGroups", "systemResources", "systemUsers"})
+@EqualsAndHashCode(callSuper = false, exclude = {"systemGroups", "systemResources", "systemUsers"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

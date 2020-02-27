@@ -1,6 +1,6 @@
-//package com.github.springbootsecurity.security.pojo.mid;
+//package com.github.springbootsecurity.security.pojo.table.mid;
 //
-//import com.github.springbootsecurity.security.pojo.BaseEntity;
+//import com.github.springbootsecurity.security.pojo.table.BaseEntity;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
 //import lombok.EqualsAndHashCode;

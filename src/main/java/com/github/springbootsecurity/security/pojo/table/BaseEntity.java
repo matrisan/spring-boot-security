@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo;
+package com.github.springbootsecurity.security.pojo.table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,11 +42,11 @@ public class BaseEntity {
     private Date lastModifiedDate;
 
     @CreatedBy
-    @Column(name = "create_by", columnDefinition = "BIGINT COMMENT '创建人'")
+    @Column(name = "create_by", columnDefinition = "VARCHAR(100) COMMENT '创建人'")
     private String createBy;
 
     @LastModifiedBy
-    @Column(name = "last_modified_by", columnDefinition = "BIGINT COMMENT '最后更新人'")
+    @Column(name = "last_modified_by", columnDefinition = "VARCHAR(100) COMMENT '最后更新人'")
     private String lastModifiedBy;
 
 }

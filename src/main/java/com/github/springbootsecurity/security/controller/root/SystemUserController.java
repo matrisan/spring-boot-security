@@ -1,8 +1,6 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.root;
 
-import com.github.springbootsecurity.security.pojo.SystemResourceDO;
-import com.github.springbootsecurity.security.pojo.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,32 +30,32 @@ import java.util.List;
 @RestController
 @PreAuthorize("permitAll()")
 @RequestMapping("/system/root")
-public class SystemResourceController {
+public class SystemUserController {
 
     @Resource
-    private ISystemResourceRepository repository;
+    private ISystemUserRepository repository;
 
-    @GetMapping("/resource")
-    public List<SystemResourceDO> findAll() {
+    @GetMapping("/user")
+    public List<SystemUserDO> findAll() {
         return repository.findAll();
     }
 
-    @GetMapping("/resource/{id}")
-    public SystemResourceDO findById(@PathVariable Long id) {
+    @GetMapping("/user/{id}")
+    public SystemUserDO findById(@PathVariable Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    @PostMapping("/resource")
-    public SystemResourceDO save(@RequestBody SystemResourceDO systemGroup) {
+    @PostMapping("/user")
+    public SystemUserDO save(@RequestBody SystemUserDO systemGroup) {
         return repository.save(systemGroup);
     }
 
-    @PutMapping("/resource")
-    public SystemResourceDO update(@RequestBody SystemResourceDO systemGroup) {
+    @PutMapping("/user")
+    public SystemUserDO update(@RequestBody SystemUserDO systemGroup) {
         return repository.save(systemGroup);
     }
 
-    @DeleteMapping("/resource/{id}")
+    @DeleteMapping("/user/{id}")
     public void deleteById(@PathVariable Long id) {
         repository.deleteById(id);
     }

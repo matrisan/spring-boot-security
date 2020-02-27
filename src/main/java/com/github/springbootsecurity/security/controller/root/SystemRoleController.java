@@ -1,8 +1,6 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.root;
 
-import com.github.springbootsecurity.security.pojo.SystemGroupDO;
-import com.github.springbootsecurity.security.pojo.SystemRoleDO;
-import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
+import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
