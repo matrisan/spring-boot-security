@@ -51,22 +51,22 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
     }
 
     private SystemGroupDO getSystemGroup(@NotNull UserRegisterDTO userRegister) {
-        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_TRIAL");
+        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_VIP").orElse(new SystemRoleDO());
         return SystemGroupDO.builder()
                 .groupName(userRegister.getGroupName())
                 .systemRoles(Collections.singleton(systemRole))
-                .note(userRegister.getGroupNote())
+                .groupNote(userRegister.getGroupNote())
                 .build();
     }
 
     private SystemUserDO getSystemUser(@NotNull UserRegisterDTO userRegister) {
-        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_TRIAL");
+        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_VIP").orElse(new SystemRoleDO());
         return SystemUserDO.builder()
                 .username(userRegister.getUsername())
                 .password(passwordEncoder.encode(userRegister.getPassword()))
                 .phone(userRegister.getPhone())
                 .systemRoles(Collections.singleton(systemRole))
-                .note(userRegister.getUserNote())
+                .userNote(userRegister.getUserNote())
                 .build();
     }
 

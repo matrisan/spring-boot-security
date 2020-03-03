@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.controller.user;
 
-import com.github.springbootsecurity.security.pojo.dto.ResultDTO;
+import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 import com.github.springbootsecurity.security.service.ISystemMaintainService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +33,11 @@ public class SystemMaintainController {
     public ResultDTO<String> register(@RequestBody UserRegisterDTO userRegister) {
         String result = service.register(userRegister);
         return ResultDTO.success(result);
+    }
+
+    @PostMapping("/retrieve/password")
+    public void retrieve() {
+
     }
 
 

@@ -24,9 +24,8 @@ import java.util.Optional;
 @Configuration
 public class ConfigAuditorAware implements AuditorAware<String> {
 
-    @NotNull
     @Override
-    public Optional<String> getCurrentAuditor() {
+    public @NotNull Optional<String> getCurrentAuditor() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         if (null == securityContext) {
             return Optional.of("System");

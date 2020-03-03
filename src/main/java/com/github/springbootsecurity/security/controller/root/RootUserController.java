@@ -1,7 +1,12 @@
 package com.github.springbootsecurity.security.controller.root;
 
+import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * <p>
@@ -28,36 +32,37 @@ import java.util.List;
 
 
 @RestController
-@PreAuthorize("permitAll()")
+@PreAuthorize("hasRole('ROLE_ROOT')")
 @RequestMapping("/system/root")
-public class SystemUserController {
+public class RootUserController {
 
     @Resource
     private ISystemUserRepository repository;
 
     @GetMapping("/user")
-    public List<SystemUserDO> findAll() {
-        return repository.findAll();
+    public ResultDTO<Page<SystemUserDO>> findAll(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResultDTO.success(repository.findAll(pageable));
     }
 
     @GetMapping("/user/{id}")
-    public SystemUserDO findById(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+    public ResultDTO<SystemUserDO> findById(@PathVariable Long id) {
+        return ResultDTO.success(repository.findById(id).orElse(null));
     }
 
     @PostMapping("/user")
-    public SystemUserDO save(@RequestBody SystemUserDO systemGroup) {
-        return repository.save(systemGroup);
+    public ResultDTO<SystemUserDO> save(@RequestBody SystemUserDO systemGroup) {
+        return ResultDTO.success(repository.save(systemGroup));
     }
 
     @PutMapping("/user")
-    public SystemUserDO update(@RequestBody SystemUserDO systemGroup) {
-        return repository.save(systemGroup);
+    public ResultDTO<SystemUserDO> update(@RequestBody SystemUserDO systemGroup) {
+        return ResultDTO.success(repository.save(systemGroup));
     }
 
     @DeleteMapping("/user/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResultDTO<Void> deleteById(@PathVariable Long id) {
         repository.deleteById(id);
+        return ResultDTO.success();
     }
 
 }

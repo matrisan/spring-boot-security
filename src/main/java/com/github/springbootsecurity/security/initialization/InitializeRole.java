@@ -31,6 +31,7 @@ public class InitializeRole implements CommandLineRunner {
     static {
         INIT_ROLES.put("ROLE_ROOT", "超管用户");
         INIT_ROLES.put("ROLE_TRIAL", "试用用户");
+        INIT_ROLES.put("ROLE_VIP", "VIP用户");
     }
 
     @Override
@@ -44,7 +45,7 @@ public class InitializeRole implements CommandLineRunner {
 
 
     private SystemRoleDO creatRole(String roleName, String note) {
-        return SystemRoleDO.builder().roleName(roleName).note(note).build();
+        return SystemRoleDO.builder().roleName(roleName).roleNote(note).build();
     }
 
 

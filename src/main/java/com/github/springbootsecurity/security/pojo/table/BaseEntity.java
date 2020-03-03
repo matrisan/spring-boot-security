@@ -1,15 +1,14 @@
 package com.github.springbootsecurity.security.pojo.table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
-import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
@@ -27,24 +26,28 @@ import java.util.Date;
 @Getter
 @Setter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
+    @JsonIgnore
     @Column(columnDefinition = "INT(1) DEFAULT 0 COMMENT '改记录是否删除'")
     private Boolean deleted;
 
+    @JsonIgnore
     @CreatedDate
     @Column(name = "create_date", columnDefinition = "DATETIME COMMENT '创建时间'")
     private Date createDate;
 
+    @JsonIgnore
     @LastModifiedDate
     @Column(name = "last_modified_date", columnDefinition = "DATETIME COMMENT '最后更新时间'")
     private Date lastModifiedDate;
 
+    @JsonIgnore
     @CreatedBy
     @Column(name = "create_by", columnDefinition = "VARCHAR(100) COMMENT '创建人'")
     private String createBy;
 
+    @JsonIgnore
     @LastModifiedBy
     @Column(name = "last_modified_by", columnDefinition = "VARCHAR(100) COMMENT '最后更新人'")
     private String lastModifiedBy;

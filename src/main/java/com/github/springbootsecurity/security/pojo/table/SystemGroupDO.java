@@ -51,11 +51,11 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false, exclude = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_group", indexes = {@Index(columnList = "group_name", name = "IDX_GROUP_NAME")})
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class SystemGroupDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 3948719216778809688L;
@@ -68,32 +68,23 @@ public class SystemGroupDO extends BaseEntity implements Serializable {
     @Column(name = "group_name", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '组织架构名称'")
     private String groupName;
 
-    @Column(name = "note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '组织架构备注'")
-    private String note;
+    @Column(name = "group_note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '组织架构备注'")
+    private String groupNote;
 
     @Column(name = "foreign_key_parent_group_id", insertable = false, updatable = false, columnDefinition = "BIGINT COMMENT '组织架构父节点 ID'")
     private Long foreignKeyParentGroupId;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "parentGroup")
-    @JsonIgnoreProperties(value = {"childGroup", "parentGroup"})
-    private Set<SystemGroupDO> childGroup;
-
-    @ManyToOne(targetEntity = SystemGroupDO.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = SystemGroupDO.class, cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "foreign_key_parent_group_id", referencedColumnName = "group_id")
-    @JsonIgnoreProperties(value = {"childGroup", "parentGroup"})
+    @JsonIgnoreProperties(value = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
     private SystemGroupDO parentGroup;
 
-    @ManyToMany(
-            targetEntity = SystemRoleDO.class,
-            cascade = {CascadeType.PERSIST, CascadeType.REFRESH},
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name = "system_group_role",
-            joinColumns = {@JoinColumn(name = "mid_group_id", referencedColumnName = "group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")}
-    )
-    @JsonIgnoreProperties(value = {"systemGroups", "systemUsers"})
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, mappedBy = "parentGroup")
+    @JsonIgnoreProperties(value = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
+    private Set<SystemGroupDO> childGroup;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "systemGroups")
+    @JsonIgnoreProperties(value = {"systemGroups", "systemUsers", "systemResources"})
     private Set<SystemRoleDO> systemRoles;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "systemGroup")

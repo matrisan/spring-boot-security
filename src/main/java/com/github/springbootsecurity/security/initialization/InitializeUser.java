@@ -39,7 +39,7 @@ public class InitializeUser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (!userRepository.existsByUsernameEquals("root")) {
-            SystemRoleDO systemRole = roleRepository.findByRoleNameEquals("ROLE_ROOT");
+            SystemRoleDO systemRole = roleRepository.findByRoleNameEquals("ROLE_ROOT").orElse(new SystemRoleDO());
             SystemUserDO systemUser = creatRootUser();
             systemUser.setSystemRoles(Collections.singleton(systemRole));
             userRepository.save(systemUser);
@@ -48,7 +48,7 @@ public class InitializeUser implements CommandLineRunner {
 
 
     private SystemUserDO creatRootUser() {
-        return SystemUserDO.builder().username("root").password(passwordEncoder.encode("123456")).phone("").note("root 用户").build();
+        return SystemUserDO.builder().username("root").password(passwordEncoder.encode("123456")).phone("").userNote("root 用户").build();
     }
 
 

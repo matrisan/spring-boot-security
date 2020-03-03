@@ -1,9 +1,13 @@
 package com.github.springbootsecurity.security.repository;
 
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>
@@ -18,5 +22,13 @@ import java.util.Optional;
 
 public interface ISystemResourceRepository extends JpaRepository<SystemResourceDO, Long> {
 
+    List<SystemResourceDO> findAllByUrlNotNullAndMethodEquals(String method);
+
     Optional<SystemResourceDO> findByUrlEqualsAndMethodEquals(String url, String method);
+
+    Page<SystemResourceDO> findAllByUrlIn(Set<String> set, Pageable pageable);
+
+    boolean existsByUrlEqualsAndMethodEquals(String url, String method);
+
+    List<SystemResourceDO> findAllByUrlStartsWith(String starts);
 }

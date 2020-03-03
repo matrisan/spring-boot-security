@@ -2,15 +2,17 @@ package com.github.springbootsecurity.security.core;
 
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
-import com.github.springbootsecurity.security.service.ISystemResourceService;
+import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -27,15 +29,18 @@ import java.util.Collection;
 public class SystemFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Resource
-    private ISystemResourceService service;
+    private ISystemResourceRepository resourceRepository;
+
+    private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         FilterInvocation fi = (FilterInvocation) object;
         String url = fi.getRequestUrl();
         String method = fi.getRequest().getMethod();
-        SystemResourceDO resource = service.findOneByUrlAndMethod(url, method);
-        String[] array = resource.getSystemRoles().stream().map(SystemRoleDO::getRoleName).distinct().toArray(String[]::new);
+        List<SystemResourceDO> list = resourceRepository.findAllByUrlNotNullAndMethodEquals(method);
+        String[] array = list.stream().filter(one -> ANT_PATH_MATCHER.match(url, one.getUrl()))
+                .flatMap(one -> one.getSystemRoles().stream()).map(SystemRoleDO::getRoleName).distinct().toArray(String[]::new);
         return SecurityConfig.createList(array);
     }
 

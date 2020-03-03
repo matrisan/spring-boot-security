@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.pojo.table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,11 +50,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_role", indexes = {@Index(columnList = "role_name", name = "IDX_ROLE_NAME")})
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class SystemRoleDO extends BaseEntity implements GrantedAuthority, Serializable {
 
     private static final long serialVersionUID = 3274762729475775435L;
@@ -65,26 +67,36 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority, Serial
     @Column(name = "role_name", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '角色名称'")
     private String roleName;
 
-    @Column(name = "note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '角色备注'")
-    private String note;
+    @Column(name = "role_note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '角色备注'")
+    private String roleNote;
 
-    @ManyToMany(mappedBy = "systemRoles")
+    @ManyToMany(
+            targetEntity = SystemGroupDO.class,
+            cascade = {CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "system_group_role",
+            joinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mid_group_id", referencedColumnName = "group_id")}
+    )
     @JsonIgnoreProperties(value = {"systemRoles", "systemUsers", "parentGroup", "childGroup"})
     private Set<SystemGroupDO> systemGroups;
 
-    @ManyToMany(mappedBy = "systemRoles")
-    @JsonIgnoreProperties(value = {"systemRoles"})
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "systemRoles")
+    @JsonIgnoreProperties(value = {"systemRoles", "systemGroup"})
     private Set<SystemUserDO> systemUsers;
 
-    @ManyToMany(targetEntity = SystemResourceDO.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = SystemResourceDO.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(
             name = "system_role_resource",
             joinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "mid_resource_id", referencedColumnName = "resource_id")}
     )
-    @JsonIgnoreProperties(value = {"systemRoles"})
+    @JsonIgnoreProperties(value = {"childResources", "parentResource", "systemRoles"})
     private Set<SystemResourceDO> systemResources;
 
+    @JsonIgnore
     @Override
     public String getAuthority() {
         return roleName;

@@ -1,7 +1,12 @@
-package com.github.springbootsecurity.security.controller.common;
+package com.github.springbootsecurity.security.controller.root;
 
+import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * <p>
@@ -28,36 +32,37 @@ import java.util.List;
 
 
 @RestController
-@PreAuthorize("permitAll()")
-@RequestMapping("/system/ops")
-public class CommonResourceController {
+@PreAuthorize("hasRole('ROLE_ROOT')")
+@RequestMapping("/system/root")
+public class RootResourceController {
 
     @Resource
     private ISystemResourceRepository repository;
 
     @GetMapping("/resource")
-    public List<SystemResourceDO> findAll() {
-        return repository.findAll();
+    public ResultDTO<Page<SystemResourceDO>> findAll(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResultDTO.success(repository.findAll(pageable));
     }
 
     @GetMapping("/resource/{id}")
-    public SystemResourceDO findById(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+    public ResultDTO<SystemResourceDO> findById(@PathVariable Long id) {
+        return ResultDTO.success(repository.findById(id).orElse(null));
     }
 
     @PostMapping("/resource")
-    public SystemResourceDO save(@RequestBody SystemResourceDO systemGroup) {
-        return repository.save(systemGroup);
+    public ResultDTO<SystemResourceDO> save(@RequestBody SystemResourceDO systemGroup) {
+        return ResultDTO.success(repository.save(systemGroup));
     }
 
     @PutMapping("/resource")
-    public SystemResourceDO update(@RequestBody SystemResourceDO systemGroup) {
-        return repository.save(systemGroup);
+    public ResultDTO<SystemResourceDO> update(@RequestBody SystemResourceDO systemGroup) {
+        return ResultDTO.success(repository.save(systemGroup));
     }
 
     @DeleteMapping("/resource/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResultDTO<Void> deleteById(@PathVariable Long id) {
         repository.deleteById(id);
+        return ResultDTO.success();
     }
 
 }

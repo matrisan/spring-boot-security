@@ -1,7 +1,12 @@
 package com.github.springbootsecurity.security.repository;
 
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>
@@ -16,8 +21,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ISystemRoleRepository extends JpaRepository<SystemRoleDO, Long> {
 
-    SystemRoleDO findByRoleNameEquals(String roleName);
+    Optional<SystemRoleDO> findByRoleNameEquals(String roleName);
 
     boolean existsByRoleNameEquals(String roleName);
+
+    Page<SystemRoleDO> findAllByRoleNameIn(Set<String> roleNames, Pageable pageable);
 
 }

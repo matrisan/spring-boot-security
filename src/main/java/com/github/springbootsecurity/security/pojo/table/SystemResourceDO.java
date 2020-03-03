@@ -50,11 +50,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_resource", indexes = {@Index(columnList = "resource_name", name = "IDX_RESOURCE_NAME")})
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class SystemResourceDO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1101310665812124141L;
@@ -73,19 +73,19 @@ public class SystemResourceDO extends BaseEntity implements Serializable {
     @Column(name = "method", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '资源请求方式'")
     private String method;
 
-    @Column(name = "note", nullable = false, length = 100, columnDefinition = "VARCHAR(100) COMMENT '资源URL'")
-    private String note;
+    @Column(name = "resource_note", nullable = false, length = 100, columnDefinition = "VARCHAR(100) COMMENT '资源URL'")
+    private String resourceNote;
 
     @Column(name = "foreign_key_parent_resource_id", insertable = false, updatable = false, columnDefinition = "BIGINT COMMENT '父资源的ID'")
     private Long foreignKeyParentGroupId;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "parentResource")
-    @JsonIgnoreProperties(value = {"parentResource", "systemRoles"})
+    @JsonIgnoreProperties(value = {"parentResource", "childResources", "systemRoles"})
     private Set<SystemResourceDO> childResources;
 
     @ManyToOne(targetEntity = SystemResourceDO.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "foreign_key_parent_resource_id", referencedColumnName = "resource_id")
-    @JsonIgnoreProperties(value = {"parentResource"})
+    @JsonIgnoreProperties(value = {"parentResource", "childResources", "systemRoles"})
     private SystemResourceDO parentResource;
 
     @ManyToMany(mappedBy = "systemResources", fetch = FetchType.EAGER)

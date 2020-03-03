@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.pojo.table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,11 +53,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted = false")
 @Table(name = "system_user", indexes = {@Index(columnList = "username", name = "IDX_USERNAME")})
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class SystemUserDO extends BaseEntity implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 7779871865149295381L;
@@ -69,25 +70,30 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户名'")
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '密码'")
     private String password;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户手机号码'")
     private String phone;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
-    private String note;
+    @Column(name = "user_note",nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    private String userNote;
 
+    @JsonIgnore
     @Column(name = "account_expired_date", columnDefinition = "DATETIME COMMENT '账号过期时间'")
     private Date accountExpiredDate;
 
-    @Column(name = "account_non_locked", nullable = false, columnDefinition = "INT(1) DEFAULT 0 COMMENT '账号没有被锁定'")
+    @JsonIgnore
+    @Column(name = "account_non_locked", nullable = false, columnDefinition = "INT(1) DEFAULT 1 COMMENT '账号没有被锁定'")
     private Boolean accountNonLocked;
 
-    @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "INT(1) DEFAULT 0 COMMENT '凭证没有过期'")
+    @JsonIgnore
+    @Column(name = "credentials_non_expired", nullable = false, columnDefinition = "INT(1) DEFAULT 1 COMMENT '凭证没有过期'")
     private Boolean credentialsNonExpired;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "INT(1) DEFAULT 0 COMMENT '账号启用'")
+    @JsonIgnore
+    @Column(name = "enabled", nullable = false, columnDefinition = "INT(1) DEFAULT 1 COMMENT '账号启用'")
     private Boolean enabled;
 
     @Column(name = "foreign_key_group_id", insertable = false, updatable = false, columnDefinition = "BIGINT COMMENT '组织架构ID'")
@@ -96,7 +102,8 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @ManyToOne(
             targetEntity = SystemGroupDO.class,
             cascade = {CascadeType.REFRESH},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(name = "foreign_key_group_id", referencedColumnName = "group_id")
     @JsonIgnoreProperties(value = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
     private SystemGroupDO systemGroup;
@@ -111,14 +118,18 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
             joinColumns = {@JoinColumn(name = "mid_user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")}
     )
-    @JsonIgnoreProperties(value = {"systemUsers", "systemGroups"})
+    @JsonIgnoreProperties(value = {"systemUsers", "systemGroups","systemResources"})
     private Set<SystemRoleDO> systemRoles;
 
+    private String disposableUrl;
+
+    @JsonIgnore
     @Override
     public Collection<SystemRoleDO> getAuthorities() {
         return systemRoles;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         if (null == accountExpiredDate) {
@@ -127,11 +138,13 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
         return accountExpiredDate.after(new Date());
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return accountNonLocked;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;

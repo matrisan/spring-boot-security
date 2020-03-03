@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.pojo.dto;
+package com.github.springbootsecurity.security.pojo.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,21 +38,32 @@ public class ResultDTO<T> implements Serializable {
 
     private T data;
 
+    public static <T> ResultDTO<T> success() {
+        return ResultDTO.<T>builder().status(200).message("执行成功").build();
+    }
+
     public static <T> ResultDTO<T> success(String message) {
         return ResultDTO.<T>builder().status(200).message(message).build();
     }
 
+    public static <T> ResultDTO<T> success(T data) {
+        return ResultDTO.<T>builder().status(200).message("执行成功").data(data).build();
+    }
 
     public static <T> ResultDTO<T> success(String message, T data) {
         return ResultDTO.<T>builder().status(200).message(message).data(data).build();
     }
 
+    public static <T> ResultDTO<T> failure() {
+        return ResultDTO.<T>builder().message("执行失败").status(400).build();
+    }
+
     public static <T> ResultDTO<T> failure(String message) {
-        return ResultDTO.<T>builder().message(message).build();
+        return ResultDTO.<T>builder().message(message).status(400).build();
     }
 
     public static <T> ResultDTO<T> failure(String message, T data) {
-        return ResultDTO.<T>builder().message(message).data(data).build();
+        return ResultDTO.<T>builder().message(message).status(400).data(data).build();
     }
 
 }

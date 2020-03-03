@@ -1,9 +1,12 @@
 package com.github.springbootsecurity.security.repository;
 
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>
@@ -23,5 +26,8 @@ public interface ISystemUserRepository extends JpaRepository<SystemUserDO, Long>
     Optional<SystemUserDO> findByUsernameEquals(String username);
 
     boolean existsByUsernameEquals(String username);
+
+    Page<SystemUserDO> findAllByUsernameIn(Set<String> usernames, Pageable pageable);
+
 
 }

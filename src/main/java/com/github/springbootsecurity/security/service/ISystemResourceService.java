@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * <p>
- * 创建时间为 下午9:42 2020/2/24
+ * 创建时间为 下午10:15 2020/2/27
  * 项目名称 spring-boot-security
  * </p>
  *
@@ -17,8 +17,8 @@ import java.util.List;
 
 public interface ISystemResourceService {
 
-    List<SystemResourceDO> findAllResource();
+   List<SystemResourceDO> findAllResource();
 
-    SystemResourceDO findOneByUrlAndMethod(String url, String method);
+   SystemResourceDO findOneByUrlAndMethod(String url, String method) ;
 
 }
