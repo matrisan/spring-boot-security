@@ -1,5 +1,7 @@
 package com.github.springbootsecurity.security.service.impl;
 
+import com.github.springbootsecurity.security.manager.IForgetManager;
+import com.github.springbootsecurity.security.pojo.dto.PasswordRetrieveDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
@@ -8,12 +10,16 @@ import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
 import com.github.springbootsecurity.security.service.ISystemMaintainService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * <p>
@@ -41,6 +47,9 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private Map<String, IForgetManager> forgetManager;
+
     @Override
     public String register(UserRegisterDTO userRegister) {
         SystemGroupDO systemGroup = getSystemGroup(userRegister);
@@ -50,8 +59,20 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
         return "success!";
     }
 
+    @Override
+    public String forget(String mode, String username) {
+        forgetManager.get(mode);
+        return null;
+    }
+
+
+    @Override
+    public String retrieve(String random, PasswordRetrieveDTO retrieve) {
+        return null;
+    }
+
     private SystemGroupDO getSystemGroup(@NotNull UserRegisterDTO userRegister) {
-        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_VIP").orElse(new SystemRoleDO());
+        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_TRIAL").orElse(new SystemRoleDO());
         return SystemGroupDO.builder()
                 .groupName(userRegister.getGroupName())
                 .systemRoles(Collections.singleton(systemRole))
@@ -60,14 +81,29 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
     }
 
     private SystemUserDO getSystemUser(@NotNull UserRegisterDTO userRegister) {
-        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_VIP").orElse(new SystemRoleDO());
+        SystemRoleDO systemRole = systemRoleRepository.findByRoleNameEquals("ROLE_TRIAL").orElse(new SystemRoleDO());
         return SystemUserDO.builder()
                 .username(userRegister.getUsername())
                 .password(passwordEncoder.encode(userRegister.getPassword()))
                 .phone(userRegister.getPhone())
                 .systemRoles(Collections.singleton(systemRole))
+                .accountExpiredDate(DateTime.now().plusDays(30).toDate())
                 .userNote(userRegister.getUserNote())
                 .build();
     }
 
+    @NotNull
+    private String tempUserInfo(String username) {
+        String random = getRandomString();
+        Optional<SystemUserDO> user = systemUserRepository.findByUsernameEquals(username);
+        // TODO
+        // 存储到缓存或者数据库中
+        return random;
+    }
+
+
+    @NotNull
+    private String getRandomString() {
+        return RandomStringUtils.randomAlphanumeric(30);
+    }
 }

@@ -83,7 +83,7 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority, Serial
     @JsonIgnoreProperties(value = {"systemRoles", "systemUsers", "parentGroup", "childGroup"})
     private Set<SystemGroupDO> systemGroups;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "systemRoles")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "systemRoles")
     @JsonIgnoreProperties(value = {"systemRoles", "systemGroup"})
     private Set<SystemUserDO> systemUsers;
 

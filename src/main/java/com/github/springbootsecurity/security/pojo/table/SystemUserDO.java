@@ -77,7 +77,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户手机号码'")
     private String phone;
 
-    @Column(name = "user_note",nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    @Column(name = "user_note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private String userNote;
 
     @JsonIgnore
@@ -118,10 +118,8 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
             joinColumns = {@JoinColumn(name = "mid_user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")}
     )
-    @JsonIgnoreProperties(value = {"systemUsers", "systemGroups","systemResources"})
+    @JsonIgnoreProperties(value = {"systemUsers", "systemGroups", "systemResources"})
     private Set<SystemRoleDO> systemRoles;
-
-    private String disposableUrl;
 
     @JsonIgnore
     @Override
@@ -154,4 +152,17 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     public boolean isEnabled() {
         return enabled;
     }
+
+    public SystemUserDO addVipRole(SystemRoleDO systemRole) {
+        this.systemRoles.clear();
+        systemRoles.add(systemRole);
+        return this;
+    }
+
+    public SystemUserDO addCommonRole(SystemRoleDO systemRole) {
+        systemRoles.add(systemRole);
+        return this;
+    }
+
+
 }

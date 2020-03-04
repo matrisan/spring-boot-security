@@ -32,26 +32,41 @@ public class InitializeRoleResource implements CommandLineRunner {
     @Resource
     private ISystemResourceRepository resourceRepository;
 
-    private static final Set<String> PREFIX = Sets.newHashSet();
+    private static final Set<String> PREFIX_VIP = Sets.newHashSet();
+    private static final Set<String> PREFIX_TRIAL = Sets.newHashSet();
 
     static {
-        PREFIX.add("/system/common/");
-        PREFIX.add("/system/center/user");
-        PREFIX.add("/report");
-
+        PREFIX_VIP.add("/system/common/");
+        PREFIX_VIP.add("/system/center/user");
+        PREFIX_VIP.add("/report");
     }
 
+    static {
+        PREFIX_TRIAL.add("/system/center/user");
+        PREFIX_TRIAL.add("/report");
+    }
 
     @Override
     public void run(String... args) throws Exception {
         roleRepository.findByRoleNameEquals("ROLE_VIP").ifPresent(systemRoleDO -> {
             systemRoleDO.setSystemResources(
-                    PREFIX.stream().flatMap(
+                    PREFIX_VIP.stream().flatMap(
                             one -> resourceRepository.findAllByUrlStartsWith(one).stream()).collect(Collectors.toSet()
                     )
             );
             roleRepository.save(systemRoleDO);
         });
+
+        roleRepository.findByRoleNameEquals("ROLE_TRIAL").ifPresent(systemRoleDO -> {
+            systemRoleDO.setSystemResources(
+                    PREFIX_TRIAL.stream().flatMap(
+                            one -> resourceRepository.findAllByUrlStartsWith(one).stream()).collect(Collectors.toSet()
+                    )
+            );
+            roleRepository.save(systemRoleDO);
+        });
+
+
     }
 
 

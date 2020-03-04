@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.service;
 
+import com.github.springbootsecurity.security.pojo.dto.PasswordRetrieveDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 
 /**
@@ -16,5 +17,10 @@ import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 public interface ISystemMaintainService {
 
     String register(UserRegisterDTO userRegister);
+
+    String forget(String mode, String username);
+
+    String retrieve(String random, PasswordRetrieveDTO retrieve);
+
 
 }

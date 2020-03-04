@@ -17,8 +17,20 @@ import java.util.List;
 
 public interface ISystemResourceService {
 
-   List<SystemResourceDO> findAllResource();
+    /**
+     * 获取所有的资源
+     *
+     * @return List
+     */
+    List<SystemResourceDO> findAllResource();
 
-   SystemResourceDO findOneByUrlAndMethod(String url, String method) ;
+    /**
+     * 根据url和 method 获取资源
+     *
+     * @param url    url
+     * @param method method
+     * @return SystemResourceDO
+     */
+    SystemResourceDO findOneByUrlAndMethod(String url, String method);
 
 }

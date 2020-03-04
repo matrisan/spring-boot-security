@@ -1,10 +1,11 @@
 package com.github.springbootsecurity.security.controller.user;
 
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
-import com.github.springbootsecurity.security.pojo.dto.ChangePasswordDTO;
+import com.github.springbootsecurity.security.pojo.dto.PasswordChangeDTO;
 import com.github.springbootsecurity.security.pojo.dto.PayDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
+import com.github.springbootsecurity.security.service.ISystemCenterService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,6 +43,9 @@ public class SystemCenterController {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private ISystemCenterService service;
+
 
     @GetMapping("/user")
     public ResultDTO<SystemUserDO> findGroup(@NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
@@ -50,17 +54,18 @@ public class SystemCenterController {
 
     @PutMapping("/user/password")
     public ResultDTO<String> changePassword(@NotNull HttpServletRequest servletRequest,
-                                            @NotNull @AuthenticationPrincipal SystemUserDO systemUser,
-                                            @NotNull @RequestBody ChangePasswordDTO changePassword) {
-        systemUser.setPassword(passwordEncoder.encode(changePassword.getNewPass1()));
-        repository.save(systemUser);
+                                            @NotNull @AuthenticationPrincipal SystemUserDO authentication,
+                                            @NotNull @RequestBody PasswordChangeDTO changePassword) {
+        authentication.setPassword(passwordEncoder.encode(changePassword.getNewPass1()));
+        repository.save(authentication);
         servletRequest.getSession().invalidate();
         return ResultDTO.success();
     }
 
     @PostMapping("/user/vip")
     public ResultDTO<Void> pay(@RequestBody @Valid PayDTO pay,
-                               @NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
+                               @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
+        service.pay(pay, authentication);
         return ResultDTO.success();
     }
 

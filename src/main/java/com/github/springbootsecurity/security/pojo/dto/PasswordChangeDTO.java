@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -26,12 +25,11 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-public class ChangePasswordDTO implements Serializable {
+public class PasswordChangeDTO extends PasswordRetrieveDTO implements Serializable {
 
     private static final long serialVersionUID = 511822986645404739L;
 
@@ -40,20 +38,5 @@ public class ChangePasswordDTO implements Serializable {
      */
     @NotBlank(message = "原密码不能为空")
     private String oldPass;
-
-    /**
-     * 新密码
-     */
-    @NotBlank(message = "新密码不能为空")
-    @Length(min = 8, max = 20, message = "8位（含）字符以上，20位（含）字符一下")
-    private String newPass1;
-
-    /**
-     * 确认新密码
-     */
-    @NotBlank(message = "确认密码不能为空")
-    @Length(min = 8, max = 20, message = "8位（含）字符以上，20位（含）字符一下")
-    private String newPass2;
-
 
 }

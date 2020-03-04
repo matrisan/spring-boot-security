@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.pojo.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -83,11 +84,33 @@ public class SystemGroupDO extends BaseEntity implements Serializable {
     @JsonIgnoreProperties(value = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
     private Set<SystemGroupDO> childGroup;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "systemGroups")
+//    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "systemGroups")
+//    @JsonIgnoreProperties(value = {"systemGroups", "systemUsers", "systemResources"})
+    @ManyToMany(
+            targetEntity = SystemRoleDO.class,
+            cascade = {CascadeType.REFRESH},
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "system_group_role",
+            joinColumns = {@JoinColumn(name = "mid_group_id", referencedColumnName = "group_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")}
+    )
     @JsonIgnoreProperties(value = {"systemGroups", "systemUsers", "systemResources"})
     private Set<SystemRoleDO> systemRoles;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "systemGroup")
     @JsonIgnoreProperties(value = {"systemGroup", "systemRoles"})
     private Set<SystemUserDO> systemUsers;
+
+    public SystemGroupDO addVipRole(SystemRoleDO systemRole) {
+        this.systemRoles = Sets.newHashSet(systemRole);
+        return this;
+    }
+
+    public SystemGroupDO addCommonRole(SystemRoleDO systemRole) {
+        systemRoles.add(systemRole);
+        return this;
+    }
+
 }

@@ -27,7 +27,7 @@ public class SystemResourceServiceImpl implements ISystemResourceService {
 
     @Override
     public List<SystemResourceDO> findAllResource() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
