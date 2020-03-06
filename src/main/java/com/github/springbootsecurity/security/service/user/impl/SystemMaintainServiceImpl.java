@@ -1,6 +1,7 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.user.impl;
 
 import com.github.springbootsecurity.security.manager.IForgetManager;
+import com.github.springbootsecurity.security.pojo.bo.MessageBO;
 import com.github.springbootsecurity.security.pojo.dto.PasswordRetrieveDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
@@ -9,7 +10,7 @@ import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
-import com.github.springbootsecurity.security.service.ISystemMaintainService;
+import com.github.springbootsecurity.security.service.user.ISystemMaintainService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -61,8 +62,14 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
 
     @Override
     public String forget(String mode, String username) {
-        forgetManager.get(mode);
-        return null;
+        Optional<SystemUserDO> optional = systemUserRepository.findByUsernameEquals(username);
+        optional.ifPresent(systemUser -> {
+            MessageBO message = getRandomString(systemUser);
+            tempUserInfo(systemUser, message);
+            IForgetManager forgetEntity = forgetManager.get(mode);
+            forgetEntity.sentMessage(systemUser, message);
+        });
+        return "success";
     }
 
 
@@ -92,18 +99,14 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
                 .build();
     }
 
-    @NotNull
-    private String tempUserInfo(String username) {
-        String random = getRandomString();
-        Optional<SystemUserDO> user = systemUserRepository.findByUsernameEquals(username);
+    private void tempUserInfo(SystemUserDO systemUser, MessageBO message) {
         // TODO
         // 存储到缓存或者数据库中
-        return random;
     }
 
 
     @NotNull
-    private String getRandomString() {
-        return RandomStringUtils.randomAlphanumeric(30);
+    private MessageBO getRandomString(SystemUserDO systemUser) {
+        return new MessageBO(RandomStringUtils.randomAlphanumeric(30));
     }
 }

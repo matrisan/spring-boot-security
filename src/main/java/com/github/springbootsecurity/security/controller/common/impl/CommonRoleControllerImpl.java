@@ -4,10 +4,9 @@ import com.github.springbootsecurity.security.controller.common.ICommonRoleContr
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
-import com.github.springbootsecurity.security.service.ICommonRoleService;
-import com.github.springbootsecurity.security.validated.Save;
-import com.github.springbootsecurity.security.validated.Update;
+import com.github.springbootsecurity.security.service.common.ICommonRoleService;
+import com.github.springbootsecurity.security.validation.group.Save;
+import com.github.springbootsecurity.security.validation.group.Update;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -46,27 +43,20 @@ import java.util.stream.Collectors;
 public class CommonRoleControllerImpl implements ICommonRoleController {
 
     @Resource
-    private ISystemRoleRepository repository;
-
-    @Resource
     private ICommonRoleService service;
-
 
     @GetMapping("/role")
     @Override
     public ResultDTO<Page<SystemRoleDO>> findAll(@NotNull @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable,
                                                  @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
-        Set<String> roleSet = authentication.getSystemGroup().getSystemRoles().stream()
-                .map(SystemRoleDO::getRoleName)
-                .collect(Collectors.toSet());
-        return ResultDTO.success(repository.findAllByRoleNameIn(roleSet, pageable));
+        return ResultDTO.success(service.findAll(pageable, authentication));
     }
 
     @PreAuthorize("@authorizeRoleService.hasRolePermission(authentication,#roleId)")
     @GetMapping("/role/{roleId}")
     @Override
     public ResultDTO<SystemRoleDO> findById(@PathVariable Long roleId) {
-        return ResultDTO.success(repository.findById(roleId).orElse(null));
+        return ResultDTO.success(service.findById(roleId));
     }
 
     @PostMapping("/role")
@@ -75,7 +65,6 @@ public class CommonRoleControllerImpl implements ICommonRoleController {
                                         @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
         return ResultDTO.success(service.save(systemRole, authentication));
     }
-
 
     @PreAuthorize("@authorizeRoleService.hasRolePermission(authentication,#systemRole.getRoleId())")
     @PutMapping("/role")
@@ -90,7 +79,7 @@ public class CommonRoleControllerImpl implements ICommonRoleController {
     @DeleteMapping("/role/{roleId}")
     @Override
     public ResultDTO<Void> deleteById(@PathVariable Long roleId) {
-        repository.deleteById(roleId);
+        service.deleteById(roleId);
         return ResultDTO.success();
     }
 

@@ -1,6 +1,6 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.user;
 
-import com.github.springbootsecurity.security.pojo.dto.PayDTO;
+import com.github.springbootsecurity.security.pojo.dto.MemberDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 
 /**
@@ -16,6 +16,6 @@ import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 
 public interface ISystemCenterService {
 
-    void pay(PayDTO pay, SystemUserDO authentication);
+    void pay(MemberDTO pay, SystemUserDO authentication);
 
 }

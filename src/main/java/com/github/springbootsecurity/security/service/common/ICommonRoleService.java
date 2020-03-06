@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.common;
 
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
@@ -19,34 +19,44 @@ import org.springframework.data.domain.Pageable;
 public interface ICommonRoleService {
 
     /**
-     * @param pageable
-     * @param authentication
-     * @return
+     * 查找当前组下面所有的
+     *
+     * @param pageable       分页信息
+     * @param authentication 用户信息
+     * @return Page
      */
     Page<SystemRoleDO> findAll(Pageable pageable, SystemUserDO authentication);
 
     /**
-     * @param roleId
-     * @return
+     * 根据 ID 查找所有的角色信息
+     *
+     * @param roleId roleId
+     * @return SystemRoleDO
      */
     SystemRoleDO findById(Long roleId);
 
     /**
-     * @param systemRole
-     * @param authentication
-     * @return
+     * 保存一个角色信息
+     *
+     * @param systemRole     角色信息
+     * @param authentication 用户信息
+     * @return SystemRoleDO
      */
     SystemRoleDO save(SystemRoleDO systemRole, SystemUserDO authentication);
 
     /**
-     * @param systemRole
-     * @param authentication
-     * @return
+     * 更新一个角色信息
+     *
+     * @param systemRole     角色信息
+     * @param authentication 用户信息
+     * @return SystemRoleDO
      */
     SystemRoleDO update(SystemRoleDO systemRole, SystemUserDO authentication);
 
     /**
-     * @param roleId
+     * 删除一个角色
+     *
+     * @param roleId 角色ID
      */
     void deleteById(Long roleId);
 }

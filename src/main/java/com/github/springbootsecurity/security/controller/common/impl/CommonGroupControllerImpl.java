@@ -4,9 +4,9 @@ import com.github.springbootsecurity.security.controller.common.ICommonGroupCont
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.service.ICommonGroupService;
-import com.github.springbootsecurity.security.validated.Save;
-import com.github.springbootsecurity.security.validated.Update;
+import com.github.springbootsecurity.security.service.common.ICommonGroupService;
+import com.github.springbootsecurity.security.validation.group.Save;
+import com.github.springbootsecurity.security.validation.group.Update;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

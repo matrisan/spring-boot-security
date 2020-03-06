@@ -29,5 +29,6 @@ public interface ISystemUserRepository extends JpaRepository<SystemUserDO, Long>
 
     Page<SystemUserDO> findAllByUsernameIn(Set<String> usernames, Pageable pageable);
 
+    Page<SystemUserDO> findAllByUserIdIn(Set<Long> userIds, Pageable pageable);
 
 }

@@ -28,10 +28,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-public class PayDTO implements Serializable {
+public class MemberDTO implements Serializable {
 
     private static final long serialVersionUID = -691018436923748170L;
 
     private String type;
+
+    private Integer count;
 
 }

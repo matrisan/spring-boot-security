@@ -27,4 +27,6 @@ public interface ISystemRoleRepository extends JpaRepository<SystemRoleDO, Long>
 
     Page<SystemRoleDO> findAllByRoleNameIn(Set<String> roleNames, Pageable pageable);
 
+    Page<SystemRoleDO> findAllByRoleIdIn(Set<Long> roleIds, Pageable pageable);
+
 }

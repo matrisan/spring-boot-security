@@ -1,12 +1,12 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.user.impl;
 
-import com.github.springbootsecurity.security.pojo.dto.PayDTO;
+import com.github.springbootsecurity.security.pojo.dto.MemberDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
-import com.github.springbootsecurity.security.service.ISystemCenterService;
+import com.github.springbootsecurity.security.service.user.ISystemCenterService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,12 +38,13 @@ public class SystemCenterServiceImpl implements ISystemCenterService {
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public void pay(PayDTO pay, SystemUserDO authentication) {
+    public void pay(MemberDTO pay, SystemUserDO authentication) {
         Optional<SystemRoleDO> optional = roleRepository.findByRoleNameEquals("ROLE_VIP");
         optional.ifPresent(
                 systemRole -> {
                     groupRepository.save(authentication.getSystemGroup().addVipRole(systemRole));
-                    userRepository.save(authentication.addVipRole(systemRole));
+                    SystemUserDO systemUser = authentication.renew(pay.getCount());
+                    userRepository.save(systemUser.addVipRole(systemRole));
                 }
         );
     }

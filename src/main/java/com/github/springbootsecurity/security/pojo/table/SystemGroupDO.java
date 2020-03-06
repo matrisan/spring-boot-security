@@ -52,7 +52,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false, exclude = {"childGroup", "parentGroup", "systemRoles", "systemUsers"})
 @AllArgsConstructor
 @Entity
-@Where(clause = "deleted = false")
+@Where(clause = "deleted = false or deleted is null")
 @Table(name = "system_group", indexes = {@Index(columnList = "group_name", name = "IDX_GROUP_NAME")})
 @DynamicInsert
 @DynamicUpdate
@@ -99,7 +99,7 @@ public class SystemGroupDO extends BaseEntity implements Serializable {
     @JsonIgnoreProperties(value = {"systemGroups", "systemUsers", "systemResources"})
     private Set<SystemRoleDO> systemRoles;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "systemGroup")
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER, mappedBy = "systemGroup")
     @JsonIgnoreProperties(value = {"systemGroup", "systemRoles"})
     private Set<SystemUserDO> systemUsers;
 

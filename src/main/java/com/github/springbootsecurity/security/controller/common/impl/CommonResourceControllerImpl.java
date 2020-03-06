@@ -4,7 +4,7 @@ import com.github.springbootsecurity.security.controller.common.ICommonResourceC
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemResourceRepository;
+import com.github.springbootsecurity.security.service.common.ICommonResourceService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -38,24 +36,20 @@ import java.util.stream.Collectors;
 public class CommonResourceControllerImpl implements ICommonResourceController {
 
     @Resource
-    private ISystemResourceRepository repository;
+    private ICommonResourceService service;
 
     @GetMapping("/resource")
     @Override
     public ResultDTO<Page<SystemResourceDO>> findAll(@NotNull @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable,
-                                                     @NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
-        Set<String> set = systemUserDO.getSystemRoles().stream()
-                .flatMap(one -> one.getSystemResources().stream())
-                .map(SystemResourceDO::getUrl)
-                .collect(Collectors.toSet());
-        return ResultDTO.success(repository.findAllByUrlIn(set, pageable));
+                                                     @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
+        return ResultDTO.success(service.findAll(pageable, authentication));
     }
 
     @PreAuthorize("@authorizeResourceService.hasResourcePermission(authentication, #resourceId)")
     @GetMapping("/resource/{resourceId}")
     @Override
     public ResultDTO<SystemResourceDO> findById(@PathVariable Long resourceId) {
-        return ResultDTO.success(repository.findById(resourceId).orElse(null));
+        return ResultDTO.success(service.findById(resourceId));
     }
 
 }

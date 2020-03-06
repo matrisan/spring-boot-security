@@ -1,6 +1,5 @@
 package com.github.springbootsecurity.security.pojo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
@@ -12,12 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import java.io.Serializable;
 import java.util.Set;
 

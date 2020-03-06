@@ -50,7 +50,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Where(clause = "deleted = false")
+@Where(clause = "deleted = false or deleted is null")
 @Table(name = "system_role", indexes = {@Index(columnList = "role_name", name = "IDX_ROLE_NAME")})
 @DynamicInsert
 @DynamicUpdate

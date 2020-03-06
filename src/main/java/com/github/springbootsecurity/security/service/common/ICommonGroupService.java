@@ -1,9 +1,7 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.common;
 
-import com.github.springbootsecurity.security.pojo.dto.CommonGroupDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.pojo.vo.CommonGroupVO;
 
 /**
  * <p>

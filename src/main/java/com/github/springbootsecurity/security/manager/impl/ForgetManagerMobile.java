@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 0.0.1
  */
 
-@Service
+@Service("mobile")
 public class ForgetManagerMobile implements IForgetManager {
 
     @Override

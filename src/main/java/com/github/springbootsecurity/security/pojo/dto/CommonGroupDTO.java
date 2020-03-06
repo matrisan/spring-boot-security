@@ -1,8 +1,5 @@
 package com.github.springbootsecurity.security.pojo.dto;
 
-import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
-import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -12,7 +9,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * <p>

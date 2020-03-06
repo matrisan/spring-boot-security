@@ -12,6 +12,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
+import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,6 +32,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
@@ -53,7 +55,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Where(clause = "deleted = false")
+@Where(clause = "deleted = false or deleted is null")
 @Table(name = "system_user", indexes = {@Index(columnList = "username", name = "IDX_USERNAME")})
 @DynamicInsert
 @DynamicUpdate
@@ -80,7 +82,6 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     @Column(name = "user_note", nullable = false, columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private String userNote;
 
-    @JsonIgnore
     @Column(name = "account_expired_date", columnDefinition = "DATETIME COMMENT '账号过期时间'")
     private Date accountExpiredDate;
 
@@ -154,15 +155,19 @@ public class SystemUserDO extends BaseEntity implements UserDetails, Serializabl
     }
 
     public SystemUserDO addVipRole(SystemRoleDO systemRole) {
-        this.systemRoles.clear();
-        systemRoles.add(systemRole);
+        this.setSystemRoles(Collections.singleton(systemRole));
         return this;
     }
 
     public SystemUserDO addCommonRole(SystemRoleDO systemRole) {
-        systemRoles.add(systemRole);
+        this.systemRoles.add(systemRole);
         return this;
     }
 
+    public SystemUserDO renew(int count) {
+        Date date = new DateTime(accountExpiredDate.getTime()).plusMonths(count).toDate();
+        this.setAccountExpiredDate(date);
+        return this;
+    }
 
 }

@@ -3,8 +3,11 @@ package com.github.springbootsecurity.security.controller.user;
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.dto.PasswordRetrieveDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
-import com.github.springbootsecurity.security.service.ISystemMaintainService;
+import com.github.springbootsecurity.security.service.user.ISystemMaintainService;
+import com.github.springbootsecurity.security.validation.constraints.RetrieveType;
+import com.github.springbootsecurity.security.validation.constraints.Username;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +28,7 @@ import javax.annotation.Resource;
  */
 
 
+@Validated
 @RestController
 @PreAuthorize("permitAll()")
 public class SystemMaintainController {
@@ -38,9 +42,9 @@ public class SystemMaintainController {
         return ResultDTO.success(result);
     }
 
-    @GetMapping("/password/forget/{mode}/{username}")
-    public ResultDTO<String> forget(@PathVariable String mode, @PathVariable String username) {
-        String result = service.forget(mode, username);
+    @GetMapping("/password/retrieve/{type}/{username}")
+    public ResultDTO<String> retrieve(@RetrieveType @PathVariable String type, @Username @PathVariable String username) {
+        String result = service.forget(type, username);
         return ResultDTO.success(result);
     }
 

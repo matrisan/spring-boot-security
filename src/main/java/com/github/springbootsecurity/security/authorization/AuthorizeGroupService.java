@@ -5,7 +5,6 @@ import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.google.common.collect.Sets;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -25,7 +24,6 @@ import java.util.Set;
 public class AuthorizeGroupService {
 
     public boolean hasGroupPermission(@NotNull Authentication authentication, long groupId) {
-        Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
         Set<Long> groupIds = Sets.newHashSet();
         SystemUserDO systemUser = (SystemUserDO) authentication.getPrincipal();
         SystemGroupDO group = systemUser.getSystemGroup();

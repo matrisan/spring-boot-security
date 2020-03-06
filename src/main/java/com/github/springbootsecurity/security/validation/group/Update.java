@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.validated;
+package com.github.springbootsecurity.security.validation.group;
 
 /**
  * <p>
@@ -11,5 +11,5 @@ package com.github.springbootsecurity.security.validated;
  * @since 0.0.1
  */
 
-public interface Save {
+public interface Update {
 }

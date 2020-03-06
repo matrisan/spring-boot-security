@@ -1,9 +1,9 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.common.impl;
 
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemRoleRepository;
-import com.github.springbootsecurity.security.service.ICommonRoleService;
+import com.github.springbootsecurity.security.service.common.ICommonRoleService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,8 +32,10 @@ public class CommonRoleServiceImpl implements ICommonRoleService {
     private ISystemRoleRepository repository;
 
     @Override
-    public Page<SystemRoleDO> findAll(Pageable pageable, SystemUserDO authentication) {
-        return null;
+    public Page<SystemRoleDO> findAll(Pageable pageable, @NotNull SystemUserDO authentication) {
+        Set<SystemRoleDO> roles = authentication.getSystemGroup().getSystemRoles();
+        Set<Long> roleIds = roles.stream().map(SystemRoleDO::getRoleId).collect(Collectors.toSet());
+        return repository.findAllByRoleIdIn(roleIds, pageable);
     }
 
     @Override

@@ -2,8 +2,8 @@ package com.github.springbootsecurity.security.controller.common;
 
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.validated.Save;
-import com.github.springbootsecurity.security.validated.Update;
+import com.github.springbootsecurity.security.validation.group.Save;
+import com.github.springbootsecurity.security.validation.group.Update;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

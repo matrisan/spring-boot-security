@@ -31,4 +31,7 @@ public interface ISystemResourceRepository extends JpaRepository<SystemResourceD
     boolean existsByUrlEqualsAndMethodEquals(String url, String method);
 
     List<SystemResourceDO> findAllByUrlStartsWith(String starts);
+
+    Page<SystemResourceDO> findAllByResourceIdIn(Set<Long> resourceIds, Pageable pageable);
+
 }

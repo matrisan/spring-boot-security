@@ -6,6 +6,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,7 +30,7 @@ public class AspectLogAuthorization {
     }
 
     @Around(value = "pointCut()")
-    public Object logAround(ProceedingJoinPoint pdj) throws Throwable {
+    public Object logAround(@NotNull ProceedingJoinPoint pdj) throws Throwable {
 
         long before = System.currentTimeMillis();
         Object result = pdj.proceed();

@@ -60,7 +60,8 @@ public class ConfigSystemSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
-        http.formLogin().loginProcessingUrl("/login");
+        http.formLogin().loginProcessingUrl("/login")
+                .successHandler(successHandler).failureHandler(failureHandler);
 
         http.authorizeRequests()
                 .anyRequest().authenticated()

@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.root;
 
 import com.github.springbootsecurity.security.pojo.table.SystemResourceDO;
 

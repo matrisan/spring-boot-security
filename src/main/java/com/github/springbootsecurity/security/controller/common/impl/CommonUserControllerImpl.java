@@ -2,12 +2,10 @@ package com.github.springbootsecurity.security.controller.common.impl;
 
 import com.github.springbootsecurity.security.controller.common.ICommonUserController;
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
-import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
-import com.github.springbootsecurity.security.repository.ISystemUserRepository;
-import com.github.springbootsecurity.security.validated.Save;
-import com.github.springbootsecurity.security.validated.Update;
+import com.github.springbootsecurity.security.service.common.ICommonUserService;
+import com.github.springbootsecurity.security.validation.group.Save;
+import com.github.springbootsecurity.security.validation.group.Update;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -47,44 +42,35 @@ import java.util.stream.Collectors;
 public class CommonUserControllerImpl implements ICommonUserController {
 
     @Resource
-    private ISystemGroupRepository groupRepository;
-
-    @Resource
-    private ISystemUserRepository userRepository;
+    private ICommonUserService service;
 
     @GetMapping("/user")
     @Override
     public ResultDTO<Page<SystemUserDO>> findAll(@NotNull @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable,
-                                                 @NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
-        Set<String> username = systemUserDO.getSystemGroup().getSystemUsers().stream()
-                .map(SystemUserDO::getUsername).collect(Collectors.toSet());
-        return ResultDTO.success(userRepository.findAllByUsernameIn(username, pageable));
+                                                 @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
+        return ResultDTO.success(service.findAll(pageable, authentication));
     }
 
     @PreAuthorize("@authorizeUserService.hasUserPermission(authentication,#userId)")
     @GetMapping("/user/{userId}")
     @Override
     public ResultDTO<SystemUserDO> findById(@PathVariable Long userId) {
-        return ResultDTO.success(userRepository.findById(userId).orElse(null));
+        return ResultDTO.success(service.findById(userId));
     }
 
     @PostMapping("/user")
     @Override
     public ResultDTO<SystemUserDO> save(@NotNull @Validated({Save.class}) @RequestBody SystemUserDO systemUser,
-                                        @NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
-        SystemGroupDO systemGroup = systemUserDO.getSystemGroup();
-        systemUser.setSystemGroup(systemGroup);
-        return ResultDTO.success(userRepository.save(systemUser));
+                                        @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
+        return ResultDTO.success(service.save(systemUser, authentication));
     }
 
 
     @PutMapping("/user")
     @Override
     public ResultDTO<SystemUserDO> update(@NotNull @Validated({Update.class}) @RequestBody SystemUserDO systemUser,
-                                          @NotNull @AuthenticationPrincipal SystemUserDO systemUserDO) {
-        SystemGroupDO systemGroup = systemUserDO.getSystemGroup();
-        systemUser.setSystemGroup(systemGroup);
-        return ResultDTO.success(userRepository.save(systemUser));
+                                          @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
+        return ResultDTO.success(service.update(systemUser, authentication));
     }
 
 
@@ -92,7 +78,7 @@ public class CommonUserControllerImpl implements ICommonUserController {
     @DeleteMapping("/user/{userId}")
     @Override
     public ResultDTO<Void> deleteById(@PathVariable Long userId) {
-        userRepository.deleteById(userId);
+        service.deleteById(userId);
         return ResultDTO.success();
     }
 

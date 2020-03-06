@@ -1,11 +1,11 @@
 package com.github.springbootsecurity.security.controller.user;
 
 import com.github.springbootsecurity.security.pojo.common.ResultDTO;
+import com.github.springbootsecurity.security.pojo.dto.MemberDTO;
 import com.github.springbootsecurity.security.pojo.dto.PasswordChangeDTO;
-import com.github.springbootsecurity.security.pojo.dto.PayDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.security.repository.ISystemUserRepository;
-import com.github.springbootsecurity.security.service.ISystemCenterService;
+import com.github.springbootsecurity.security.service.user.ISystemCenterService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -63,7 +63,7 @@ public class SystemCenterController {
     }
 
     @PostMapping("/user/vip")
-    public ResultDTO<Void> pay(@RequestBody @Valid PayDTO pay,
+    public ResultDTO<Void> pay(@RequestBody @Valid MemberDTO pay,
                                @NotNull @AuthenticationPrincipal SystemUserDO authentication) {
         service.pay(pay, authentication);
         return ResultDTO.success();

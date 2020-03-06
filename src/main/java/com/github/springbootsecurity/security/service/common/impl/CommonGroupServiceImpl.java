@@ -1,16 +1,13 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.common.impl;
 
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
-import com.github.springbootsecurity.security.pojo.vo.CommonGroupVO;
 import com.github.springbootsecurity.security.repository.ISystemGroupRepository;
-import com.github.springbootsecurity.security.service.ICommonGroupService;
+import com.github.springbootsecurity.security.service.common.ICommonGroupService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.function.Supplier;
 
 /**
  * <p>

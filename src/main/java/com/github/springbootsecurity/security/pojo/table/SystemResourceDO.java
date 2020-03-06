@@ -50,7 +50,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Where(clause = "deleted = false")
+@Where(clause = "deleted = false or deleted is null")
 @Table(name = "system_resource", indexes = {@Index(columnList = "resource_name", name = "IDX_RESOURCE_NAME")})
 @DynamicInsert
 @DynamicUpdate
