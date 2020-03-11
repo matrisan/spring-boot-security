@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -33,5 +34,21 @@ public class MessageBO implements Serializable {
     private static final long serialVersionUID = -738353368421847075L;
 
     private String message;
+
+    private LocalDateTime expireTime;
+
+    public MessageBO(String message) {
+        this.message = message;
+        this.expireTime = LocalDateTime.now().plusSeconds(60);
+    }
+
+    public MessageBO(String message, int in) {
+        this.message = message;
+        this.expireTime = LocalDateTime.now().plusSeconds(in);
+    }
+
+    public boolean isExpired(){
+        return LocalDateTime.now().isAfter(expireTime);
+    }
 
 }

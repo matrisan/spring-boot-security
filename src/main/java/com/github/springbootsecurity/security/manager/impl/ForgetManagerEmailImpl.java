@@ -1,8 +1,9 @@
 package com.github.springbootsecurity.security.manager.impl;
 
-import com.github.springbootsecurity.security.manager.IForgetManager;
+import com.github.springbootsecurity.security.manager.AbstractForgetManager;
 import com.github.springbootsecurity.security.pojo.bo.MessageBO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,10 +18,10 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("email")
-public class ForgetManagerEmail implements IForgetManager {
+public class ForgetManagerEmailImpl extends AbstractForgetManager {
 
     @Override
-    public void sentMessage(SystemUserDO systemUser, MessageBO message) {
-
+    public void sentMessage(SystemUserDO systemUser, @NotNull MessageBO message) {
+        System.out.println(message.toString());
     }
 }

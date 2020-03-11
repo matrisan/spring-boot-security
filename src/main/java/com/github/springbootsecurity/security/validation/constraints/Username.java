@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER})
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
 

@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.validation.validators;
 
-import com.github.springbootsecurity.security.manager.IForgetManager;
+import com.github.springbootsecurity.security.manager.AbstractForgetManager;
 import com.github.springbootsecurity.security.validation.constraints.RetrieveType;
 
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class RetrieveTypeValidator implements ConstraintValidator<RetrieveType, String> {
 
     @Resource
-    private Map<String, IForgetManager> iForgetManager;
+    private Map<String, AbstractForgetManager> iForgetManager;
 
     @Override
     public boolean isValid(String type, ConstraintValidatorContext context) {

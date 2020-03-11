@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.manager;
 
 import com.github.springbootsecurity.security.pojo.bo.MessageBO;
 import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * <p>
@@ -14,8 +15,12 @@ import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
  * @since 0.0.1
  */
 
-public interface IForgetManager {
+public abstract class AbstractForgetManager {
 
-    void sentMessage(SystemUserDO systemUser, MessageBO message);
+    public MessageBO createAuthCode(SystemUserDO systemUser) {
+        return new MessageBO(RandomStringUtils.randomAlphanumeric(30));
+    }
+
+    public abstract void sentMessage(SystemUserDO systemUser, MessageBO message);
 
 }

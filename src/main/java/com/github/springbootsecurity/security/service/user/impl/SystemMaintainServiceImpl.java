@@ -1,8 +1,9 @@
 package com.github.springbootsecurity.security.service.user.impl;
 
-import com.github.springbootsecurity.security.manager.IForgetManager;
+import com.github.springbootsecurity.security.manager.AbstractForgetManager;
 import com.github.springbootsecurity.security.pojo.bo.MessageBO;
 import com.github.springbootsecurity.security.pojo.dto.PasswordRetrieveDTO;
+import com.github.springbootsecurity.security.pojo.dto.RetrieveDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 import com.github.springbootsecurity.security.pojo.table.SystemGroupDO;
 import com.github.springbootsecurity.security.pojo.table.SystemRoleDO;
@@ -49,7 +50,7 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
     private PasswordEncoder passwordEncoder;
 
     @Resource
-    private Map<String, IForgetManager> forgetManager;
+    private Map<String, AbstractForgetManager> forgetManager;
 
     @Override
     public String register(UserRegisterDTO userRegister) {
@@ -61,12 +62,12 @@ public class SystemMaintainServiceImpl implements ISystemMaintainService {
     }
 
     @Override
-    public String forget(String mode, String username) {
-        Optional<SystemUserDO> optional = systemUserRepository.findByUsernameEquals(username);
+    public String retrieve(String type, @NotNull RetrieveDTO retrieve) {
+        Optional<SystemUserDO> optional = systemUserRepository.findByUsernameEquals(retrieve.getUsername());
         optional.ifPresent(systemUser -> {
-            MessageBO message = getRandomString(systemUser);
+            AbstractForgetManager forgetEntity = forgetManager.get(type);
+            MessageBO message = forgetEntity.createAuthCode(systemUser);
             tempUserInfo(systemUser, message);
-            IForgetManager forgetEntity = forgetManager.get(mode);
             forgetEntity.sentMessage(systemUser, message);
         });
         return "success";
