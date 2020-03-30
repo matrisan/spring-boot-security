@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.config;
+package com.github.springbootsecurity.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

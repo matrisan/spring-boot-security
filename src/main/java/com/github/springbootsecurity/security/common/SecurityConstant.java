@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security;
+package com.github.springbootsecurity.security.common;
 
 /**
  * <p>

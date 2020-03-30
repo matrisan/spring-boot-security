@@ -1,6 +1,7 @@
-package com.github.springbootsecurity.pojo.doo;
+package com.github.springbootsecurity.pojo.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,13 +20,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
@@ -45,8 +51,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"systemRoles"})
+@EqualsAndHashCode(exclude = {"systemRoles"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -96,9 +102,24 @@ public class SystemUserDO implements UserDetails {
     @LastModifiedBy
     private Long lastModifiedBy;
 
+
+    @ManyToMany(
+            targetEntity = SystemRoleDO.class,
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "system_user_role",
+            joinColumns = {@JoinColumn(name = "mid_user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "mid_role_id", referencedColumnName = "role_id")}
+    )
+    @JsonIgnoreProperties(value = {"systemUsers"})
+    private Set<SystemRoleDO> systemRoles;
+
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Sets.newHashSet(new SimpleGrantedAuthority("ROLE_ROOT"));
+        return systemRoles;
     }
 
     @Override

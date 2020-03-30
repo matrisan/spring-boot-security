@@ -1,7 +1,7 @@
-package com.github.springbootsecurity.config;
+package com.github.springbootsecurity.back;
 
-import com.github.springbootsecurity.security.BackLoginAuthenticationProvider;
-import com.github.springbootsecurity.security.BackLoginCodeAuthenticationFilter;
+import com.github.springbootsecurity.back.BackLoginAuthenticationProvider;
+import com.github.springbootsecurity.back.BackLoginCodeAuthenticationFilter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;

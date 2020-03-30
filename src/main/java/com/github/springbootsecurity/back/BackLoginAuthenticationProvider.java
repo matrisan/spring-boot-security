@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security;
+package com.github.springbootsecurity.back;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +32,8 @@ public class BackLoginAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         BackLoginAuthenticationToken backLoginAuthenticationToken = (BackLoginAuthenticationToken) authentication;
-        UserDetails user = userDetailsService.loadUserByUsername((String) backLoginAuthenticationToken.getPrincipal());
+        String username = (String) backLoginAuthenticationToken.getPrincipal();
+        UserDetails user = userDetailsService.loadUserByUsername(username);
         if (user == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }

@@ -1,16 +1,15 @@
 package com.github.springbootsecurity.security;
 
 
-import com.github.springbootsecurity.pojo.doo.SystemUserDO;
+import com.github.springbootsecurity.pojo.table.SystemUserDO;
 import com.github.springbootsecurity.repository.ISystemUserJpaRepository;
-import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * <p>
@@ -29,13 +28,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private ISystemUserJpaRepository repository;
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
-    @SneakyThrows(UsernameNotFoundException.class)
-    public UserDetails loadUserByUsername(String username) {
-        SystemUserDO systemUserDO = repository.findByUsernameEquals(username);
-        if (null == systemUserDO) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<SystemUserDO> optional = repository.findByUsernameEquals(username);
+        if (!optional.isPresent()) {
             throw new UsernameNotFoundException(username);
         }
-        return systemUserDO;
+        return optional.get();
     }
 }

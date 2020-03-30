@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.config;
+package com.github.springbootsecurity.security;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;

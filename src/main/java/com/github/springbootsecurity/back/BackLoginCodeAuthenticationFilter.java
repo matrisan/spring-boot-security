@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security;
+package com.github.springbootsecurity.back;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class BackLoginCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";
+    public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "username";
 
     private String mobileParameter = SPRING_SECURITY_FORM_MOBILE_KEY;
 
@@ -39,15 +39,15 @@ public class BackLoginCodeAuthenticationFilter extends AbstractAuthenticationPro
         if (postOnly && !"GET".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
-        String mobile = obtainMobile(request);
-        mobile = ((mobile == null) ? "" : mobile);
-        mobile = mobile.trim();
-        BackLoginAuthenticationToken authRequest = new BackLoginAuthenticationToken(mobile);
+        String username = obtainUsername(request);
+        username = ((username == null) ? "" : username);
+        username = username.trim();
+        BackLoginAuthenticationToken authRequest = new BackLoginAuthenticationToken(username);
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-    private String obtainMobile(@NotNull HttpServletRequest request) {
+    private String obtainUsername(@NotNull HttpServletRequest request) {
         return request.getParameter(mobileParameter);
     }
 
