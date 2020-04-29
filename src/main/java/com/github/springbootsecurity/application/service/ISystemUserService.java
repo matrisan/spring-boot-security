@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.application.service;
 
-import com.github.springbootsecurity.pojo.table.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.table.SystemUserDO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
