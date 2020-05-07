@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.application.controller;
 
 import com.github.springbootsecurity.application.pojo.AppDataDTO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -47,12 +48,9 @@ public class ApplicationController {
 
     @PreAuthorize("permitAll()")
     @GetMapping("csrf")
-    public CsrfToken loadToken(HttpServletRequest request) {
+    public CsrfToken loadToken(@NotNull HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            return null;
-        }
-        return (CsrfToken) session.getAttribute(this.sessionAttributeName);
+        return (session == null) ? null : (CsrfToken) session.getAttribute(this.sessionAttributeName);
     }
 
 
