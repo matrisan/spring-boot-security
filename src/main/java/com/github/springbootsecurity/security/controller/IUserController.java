@@ -1,5 +1,13 @@
 package com.github.springbootsecurity.security.controller;
 
+import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
+import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.vo.ResultVO;
+import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 /**
  * <p>
  * 创建时间为 下午3:37 2020/5/10
@@ -12,4 +20,44 @@ package com.github.springbootsecurity.security.controller;
  */
 
 public interface IUserController {
+
+    /**
+     * 获取所有的用户
+     *
+     * @param pageable 分页信息
+     * @param auth     当前用户信息
+     * @return Page
+     */
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    ResultVO<Page<SystemUserVO>> findAllUsers(Pageable pageable, SystemUserDO auth);
+
+    /**
+     * 根据用户的ID查找用户
+     *
+     * @param user 用户信息
+     * @return SystemUserVO
+     */
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    ResultVO<SystemUserVO> findByUserById(SystemUserDO user);
+
+
+    /**
+     * 创建新用户
+     *
+     * @param user 用户信息
+     * @return SystemUserVO
+     */
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    ResultVO<SystemUserVO> createUser(SystemUserDTO user);
+
+
+    /**
+     * 根据ID删除用户
+     *
+     * @param user 用户信息
+     * @return Void
+     */
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    ResultVO<Void> deleteUserById(SystemUserDO user);
+
 }

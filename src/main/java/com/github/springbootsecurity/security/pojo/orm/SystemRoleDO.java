@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.pojo.orm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,16 +10,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.io.Serializable;
+import java.util.Set;
 
 /**
  * <p>
@@ -35,19 +35,33 @@ import java.io.Serializable;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "SystemRoleDO", indexes = {@Index(name = "IDX_USERNAME", columnList = "username", unique = true)})
-public class SystemRoleDO  extends BaseEntity {
+@Table(name = "SystemRole", indexes = {
+        @Index(name = "IDX_ROLE_CODE", columnList = "role_code", unique = true)
+})
+public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = -3157807413812174641L;
-    @Id
-    @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
 
+    @Column(name = "role_name", columnDefinition = "VARCHAR(100) COMMENT '角色名称'")
+    private String roleName;
 
+    @Column(name = "role_code", columnDefinition = "VARCHAR(100) COMMENT '角色编码'")
+    private String roleCode;
+
+    @ManyToMany
+    private Set<SystemUserDO> users;
+
+//    @ManyToMany
+//    private Set<SystemResourceDO> resources;
+
+    @JsonIgnore
+    @Override
+    public String getAuthority() {
+        return roleCode;
+    }
 }

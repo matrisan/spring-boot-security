@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.core.handler;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 
 //@Component
-public class ConfigUnauthorizedEntryPoint implements AuthenticationEntryPoint {
+public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @SneakyThrows(IOException.class)
     @Override

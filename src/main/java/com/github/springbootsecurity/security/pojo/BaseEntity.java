@@ -10,6 +10,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.io.Serializable;
 import java.util.Date;
@@ -27,18 +32,30 @@ import java.util.Date;
 
 @Getter
 @Setter
+@MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -2191753221757519036L;
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String note;
+
+    @JsonIgnore
+    @Column(columnDefinition = "INT(1) DEFAULT 0 COMMENT '是否为预置'")
+    private Boolean preset;
+
     @JsonIgnore
     private Boolean enabled;
 
-    @JsonIgnore
-    private Boolean preset;
+    @Column(columnDefinition = "INT(1) DEFAULT 0 COMMENT '改记录是否删除'")
+    private Boolean deleted;
 
-    @Version
     @JsonIgnore
+    @Version
     private Long version;
 
     @CreatedDate
@@ -50,9 +67,9 @@ public abstract class BaseEntity implements Serializable {
     private Date lastModifiedDate;
 
     @CreatedBy
-    private SystemUserDO createBy;
+    private String createBy;
 
     @LastModifiedBy
-    private SystemUserDO lastModifiedBy;
+    private String lastModifiedBy;
 
 }

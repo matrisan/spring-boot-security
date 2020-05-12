@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.core.extension;
+package com.github.springbootsecurity.security.core;
 
 
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;

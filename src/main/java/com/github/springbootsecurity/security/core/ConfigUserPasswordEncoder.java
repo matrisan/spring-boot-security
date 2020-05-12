@@ -1,7 +1,8 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,10 +32,10 @@ import java.util.Map;
  */
 
 @Configuration
+@RequiredArgsConstructor
 public class ConfigUserPasswordEncoder {
 
-    @Resource
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @PostConstruct
     public void init() {

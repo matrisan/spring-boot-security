@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.core.handler;
 
 import com.alibaba.fastjson.JSON;
 import lombok.SneakyThrows;
@@ -23,7 +23,7 @@ import java.io.IOException;
  * @since 0.0.1
  */
 //@Configuration
-public class ConfigUserAuthFailureHandler implements AuthenticationFailureHandler {
+public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
     @Override
     @SneakyThrows(IOException.class)
     public void onAuthenticationFailure(@NotNull HttpServletRequest httpServletRequest,

@@ -20,11 +20,11 @@ import java.util.Arrays;
  * @version 0.0.1
  * @since 0.0.1
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class AspectLog {
 
-    @Pointcut("execution(* com.github.springbootsecurity.security.impl.*.*.*(..))")
+//    @Pointcut("execution(* com.github.springbootsecurity.security.impl.*.*.*(..))")
     public void pointCut() {
     }
 

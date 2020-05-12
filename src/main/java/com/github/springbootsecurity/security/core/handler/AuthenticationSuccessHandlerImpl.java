@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.core.handler;
 
 import com.alibaba.fastjson.JSON;
 import lombok.SneakyThrows;
@@ -28,8 +28,8 @@ import java.io.IOException;
  */
 
 @Slf4j
-//@Configuration
-public class ConfigUserAuthSuccessHandler implements AuthenticationSuccessHandler {
+@Configuration
+public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     private static final RedirectStrategy STRATEGY = new DefaultRedirectStrategy();
 

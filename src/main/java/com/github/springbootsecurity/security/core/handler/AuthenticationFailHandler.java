@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.core.extension;
+package com.github.springbootsecurity.security.core.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
+public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private Boolean json = true;
 

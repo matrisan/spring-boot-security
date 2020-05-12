@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.core.sms;
 
 import com.github.springbootsecurity.security.core.sms.SmsCodeAuthenticationFilter;
 import com.github.springbootsecurity.security.core.sms.SmsCodeAuthenticationProvider;

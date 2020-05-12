@@ -2,7 +2,6 @@ package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
-import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,21 +10,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * <p>
@@ -54,60 +49,69 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
 
     private static final long serialVersionUID = 6949655530047745714L;
 
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-
-    @NotBlank
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '用户名'")
     private String username;
 
-    @NotBlank
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '手机号码'")
     private String mobile;
 
-    @NotBlank
     @JsonIgnore
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '密码'")
     private String password;
 
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '邮箱'")
     private String email;
 
-    private String note;
-
     @JsonIgnore
+    @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private LocalDateTime accountNonExpired;
 
     @JsonIgnore
+    @Column(name = "account_non_locked", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private LocalDateTime accountNonLocked;
 
     @JsonIgnore
+    @Column(name = "credentials_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private LocalDateTime credentialsNonExpired;
 
+    @JsonIgnore
+    @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private LocalDateTime lastLoginDate;
 
+//    @ManyToOne
+//    private SystemGroupDO group;
+
+    @OneToMany
+    private Set<SystemRoleDO> roles;
+
+    @JsonIgnore
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Sets.newHashSet(new SimpleGrantedAuthority("ROLE_ROOT"));
+    public Collection<SystemRoleDO> getAuthorities() {
+        return roles;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return LocalDateTime.now().isAfter(accountNonExpired);
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return LocalDateTime.now().isAfter(accountNonLocked);
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return LocalDateTime.now().isAfter(credentialsNonExpired);
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return getEnabled();
+        return true;
     }
-
 
 }

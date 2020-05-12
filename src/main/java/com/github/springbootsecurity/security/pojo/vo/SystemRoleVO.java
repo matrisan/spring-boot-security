@@ -1,8 +1,10 @@
 package com.github.springbootsecurity.security.pojo.vo;
 
 import com.github.springbootsecurity.security.pojo.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * <p>
@@ -17,6 +19,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode(callSuper = false)
 public class SystemRoleVO  extends BaseEntity {
 
     private static final long serialVersionUID = 3958468876052140234L;
