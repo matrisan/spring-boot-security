@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -64,22 +65,19 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
 
     @JsonIgnore
     @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
-    private LocalDateTime accountNonExpired;
+    private Date accountNonExpired;
 
     @JsonIgnore
     @Column(name = "account_non_locked", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
-    private LocalDateTime accountNonLocked;
+    private Date accountNonLocked;
 
     @JsonIgnore
     @Column(name = "credentials_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
-    private LocalDateTime credentialsNonExpired;
+    private Date credentialsNonExpired;
 
     @JsonIgnore
     @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
-    private LocalDateTime lastLoginDate;
-
-//    @ManyToOne
-//    private SystemGroupDO group;
+    private Date lastLoginDate;
 
     @OneToMany
     private Set<SystemRoleDO> roles;

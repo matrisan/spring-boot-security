@@ -60,7 +60,17 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
         http.formLogin().loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-                .and().logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).permitAll();
+                .and().logout().logoutUrl("/logout").permitAll();
+//                .and().logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).permitAll();
+        // 对 Session 的管理
+        http.sessionManagement()
+                // 登录超时处理
+//                .invalidSessionStrategy(sessionInvalidStrategy)
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                // 异地登录处理
+//                .expiredSessionStrategy(sessionExpiredStrategy)
+        ;
         http.authorizeRequests().anyRequest().authenticated();
         http.csrf().disable();
 

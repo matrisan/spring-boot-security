@@ -2,7 +2,6 @@ package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.mapper.DoMapper;
-import com.github.springbootsecurity.security.pojo.mapper.VoMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import com.github.springbootsecurity.security.repository.ISystemUserJpaRepository;
@@ -31,18 +30,19 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Page<SystemUserVO> findAllUsers(Pageable pageable, SystemUserDO auth) {
-        return userJpaRepository.findAll(pageable).map(systemUserDO -> VoMapper.mapper(systemUserDO, SystemUserVO.class));
+        return userJpaRepository.findAll(pageable).map(SystemUserVO::mapper);
     }
 
     @Override
     public SystemUserVO findByUserById(SystemUserDO user) {
-        return VoMapper.mapper(user, SystemUserVO.class);
+        return SystemUserVO.mapper(user);
     }
 
     @Override
     public SystemUserVO createUser(SystemUserDTO user) {
         SystemUserDO save = DoMapper.mapper(user, SystemUserDO.class);
-        return VoMapper.mapper(userJpaRepository.save(save), SystemUserVO.class);
+        SystemUserDO result = userJpaRepository.save(save);
+        return SystemUserVO.mapper(result);
     }
 
     @Override

@@ -32,19 +32,19 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public Page<SystemRoleVO> findAllRoles(Pageable pageable, SystemUserDO auth) {
-        return roleJpaRepository.findAll(pageable).map(one -> VoMapper.mapper(one, SystemRoleVO.class));
+        return roleJpaRepository.findAll(pageable).map(SystemRoleVO::mapper);
     }
 
     @Override
     public SystemRoleVO findByRoleById(SystemRoleDO role) {
-        return VoMapper.mapper(role, SystemRoleVO.class);
+        return SystemRoleVO.mapper(role);
     }
 
     @Override
     public SystemRoleVO createRole(SystemRoleDTO role) {
         SystemRoleDO toSave = DoMapper.mapper(role, SystemRoleDO.class);
         SystemRoleDO value = roleJpaRepository.save(toSave);
-        return VoMapper.mapper(value, SystemRoleVO.class);
+        return SystemRoleVO.mapper(value);
     }
 
     @Override
