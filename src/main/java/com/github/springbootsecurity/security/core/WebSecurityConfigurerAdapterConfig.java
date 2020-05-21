@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.core;
 
-import com.github.springbootsecurity.security.core.sms.SmsCodeAuthenticationSecurityConfig;
+import com.github.springbootsecurity.security.core.handler.InvalidSessionStrategyImpl;
+import com.github.springbootsecurity.security.core.handler.SessionInformationExpiredStrategyImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -43,7 +46,13 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
 
     private final AuthenticationSuccessHandler successHandler;
 
-    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final InvalidSessionStrategyImpl sessionInvalidStrategy;
+
+    private final SessionInformationExpiredStrategyImpl sessionExpiredStrategy;
+
+    private final AuthenticationEntryPoint unauthorizedEntryPoint;
+
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Override
     @SneakyThrows(Exception.class)
@@ -54,61 +63,33 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     @Override
     @SneakyThrows(Exception.class)
     protected void configure(@NotNull HttpSecurity http) {
-
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin().loginProcessingUrl("/login")
+        http.formLogin()
+                .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-                .and().logout().logoutUrl("/logout").permitAll();
-//                .and().logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).permitAll();
+                .and().logout().logoutUrl("/logout")
+//                .logoutSuccessHandler()
+        ;
         // 对 Session 的管理
         http.sessionManagement()
                 // 登录超时处理
-//                .invalidSessionStrategy(sessionInvalidStrategy)
+                .invalidSessionStrategy(sessionInvalidStrategy)
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
+                .maxSessionsPreventsLogin(false)
                 // 异地登录处理
-//                .expiredSessionStrategy(sessionExpiredStrategy)
-        ;
-        http.authorizeRequests().anyRequest().authenticated();
+                .expiredSessionStrategy(sessionExpiredStrategy);
+        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
         http.csrf().disable();
-
 //        http.apply(smsCodeAuthenticationSecurityConfig);
-//        http.addFilterBefore(securitySmsValidationFilter, UsernamePasswordAuthenticationFilter.class);
-
-//        // 使用表单登录
-//        http.formLogin()
-//                // 指定登录页面
-//                .loginPage("/login").defaultSuccessUrl("/success").permitAll()
-//                // 自定义的登录接口
-//                .loginProcessingUrl("/authentication/form")
-//                .successHandler(successHandler)
-//                .failureHandler(failureHandler)
-//                // 定义哪些URL需要被保护、哪些不需要被保护
-//                .and().authorizeRequests()
-//                // 允许访问
-//                .antMatchers("/code/*", "/authentication/form", "/authentication/*", "/", "/session/invalid", "/register", "captcha")
-//                .permitAll()
-//                // 任何请求,登录后可以访问
-//                .anyRequest().authenticated()
-//                .and()
-//                .logout().permitAll()
-//                .and()
-//                .sessionManagement()
-//                .invalidSessionUrl("/session/invalid")
-//                .maximumSessions(2)
-//                .maxSessionsPreventsLogin(true)
-//                .expiredSessionStrategy(event -> event.getResponse().getWriter().write("并发登录!\n"))
-//                .and()
-//                .and().exceptionHandling().accessDeniedPage("/403")
-//        ;
-
     }
 
     @Override
     @SneakyThrows(Exception.class)
     public void configure(@NotNull WebSecurity web) {
+        web.ignoring().antMatchers("/");
         web.ignoring().antMatchers("/static/js/**");
         web.ignoring().antMatchers("/static/css/**");
         web.ignoring().antMatchers("/static/image/**");

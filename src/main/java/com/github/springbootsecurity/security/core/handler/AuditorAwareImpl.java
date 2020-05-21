@@ -17,11 +17,11 @@ import java.util.Optional;
  */
 
 @Component
-public class SystemAuditorAwareImpl implements AuditorAware<String> {
+public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.empty();
+        return Optional.of("default");
     }
 
 }

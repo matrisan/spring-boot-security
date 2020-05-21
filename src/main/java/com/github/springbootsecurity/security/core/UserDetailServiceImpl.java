@@ -2,7 +2,7 @@ package com.github.springbootsecurity.security.core;
 
 
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemUserJpaRepository;
+import com.github.springbootsecurity.security.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +25,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private final ISystemUserJpaRepository repository;
+    private final IUserRepository repository;
 
     @Override
     @Transactional(rollbackOn = Exception.class)

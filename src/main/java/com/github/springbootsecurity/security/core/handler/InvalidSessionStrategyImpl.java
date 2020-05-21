@@ -24,7 +24,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class SystemSessionInvalidStrategy implements InvalidSessionStrategy {
+public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
 
     @Override
     public void onInvalidSessionDetected(@NotNull HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {

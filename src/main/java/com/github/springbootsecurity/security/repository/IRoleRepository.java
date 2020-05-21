@@ -14,5 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 0.0.1
  */
 
-public interface ISystemRoleJpaRepository extends JpaRepository<SystemRoleDO, Long> {
+public interface IRoleRepository extends JpaRepository<SystemRoleDO, Long> {
 }

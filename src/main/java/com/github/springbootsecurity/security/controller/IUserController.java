@@ -34,11 +34,11 @@ public interface IUserController {
     /**
      * 根据用户的ID查找用户
      *
-     * @param user 用户信息
+     * @param username 用户信息
      * @return SystemUserVO
      */
     @PreAuthorize("hasRole('ROLE_ROOT')")
-    ResultVO<SystemUserVO> findByUserById(SystemUserDO user);
+    ResultVO<SystemUserVO> findByUserByUsername(String username);
 
 
     /**

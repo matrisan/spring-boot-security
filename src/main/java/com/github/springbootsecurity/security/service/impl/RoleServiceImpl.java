@@ -2,11 +2,10 @@ package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.mapper.DoMapper;
-import com.github.springbootsecurity.security.pojo.mapper.VoMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
-import com.github.springbootsecurity.security.repository.ISystemRoleJpaRepository;
+import com.github.springbootsecurity.security.repository.IRoleRepository;
 import com.github.springbootsecurity.security.service.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +27,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements IRoleService {
 
-    private final ISystemRoleJpaRepository roleJpaRepository;
+    private final IRoleRepository roleJpaRepository;
 
     @Override
     public Page<SystemRoleVO> findAllRoles(Pageable pageable, SystemUserDO auth) {

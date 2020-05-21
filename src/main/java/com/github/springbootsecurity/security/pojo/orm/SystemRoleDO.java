@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -39,25 +42,23 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "SystemRoleDO")
+@DynamicInsert
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "SystemRole", indexes = {
-        @Index(name = "IDX_ROLE_CODE", columnList = "role_code", unique = true)
-})
 public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
 
+    @Transient
     private static final long serialVersionUID = -3157807413812174641L;
 
-    @Column(name = "role_name", columnDefinition = "VARCHAR(100) COMMENT '角色名称'")
+    @Column(name = "role_name", columnDefinition = "VARCHAR(20) COMMENT '角色名称'")
     private String roleName;
 
-    @Column(name = "role_code", columnDefinition = "VARCHAR(100) COMMENT '角色编码'")
+    @Column(name = "role_code", columnDefinition = "VARCHAR(20) COMMENT '角色编码'")
     private String roleCode;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "roles")
     private Set<SystemUserDO> users;
-
-//    @ManyToMany
-//    private Set<SystemResourceDO> resources;
 
     @JsonIgnore
     @Override

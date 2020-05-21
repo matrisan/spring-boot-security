@@ -23,7 +23,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class SystemSessionExpiredStrategy  implements SessionInformationExpiredStrategy {
+public class SessionInformationExpiredStrategyImpl implements SessionInformationExpiredStrategy {
 
     @Override
     public void onExpiredSessionDetected(@NotNull SessionInformationExpiredEvent event) throws IOException {

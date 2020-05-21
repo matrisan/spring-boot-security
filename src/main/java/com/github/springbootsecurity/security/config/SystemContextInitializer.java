@@ -2,8 +2,8 @@ package com.github.springbootsecurity.security.config;
 
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemRoleJpaRepository;
-import com.github.springbootsecurity.security.repository.ISystemUserJpaRepository;
+import com.github.springbootsecurity.security.repository.IRoleRepository;
+import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +31,9 @@ public class SystemContextInitializer implements CommandLineRunner {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ISystemUserJpaRepository userRepository;
+    private final IUserRepository userRepository;
 
-    private final ISystemRoleJpaRepository roleRepository;
+    private final IRoleRepository roleRepository;
 
     @Override
     public void run(String... args) {
@@ -54,6 +54,7 @@ public class SystemContextInitializer implements CommandLineRunner {
     private SystemUserDO getUser() {
         SystemUserDO user = SystemUserDO.builder()
                 .username("root")
+                .mobile("18888888888")
                 .password(passwordEncoder.encode("123456"))
                 .build();
         return user;

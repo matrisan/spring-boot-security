@@ -9,16 +9,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Index;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -33,6 +37,7 @@ import java.util.Set;
  * @version 0.0.1
  * @since 0.0.1
  */
+
 @Getter
 @Setter
 @Builder
@@ -41,27 +46,35 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "SystemUserDO")
+@DynamicInsert
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "system_user", indexes = {
-        @Index(name = "IDX_USERNAME", columnList = "username", unique = true),
-        @Index(name = "IDX_MOBILE", columnList = "mobile", unique = true),
-})
 public class SystemUserDO extends BaseEntity implements UserDetails {
 
+    @Transient
     private static final long serialVersionUID = 6949655530047745714L;
 
-    @Column(columnDefinition = "VARCHAR(100) COMMENT '用户名'")
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '用户名'")
     private String username;
 
-    @Column(columnDefinition = "VARCHAR(100) COMMENT '手机号码'")
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '手机号码'")
     private String mobile;
 
     @JsonIgnore
-    @Column(columnDefinition = "VARCHAR(100) COMMENT '密码'")
+    @Column(columnDefinition = "VARCHAR(255) COMMENT '密码'")
     private String password;
 
-    @Column(columnDefinition = "VARCHAR(100) COMMENT '邮箱'")
+    @Column(columnDefinition = "VARCHAR(50) COMMENT '邮箱'")
     private String email;
+
+    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = {CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+    )
+    private Set<SystemRoleDO> roles;
 
     @JsonIgnore
     @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
@@ -78,9 +91,6 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
     private Date lastLoginDate;
-
-    @OneToMany
-    private Set<SystemRoleDO> roles;
 
     @JsonIgnore
     @Override

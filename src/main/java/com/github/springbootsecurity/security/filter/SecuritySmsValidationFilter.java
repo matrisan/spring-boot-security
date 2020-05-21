@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.filter;
 
-import com.github.springbootsecurity.security.exception.VerificationCodeException;
+import com.github.springbootsecurity.security.exception.AbstractCodeInvalidException;
 import com.github.springbootsecurity.security.pojo.bo.SmsCode;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class SecuritySmsValidationFilter extends OncePerRequestFilter implements
                 StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             try {
                 validate(new ServletWebRequest(request));
-            } catch (VerificationCodeException exception) {
+            } catch (AbstractCodeInvalidException exception) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
                 return;
             }
@@ -74,21 +74,21 @@ public class SecuritySmsValidationFilter extends OncePerRequestFilter implements
         filterChain.doFilter(request, response);
     }
 
-    private void validate(@NotNull ServletWebRequest servletWebRequest) throws VerificationCodeException, ServletRequestBindingException {
+    private void validate(@NotNull ServletWebRequest servletWebRequest) throws AbstractCodeInvalidException, ServletRequestBindingException {
         SmsCode smsCode = (SmsCode) sessionStrategy.getAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
         String codeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), SMS_CODE);
         if (StringUtils.isBlank(codeInRequest)) {
-            throw new VerificationCodeException("验证码不能为空字符串!");
+            throw new AbstractCodeInvalidException("验证码不能为空字符串!");
         }
         if (smsCode == null) {
-            throw new VerificationCodeException("验证码不能为空!");
+            throw new AbstractCodeInvalidException("验证码不能为空!");
         }
         if (smsCode.expired()) {
             sessionStrategy.removeAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
-            throw new VerificationCodeException("验证码过期!");
+            throw new AbstractCodeInvalidException("验证码过期!");
         }
         if (!StringUtils.equalsIgnoreCase(codeInRequest.trim(), smsCode.getCode())) {
-            throw new VerificationCodeException("验证码不匹配!");
+            throw new AbstractCodeInvalidException("验证码不匹配!");
         }
         sessionStrategy.removeAttribute(servletWebRequest, SESSION_KEY_CODE_SMS);
     }

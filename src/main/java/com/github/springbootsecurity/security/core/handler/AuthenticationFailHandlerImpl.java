@@ -26,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
+public class AuthenticationFailHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 
     private Boolean json = true;
 

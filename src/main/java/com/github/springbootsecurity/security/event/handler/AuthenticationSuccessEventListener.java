@@ -1,7 +1,7 @@
 package com.github.springbootsecurity.security.event.handler;
 
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
-import com.github.springbootsecurity.security.repository.ISystemUserJpaRepository;
+import com.github.springbootsecurity.security.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -26,14 +26,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthenticationSuccessEventListener {
 
-    private final ISystemUserJpaRepository repository;
+    private final IUserRepository repository;
 
     @EventListener
     public void authenticationSuccessEvent(@NotNull AuthenticationSuccessEvent event) {
-        Authentication authentication = event.getAuthentication();
-        SystemUserDO user = (SystemUserDO) authentication.getPrincipal();
-        repository.updateLastLoginDate(user);
-
+        repository.updateLastLoginDate();
     }
 
 }

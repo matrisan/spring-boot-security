@@ -47,31 +47,16 @@ public class SystemUserVO extends BaseEntity {
 
     private String email;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date accountNonExpired;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date accountNonLocked;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date credentialsNonExpired;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastLoginDate;
-
-    private Set<SystemRoleVO> roles;
-
-    @NotNull
-    public static SystemUserVO mapper(SystemUserDO userDo) {
-        SystemUserVO vo = new SystemUserVO();
-        BeanUtils.copyProperties(userDo, vo, "roles");
-        vo.setRoles(mapper(userDo.getRoles()));
-        return vo;
-    }
-
-    private static Set<SystemRoleVO> mapper(@NotNull Set<SystemRoleDO> roles) {
-        return roles.stream().map(one -> {
-            SystemRoleVO vo = new SystemRoleVO();
-            BeanUtils.copyProperties(one, vo, "users");
-            return vo;
-        }).collect(Collectors.toSet());
-    }
 
 }

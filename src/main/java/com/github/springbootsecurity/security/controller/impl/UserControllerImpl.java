@@ -38,13 +38,13 @@ public class UserControllerImpl implements IUserController {
     @GetMapping("/users")
     @Override
     public ResultVO<Page<SystemUserVO>> findAllUsers(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal SystemUserDO auth) {
-        return ResultVO.success(service.findAllUsers(pageable, auth));
+        return ResultVO.success(service.findUsers(pageable, auth));
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{username}")
     @Override
-    public ResultVO<SystemUserVO> findByUserById(@PathVariable("id") SystemUserDO user) {
-        return ResultVO.success(service.findByUserById(user));
+    public ResultVO<SystemUserVO> findByUserByUsername(@PathVariable String username) {
+        return ResultVO.success(service.findByUserByUsername(username));
     }
 
     @PostMapping("/user")

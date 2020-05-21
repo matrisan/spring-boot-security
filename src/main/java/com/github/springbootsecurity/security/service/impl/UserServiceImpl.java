@@ -4,12 +4,14 @@ import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.mapper.DoMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
-import com.github.springbootsecurity.security.repository.ISystemUserJpaRepository;
+import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.github.springbootsecurity.security.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -26,23 +28,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
-    private final ISystemUserJpaRepository userJpaRepository;
+    private final IUserRepository userJpaRepository;
 
     @Override
-    public Page<SystemUserVO> findAllUsers(Pageable pageable, SystemUserDO auth) {
-        return userJpaRepository.findAll(pageable).map(SystemUserVO::mapper);
+    public Page<SystemUserVO> findUsers(Pageable pageable, SystemUserDO auth) {
+        return userJpaRepository.findAllBy(pageable, SystemUserVO.class);
     }
 
     @Override
-    public SystemUserVO findByUserById(SystemUserDO user) {
-        return SystemUserVO.mapper(user);
+    public SystemUserVO findByUserByUsername(String username) {
+        Optional<SystemUserVO> optional = userJpaRepository.findByUsernameEquals(username, SystemUserVO.class);
+        return optional.orElse(null);
     }
 
     @Override
     public SystemUserVO createUser(SystemUserDTO user) {
         SystemUserDO save = DoMapper.mapper(user, SystemUserDO.class);
-        SystemUserDO result = userJpaRepository.save(save);
-        return SystemUserVO.mapper(result);
+        userJpaRepository.save(save);
+        return null;
     }
 
     @Override

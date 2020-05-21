@@ -13,17 +13,16 @@ import org.springframework.security.core.AuthenticationException;
  * @since 0.0.1
  */
 
-public class VerificationCodeException extends AuthenticationException {
+public class AbstractCodeInvalidException extends AuthenticationException {
 
     private static final long serialVersionUID = -5415319408363885807L;
 
-    public VerificationCodeException(String msg) {
+    public AbstractCodeInvalidException(String msg) {
         super(msg);
     }
 
-    public VerificationCodeException(String msg, Throwable t) {
+    public AbstractCodeInvalidException(String msg, Throwable t) {
         super(msg, t);
     }
-
 
 }
