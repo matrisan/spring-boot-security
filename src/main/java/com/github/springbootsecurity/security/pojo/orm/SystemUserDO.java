@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -42,7 +44,7 @@ import java.util.Set;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, exclude = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -68,12 +70,13 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @Column(columnDefinition = "VARCHAR(50) COMMENT '邮箱'")
     private String email;
 
-    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = {CascadeType.REFRESH})
+    @ManyToMany(targetEntity = SystemRoleDO.class, cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
+    @JsonIgnoreProperties(value = {"users"})
     private Set<SystemRoleDO> roles;
 
     @JsonIgnore

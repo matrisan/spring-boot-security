@@ -40,7 +40,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                                         @NotNull Authentication authentication) {
         log.info("-------------------- 登录成功 --------------------");
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(JSON.toJSONString(authentication));
+        httpServletResponse.getWriter().write("success!");
         String targetUrl = httpServletRequest.getRequestURI();
         STRATEGY.sendRedirect(httpServletRequest, httpServletResponse, targetUrl);
     }

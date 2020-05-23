@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * @since 0.0.1
  */
 
-@Component
+//@Component
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
 

@@ -40,7 +40,7 @@ import static com.github.springbootsecurity.security.core.common.SecurityConstan
  */
 
 @Slf4j
-@Component
+//@Component
 public class SecuritySmsValidationFilter extends OncePerRequestFilter implements InitializingBean {
 
     @Resource

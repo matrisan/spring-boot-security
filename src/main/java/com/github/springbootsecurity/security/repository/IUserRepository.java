@@ -23,9 +23,15 @@ import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
 
-//    <V> V save(SystemUserDO user, Class<V> clz);
-
-    <T> Page<T> findAllBy(Pageable pageable, Class<T> clz);
+    /**
+     * 查找所有的用户
+     *
+     * @param pageable 分页
+     * @param clz      泛型
+     * @param <V>      泛型
+     * @return Page
+     */
+    <V> Page<V> findAllBy(Pageable pageable, Class<V> clz);
 
     /**
      * 根据用户名查找用户

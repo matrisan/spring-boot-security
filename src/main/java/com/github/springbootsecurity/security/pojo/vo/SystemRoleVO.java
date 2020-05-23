@@ -44,20 +44,20 @@ public class SystemRoleVO extends BaseEntity {
 
     private Set<SystemUserVO> users;
 
-    @NotNull
-    public static SystemRoleVO mapper(@NotNull SystemRoleDO roleDo) {
-        SystemRoleVO vo = new SystemRoleVO();
-        BeanUtils.copyProperties(roleDo, vo, "users");
-        vo.setUsers(mapper(roleDo.getUsers()));
-        return vo;
-    }
-
-    private static Set<SystemUserVO> mapper(@NotNull Set<SystemUserDO> users) {
-        return users.stream().map(one -> {
-            SystemUserVO vo = new SystemUserVO();
-            BeanUtils.copyProperties(one, vo, "roles");
-            return vo;
-        }).collect(Collectors.toSet());
-    }
+//    @NotNull
+//    public static SystemRoleVO mapper(@NotNull SystemRoleDO roleDo) {
+//        SystemRoleVO vo = new SystemRoleVO();
+//        BeanUtils.copyProperties(roleDo, vo, "users");
+//        vo.setUsers(mapper(roleDo.getUsers()));
+//        return vo;
+//    }
+//
+//    private static Set<SystemUserVO> mapper(@NotNull Set<SystemUserDO> users) {
+//        return users.stream().map(one -> {
+//            SystemUserVO vo = new SystemUserVO();
+//            BeanUtils.copyProperties(one, vo, "roles");
+//            return vo;
+//        }).collect(Collectors.toSet());
+//    }
 
 }

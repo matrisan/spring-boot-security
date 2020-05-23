@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Index;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Set;
@@ -38,7 +39,7 @@ import java.util.Set;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -57,7 +58,8 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
     @Column(name = "role_code", columnDefinition = "VARCHAR(20) COMMENT '角色编码'")
     private String roleCode;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = {"roles"})
     private Set<SystemUserDO> users;
 
     @JsonIgnore

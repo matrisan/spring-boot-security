@@ -66,12 +66,13 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
         http.formLogin()
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/login").permitAll()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
                 .and().logout().logoutUrl("/logout")
 //                .logoutSuccessHandler()
-        ;
+                .permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
         // 对 Session 的管理
         http.sessionManagement()
                 // 登录超时处理
@@ -80,8 +81,10 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
                 .maxSessionsPreventsLogin(false)
                 // 异地登录处理
                 .expiredSessionStrategy(sessionExpiredStrategy);
+
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
+
         http.csrf().disable();
 //        http.apply(smsCodeAuthenticationSecurityConfig);
     }
@@ -90,6 +93,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     @SneakyThrows(Exception.class)
     public void configure(@NotNull WebSecurity web) {
         web.ignoring().antMatchers("/");
+//        web.ignoring().antMatchers("/login");
         web.ignoring().antMatchers("/static/js/**");
         web.ignoring().antMatchers("/static/css/**");
         web.ignoring().antMatchers("/static/image/**");
