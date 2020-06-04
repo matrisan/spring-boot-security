@@ -43,6 +43,9 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
      */
     <V> Optional<V> findByUsernameEquals(String username, Class<V> clz);
 
+    <V> V findByUsernameIs(String username, Class<V> clz);
+
+    SystemUserDO findById(long id);
 
     /**
      * 根据用户名查找用户

@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.pojo.dto;
 
 import com.github.springbootsecurity.security.pojo.BaseEntity;
+import lombok.Data;
 
 /**
  * <p>
@@ -13,8 +14,11 @@ import com.github.springbootsecurity.security.pojo.BaseEntity;
  * @since 0.0.1
  */
 
+@Data
 public class SystemUserDTO extends BaseEntity {
 
     private static final long serialVersionUID = 8244210886033431393L;
+
+    private String username;
 
 }

@@ -19,7 +19,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
  * @since 0.0.1
  */
 
-public interface IUserController {
+public interface IUserController<T> {
+
+    ResultVO<SystemUserDO> me(SystemUserDO auth);
 
     /**
      * 获取所有的用户
@@ -29,7 +31,7 @@ public interface IUserController {
      * @return Page
      */
     @PreAuthorize("hasRole('ROLE_ROOT')")
-    ResultVO<Page<SystemUserVO>> findAllUsers(Pageable pageable, SystemUserDO auth);
+    ResultVO<Page<T>> findAllUsers(Pageable pageable, SystemUserDO auth);
 
     /**
      * 根据用户的ID查找用户
@@ -38,8 +40,7 @@ public interface IUserController {
      * @return SystemUserVO
      */
     @PreAuthorize("hasRole('ROLE_ROOT')")
-    ResultVO<SystemUserVO> findByUserByUsername(String username);
-
+    ResultVO<T> findByUserByUsername(String username);
 
     /**
      * 创建新用户
@@ -48,8 +49,7 @@ public interface IUserController {
      * @return SystemUserVO
      */
     @PreAuthorize("hasRole('ROLE_ROOT')")
-    ResultVO<SystemUserVO> createUser(SystemUserDTO user);
-
+    ResultVO<T> createUser(SystemUserDTO user);
 
     /**
      * 根据ID删除用户

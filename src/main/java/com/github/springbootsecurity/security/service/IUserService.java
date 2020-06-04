@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
 
+    SystemUserDO findById(long id);
+
     Page<SystemUserVO> findUsers(Pageable pageable, SystemUserDO auth);
 
     SystemUserVO findByUserByUsername(String username);

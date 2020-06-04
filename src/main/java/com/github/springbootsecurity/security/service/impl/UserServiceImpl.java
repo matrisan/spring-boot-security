@@ -2,11 +2,13 @@ package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.mapper.DoMapper;
+import com.github.springbootsecurity.security.pojo.mapper.SystemUserMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.github.springbootsecurity.security.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,11 +26,17 @@ import java.util.Optional;
  * @since 0.0.1
  */
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userJpaRepository;
+
+    @Override
+    public SystemUserDO findById(long id) {
+        return userJpaRepository.findById(id);
+    }
 
     @Override
     public Page<SystemUserVO> findUsers(Pageable pageable, SystemUserDO auth) {
@@ -37,19 +45,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public SystemUserVO findByUserByUsername(String username) {
-        Optional<SystemUserVO> optional = userJpaRepository.findByUsernameEquals(username, SystemUserVO.class);
-        return optional.orElse(null);
+        return userJpaRepository.findByUsernameIs(username, SystemUserVO.class);
     }
 
     @Override
     public SystemUserVO createUser(SystemUserDTO user) {
-        SystemUserDO save = DoMapper.mapper(user, SystemUserDO.class);
-        userJpaRepository.save(save);
-        return null;
+        userJpaRepository.save(SystemUserMapper.mapper(user));
+        return userJpaRepository.findByUsernameIs(user.getUsername(), SystemUserVO.class);
     }
 
     @Override
     public void deleteUserById(SystemUserDO user) {
-
+        userJpaRepository.delete(user);
     }
 }
