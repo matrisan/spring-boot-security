@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.controller.impl;
 
+import com.github.springbootsecurity.security.controller.IUserManagerController;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
@@ -21,30 +22,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserManagerControllerImpl {
+public class UserManagerControllerImpl implements IUserManagerController<ISystemUserVO> {
 
     private final IUserRepository repository;
 
     @GetMapping("/users")
     @PreAuthorize("isAuthenticated()")
+    @Override
     public ResultVO<Page<ISystemUserVO>> findAllUsers(Pageable pageable) {
         return ResultVO.success(repository.findAllBy(pageable, ISystemUserVO.class));
     }
 
     @GetMapping("/user/{username}")
     @PreAuthorize("isAuthenticated()")
+    @Override
     public ResultVO<ISystemUserVO> findByUserByUsername(@PathVariable String username) {
         return ResultVO.success(repository.findByUsernameIs(username, ISystemUserVO.class));
     }
 
     @PostMapping("/user")
     @PreAuthorize("isAuthenticated()")
+    @Override
     public ResultVO<ISystemUserVO> createUser(SystemUserDO user) {
         return null;
     }
 
     @DeleteMapping("/user/{id}")
     @PreAuthorize("isAuthenticated()")
+    @Override
     public ResultVO<Void> deleteUserById(@PathVariable("id") SystemUserDO user) {
         repository.delete(user);
         return ResultVO.success();

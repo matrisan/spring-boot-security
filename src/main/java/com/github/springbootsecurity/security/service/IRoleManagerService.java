@@ -2,7 +2,6 @@ package com.github.springbootsecurity.security.service;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +17,9 @@ import org.springframework.data.domain.Pageable;
  * @since 0.0.1
  */
 
-public interface IRoleService {
+public interface IRoleManagerService {
 
-    Page<SystemRoleVO> findAllRoles(Pageable pageable, SystemUserDO auth);
+    Page<SystemRoleVO> findAllRoles(Pageable pageable);
 
     SystemRoleVO findByRoleById(SystemRoleDO role);
 

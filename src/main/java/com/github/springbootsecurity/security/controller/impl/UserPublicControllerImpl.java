@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.controller.impl;
 
+import com.github.springbootsecurity.security.controller.IUserPublicController;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
 import com.github.springbootsecurity.security.service.IUserPublicService;
@@ -18,15 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserPublicControllerImpl {
+public class UserPublicControllerImpl implements IUserPublicController<UserRegisterDTO> {
 
     private final IUserPublicService service;
 
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
+    @Override
     public ResultVO<Void> register(@RequestBody @Validated UserRegisterDTO register) {
         return ResultVO.success(service.register(register));
     }
-
 
 }
