@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.springbootsecurity.security.converter.PasswordConverter;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,8 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +32,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -83,19 +87,19 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     private Set<SystemRoleDO> roles;
 
     @JsonIgnore
-    @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '账户没有过期'")
     private Date accountNonExpired;
 
     @JsonIgnore
-    @Column(name = "account_non_locked", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    @Column(name = "account_non_locked", columnDefinition = "VARCHAR(100) COMMENT '账户没有被锁定'")
     private Date accountNonLocked;
 
     @JsonIgnore
-    @Column(name = "credentials_non_expired", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    @Column(name = "credentials_non_expired", columnDefinition = "VARCHAR(100) COMMENT '凭证没有过期'")
     private Date credentialsNonExpired;
 
     @JsonIgnore
-    @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '用户备注'")
+    @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '最后登录时间'")
     private Date lastLoginDate;
 
     @JsonIgnore
@@ -126,6 +130,16 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @DomainEvents
+    public List<SystemUserDO> domainEvents() {
+        return Lists.newArrayList(this);
+    }
+
+    @AfterDomainEventPublication
+    public void callbackMethod() {
+        System.out.println("CallBackMethod");
     }
 
 }
