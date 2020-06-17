@@ -65,8 +65,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     protected void configure(@NotNull HttpSecurity http) {
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin()
-                .loginProcessingUrl("/login").permitAll()
+        http.formLogin().loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
                 .and().logout().logoutUrl("/logout")
