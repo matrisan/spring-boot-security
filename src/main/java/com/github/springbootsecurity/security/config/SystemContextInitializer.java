@@ -29,8 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SystemContextInitializer implements CommandLineRunner {
 
-    private final PasswordEncoder passwordEncoder;
-
     private final IUserRepository userRepository;
 
     private final IRoleRepository roleRepository;
@@ -44,20 +42,18 @@ public class SystemContextInitializer implements CommandLineRunner {
     }
 
     private SystemRoleDO getRole() {
-        SystemRoleDO role = SystemRoleDO.builder()
+        return SystemRoleDO.builder()
                 .roleName("超管")
                 .roleCode("ROLE_ROOT")
                 .build();
-        return role;
     }
 
     private SystemUserDO getUser() {
-        SystemUserDO user = SystemUserDO.builder()
+        return SystemUserDO.builder()
                 .username("root")
-                .mobile("18888888888")
-                .password(passwordEncoder.encode("123456"))
+                .mobile("18812345678")
+                .password(("123456"))
                 .build();
-        return user;
     }
 
 }
