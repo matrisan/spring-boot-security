@@ -30,6 +30,10 @@ public class ResultVO<T> implements Serializable {
 
     private static final long serialVersionUID = -9016572856407681481L;
 
+    private static final String SUCCESS = "success";
+
+    private static final String FAILURE = "failure";
+
     private Integer status;
 
     private T data;
@@ -37,11 +41,11 @@ public class ResultVO<T> implements Serializable {
     private String message;
 
     public static <T> ResultVO<T> success() {
-        return ResultVO.<T>builder().status(200).build();
+        return ResultVO.<T>builder().status(200).message(SUCCESS).build();
     }
 
     public static <T> ResultVO<T> success(T data) {
-        return ResultVO.<T>builder().status(200).data(data).build();
+        return ResultVO.<T>builder().status(200).message(SUCCESS).data(data).build();
     }
 
     public static <T> ResultVO<T> success(T data, String message) {
@@ -49,7 +53,7 @@ public class ResultVO<T> implements Serializable {
     }
 
     public static <T> ResultVO<T> failure() {
-        return ResultVO.<T>builder().status(500).build();
+        return ResultVO.<T>builder().status(500).message(FAILURE).build();
     }
 
     public static <T> ResultVO<T> failure(String message) {

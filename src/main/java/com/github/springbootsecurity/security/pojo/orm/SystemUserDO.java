@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.springbootsecurity.security.converter.PasswordConverter;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Transient;
@@ -18,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -65,6 +69,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
 
     @JsonIgnore
     @Column(columnDefinition = "VARCHAR(255) COMMENT '密码'")
+    @Convert(converter = PasswordConverter.class)
     private String password;
 
     @Column(columnDefinition = "VARCHAR(50) COMMENT '邮箱'")

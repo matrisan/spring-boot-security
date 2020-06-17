@@ -23,6 +23,13 @@ import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
 
+    boolean existsByUsername(String username);
+
+    boolean existsByMobile(String mobile);
+
+    @Query("SELECT user FROM SystemUserDO AS user WHERE user.username = :#{principal.username}")
+    <V> V findCurrentUser(Class<V> clz);
+
     /**
      * 查找所有的用户
      *
