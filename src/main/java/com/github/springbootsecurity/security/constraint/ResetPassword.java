@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.constraint;
 
-import com.github.springbootsecurity.security.constraint.validator.UniqueMobileValidator;
+import com.github.springbootsecurity.security.constraint.validator.ResetPasswordValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -17,13 +17,13 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.FIELD})
-@Constraint(validatedBy = UniqueMobileValidator.class)
-public @interface UniqueMobile {
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Constraint(validatedBy = ResetPasswordValidator.class)
+public @interface ResetPassword {
 
     String value() default "";
 
-    String message() default "手机号码存在";
+    String message() default "密码不正确";
 
     Class<?>[] groups() default {};
 

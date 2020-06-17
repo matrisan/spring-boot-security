@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * <p>
@@ -42,18 +41,11 @@ public class SystemContextInitializer implements CommandLineRunner {
     }
 
     private SystemRoleDO getRole() {
-        return SystemRoleDO.builder()
-                .roleName("超管")
-                .roleCode("ROLE_ROOT")
-                .build();
+        return SystemRoleDO.builder().roleName("超管").roleCode("ROLE_ROOT").build();
     }
 
     private SystemUserDO getUser() {
-        return SystemUserDO.builder()
-                .username("root")
-                .mobile("18812345678")
-                .password(("123456"))
-                .build();
+        return SystemUserDO.builder().username("root").mobile("18812345678").password(("123456")).build();
     }
 
 }

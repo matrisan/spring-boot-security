@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.security.constraint.validator;
 
 import com.github.springbootsecurity.security.constraint.UniqueMobile;
-import com.github.springbootsecurity.security.constraint.UniqueUsername;
 import com.github.springbootsecurity.security.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 

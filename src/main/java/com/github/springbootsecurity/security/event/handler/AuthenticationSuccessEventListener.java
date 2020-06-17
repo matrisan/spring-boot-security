@@ -1,13 +1,11 @@
 package com.github.springbootsecurity.security.event.handler;
 
-import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,7 +28,7 @@ public class AuthenticationSuccessEventListener {
 
     @EventListener
     public void authenticationSuccessEvent(@NotNull AuthenticationSuccessEvent event) {
-//        repository.updateLastLoginDate();
+        repository.updateLastLoginDate();
     }
 
 }

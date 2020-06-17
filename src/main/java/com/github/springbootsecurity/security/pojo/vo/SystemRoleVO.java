@@ -1,8 +1,6 @@
 package com.github.springbootsecurity.security.pojo.vo;
 
 import com.github.springbootsecurity.security.pojo.BaseEntity;
-import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,11 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>

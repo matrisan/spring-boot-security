@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -23,10 +23,47 @@ import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
 
+    /**
+     * 获取当前登录的用户密码（加密过后的密码）
+     *
+     * @return String
+     */
+    @Query("SELECT user.password FROM SystemUserDO AS user WHERE user.username = :#{principal.username}")
+    String findCurrentPassword();
+
+    /**
+     * 更新当前登录用户的密码，会自动加密
+     *
+     * @param password 密码
+     */
+    @Modifying
+    @Transactional(rollbackFor = Exception.class)
+    @Query("UPDATE SystemUserDO AS user SET user.password = :password WHERE user.username = :#{principal.username}")
+    void updateCurrentPassword(String password);
+
+    /**
+     * 判断用户名是否存在
+     *
+     * @param username 用户名
+     * @return boolean
+     */
     boolean existsByUsername(String username);
 
+    /**
+     * 判断手机号码是否存在
+     *
+     * @param mobile 手机号码
+     * @return boolean
+     */
     boolean existsByMobile(String mobile);
 
+    /**
+     * 获取当前用户的信息
+     *
+     * @param clz 泛型类型
+     * @param <V> 泛型
+     * @return v
+     */
     @Query("SELECT user FROM SystemUserDO AS user WHERE user.username = :#{principal.username}")
     <V> V findCurrentUser(Class<V> clz);
 
@@ -50,8 +87,22 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
      */
     <V> Optional<V> findByUsernameEquals(String username, Class<V> clz);
 
+    /**
+     * 根据用户名查找用户信息
+     *
+     * @param username 用户名
+     * @param clz 泛型类型
+     * @param <V> 泛型
+     * @return v
+     */
     <V> V findByUsernameIs(String username, Class<V> clz);
 
+    /**
+     * 根据当前用户的 ID 查找用户
+     *
+     * @param id 用户的 ID
+     * @return 用户信息
+     */
     SystemUserDO findById(long id);
 
     /**
@@ -66,7 +117,7 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
      * 更新用户最后登录时间
      */
     @Modifying
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = current_date WHERE user.id = :#{principal.username}")
     void updateLastLoginDate();
 }

@@ -10,13 +10,8 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.persistence.Persistence;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,12 +1,8 @@
 package com.github.springbootsecurity.security.pojo.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.Value;
-
-import java.util.Date;
 
 /**
  * <p>

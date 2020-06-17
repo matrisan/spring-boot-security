@@ -1,7 +1,5 @@
 package com.github.springbootsecurity.security.core.sms;
 
-import com.github.springbootsecurity.security.core.sms.SmsCodeAuthenticationFilter;
-import com.github.springbootsecurity.security.core.sms.SmsCodeAuthenticationProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -11,7 +9,6 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 

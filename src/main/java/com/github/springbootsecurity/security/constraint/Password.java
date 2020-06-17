@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.security.constraint;
 
 import com.github.springbootsecurity.security.constraint.validator.PasswordValidator;
-import com.github.springbootsecurity.security.constraint.validator.UniqueMobileValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -24,7 +23,7 @@ public @interface Password {
 
     String value() default "";
 
-    String message() default "手机号码存在";
+    String message() default "密码不正确";
 
     Class<?>[] groups() default {};
 

@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
-import com.github.springbootsecurity.security.pojo.mapper.DoMapper;
 import com.github.springbootsecurity.security.pojo.mapper.SystemUserMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
@@ -12,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * <p>

@@ -1,11 +1,9 @@
 package com.github.springbootsecurity.security.service;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
-import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
-import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
