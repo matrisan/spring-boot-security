@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.service;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,14 +20,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface IManagerUserService {
 
-    SystemUserDO findById(long id);
+    Page<ISystemUserVO> findAllUsers(Pageable pageable);
 
-    Page<SystemUserVO> findUsers(Pageable pageable, SystemUserDO auth);
-
-    SystemUserVO findByUserByUsername(String username);
+    ISystemUserVO findByUserByUsername(String username);
 
     SystemUserVO createUser(SystemUserDTO user);
 
-    void deleteUserById(SystemUserDO user);
-
+    Void deleteUser(SystemUserDO user);
 }

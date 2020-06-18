@@ -1,8 +1,8 @@
 package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
-import com.github.springbootsecurity.security.pojo.mapper.SystemUserMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
+import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.github.springbootsecurity.security.service.IManagerUserService;
@@ -24,35 +24,31 @@ import org.springframework.stereotype.Service;
  */
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class ManagerUserServiceImpl implements IManagerUserService {
 
     private final IUserRepository userJpaRepository;
 
     @Override
-    public SystemUserDO findById(long id) {
-        return userJpaRepository.findById(id);
+    public Page<ISystemUserVO> findAllUsers(Pageable pageable) {
+        return userJpaRepository.findAllBy(pageable, ISystemUserVO.class);
     }
 
     @Override
-    public Page<SystemUserVO> findUsers(Pageable pageable, SystemUserDO auth) {
-        return userJpaRepository.findAllBy(pageable, SystemUserVO.class);
-    }
-
-    @Override
-    public SystemUserVO findByUserByUsername(String username) {
-        return userJpaRepository.findByUsernameIs(username, SystemUserVO.class);
+    public ISystemUserVO findByUserByUsername(String username) {
+        return userJpaRepository.findByUsernameIs(username, ISystemUserVO.class);
     }
 
     @Override
     public SystemUserVO createUser(SystemUserDTO user) {
-        userJpaRepository.save(SystemUserMapper.mapper(user));
-        return userJpaRepository.findByUsernameIs(user.getUsername(), SystemUserVO.class);
+        return null;
     }
 
     @Override
-    public void deleteUserById(SystemUserDO user) {
+    public Void deleteUser(SystemUserDO user) {
         userJpaRepository.delete(user);
+        return null;
     }
+
 }

@@ -120,4 +120,6 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
     @Transactional(rollbackFor = Exception.class)
     @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = current_date WHERE user.username = :#{principal.username}")
     void updateLastLoginDate();
+
+
 }

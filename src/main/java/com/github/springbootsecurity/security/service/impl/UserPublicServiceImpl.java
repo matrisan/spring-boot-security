@@ -8,6 +8,7 @@ import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.github.springbootsecurity.security.retrieve.IRetrievePassword;
 import com.github.springbootsecurity.security.service.IUserPublicService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,9 @@ import java.util.Map;
  * @date 2020-06-16 17:55
  */
 
-@Service
+@Slf4j
 @RequiredArgsConstructor
+@Service
 public class UserPublicServiceImpl implements IUserPublicService {
 
     private final IUserRepository repository;

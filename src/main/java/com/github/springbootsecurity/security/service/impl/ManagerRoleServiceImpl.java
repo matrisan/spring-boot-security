@@ -2,11 +2,12 @@ package com.github.springbootsecurity.security.service.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
-import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
+import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.repository.IRoleRepository;
 import com.github.springbootsecurity.security.service.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,30 +19,32 @@ import org.springframework.stereotype.Service;
  * @since 1.0
  */
 
-@Service
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class ManagerRoleServiceImpl implements IManagerRoleService {
 
     private final IRoleRepository roleRepository;
 
     @Override
-    public Page<SystemRoleVO> findAllRoles(Pageable pageable) {
-        return null;
+    public Page<ISystemRoleVO> findAllRoles(Pageable pageable) {
+        return roleRepository.findAllBy(pageable, ISystemRoleVO.class);
     }
 
     @Override
-    public SystemRoleVO findByRoleById(SystemRoleDO role) {
-        return null;
+    public ISystemRoleVO findByRoleById(@NotNull SystemRoleDO role) {
+        return roleRepository.findById(role.getId(), ISystemRoleVO.class);
     }
 
     @Override
-    public SystemRoleVO createRole(SystemRoleDTO user) {
+    public ISystemRoleVO createRole(SystemRoleDTO user) {
         return null;
     }
 
     @Override
     public void deleteRoleById(SystemRoleDO user) {
-
+         roleRepository.delete(user);
     }
 }
+
+
