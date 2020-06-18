@@ -114,10 +114,10 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
     SystemUserDO findByUsernameEquals(String username);
 
     /**
-     * 更新用户最后登录时间
+     * 更新用户最后登录时间id
      */
     @Modifying
     @Transactional(rollbackFor = Exception.class)
-    @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = current_date WHERE user.id = :#{principal.username}")
+    @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = current_date WHERE user.username = :#{principal.username}")
     void updateLastLoginDate();
 }

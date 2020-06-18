@@ -1,6 +1,8 @@
 package com.github.springbootsecurity.security.service;
 
+import com.github.springbootsecurity.security.pojo.dto.RetrievePasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
+import com.github.springbootsecurity.security.pojo.vo.RetrieveMessageVO;
 
 /**
  * @author 石少东
@@ -11,4 +13,5 @@ public interface IUserPublicService {
 
     Void register(UserRegisterDTO register);
 
+    RetrieveMessageVO retrievePassword(String type, RetrievePasswordDTO retrieve);
 }

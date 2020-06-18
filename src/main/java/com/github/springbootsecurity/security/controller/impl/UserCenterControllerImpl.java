@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -23,13 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@PreAuthorize("isAuthenticated()")
+@RequestMapping("/center")
 @RequiredArgsConstructor
 public class UserCenterControllerImpl implements IUserCenterController<ISystemUserVO, SystemUserDTO> {
 
     private final IUserCenterService service;
 
     @GetMapping("/me")
-    @PreAuthorize("isAuthenticated()")
     @Override
     public ResultVO<ISystemUserVO> me() {
         return ResultVO.success(service.me());
@@ -42,7 +44,6 @@ public class UserCenterControllerImpl implements IUserCenterController<ISystemUs
     }
 
     @PutMapping("/password/reset")
-    @PreAuthorize("isAuthenticated()")
     @Override
     public ResultVO<Void> resetPassword(@RequestBody @Validated ResetPasswordDTO resetPassword) {
         return ResultVO.success(service.resetPassword(resetPassword));
