@@ -3,6 +3,7 @@ package com.github.springbootsecurity.security.controller.impl;
 import com.github.springbootsecurity.security.controller.IManagerRoleController;
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
+import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
 import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
 import com.github.springbootsecurity.security.service.IManagerRoleService;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1
  */
 
-
 @RestController
 @PreAuthorize("hasRole('ROLE_ROOT')")
 @RequestMapping("/manager/role")
@@ -34,7 +34,7 @@ public class ManagerRoleControllerImpl implements IManagerRoleController<SystemR
 
     @GetMapping("roles")
     @Override
-    public ResultVO<Page<SystemRoleVO>> findAllRoles(Pageable pageable) {
+    public ResultVO<Page<ISystemRoleVO>> findAllRoles(Pageable pageable) {
         return ResultVO.success(service.findAllRoles(pageable));
     }
 

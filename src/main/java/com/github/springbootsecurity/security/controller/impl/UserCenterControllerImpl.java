@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
-@RequestMapping("/center")
+@RequestMapping("/user/center")
 @RequiredArgsConstructor
 public class UserCenterControllerImpl implements IUserCenterController<ISystemUserVO, SystemUserDTO> {
 

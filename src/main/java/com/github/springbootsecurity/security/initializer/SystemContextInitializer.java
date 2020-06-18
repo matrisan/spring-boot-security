@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.config;
+package com.github.springbootsecurity.security.initializer;
 
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
