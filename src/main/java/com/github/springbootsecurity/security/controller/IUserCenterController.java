@@ -14,10 +14,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface IUserCenterController<V extends ISystemUserVO, E extends SystemUserDTO> {
 
+    /**
+     * 获取当前用户信息
+     *
+     * @return ResultVO
+     */
     ResultVO<V> me();
 
+    /**
+     * 更新用户信息
+     *
+     * @param systemUser 用户信息
+     * @return Void
+     */
     ResultVO<Void> updateUserInfo(@RequestBody E systemUser);
 
+    /**
+     * 重置密码
+     *
+     * @param resetPassword 重置密码
+     * @return Void
+     */
     ResultVO<Void> resetPassword(@RequestBody @Validated ResetPasswordDTO resetPassword);
 
 }

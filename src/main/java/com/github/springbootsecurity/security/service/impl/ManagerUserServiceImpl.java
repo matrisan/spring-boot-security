@@ -5,7 +5,7 @@ import com.github.springbootsecurity.security.pojo.mapper.SystemUserMapper;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
-import com.github.springbootsecurity.security.service.IUserService;
+import com.github.springbootsecurity.security.service.IManagerUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService {
+public class ManagerUserServiceImpl implements IManagerUserService {
 
     private final IUserRepository userJpaRepository;
 

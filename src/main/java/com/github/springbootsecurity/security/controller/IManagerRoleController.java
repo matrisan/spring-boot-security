@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
  */
 
 
-public interface IRoleManagerController<T extends SystemRoleDTO> {
+public interface IManagerRoleController<T extends SystemRoleDTO> {
 
     /**
      * 查找所有的角色

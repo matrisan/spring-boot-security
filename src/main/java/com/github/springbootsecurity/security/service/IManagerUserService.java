@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
  * @since 0.0.1
  */
 
-public interface IUserService {
+public interface IManagerUserService {
 
     SystemUserDO findById(long id);
 

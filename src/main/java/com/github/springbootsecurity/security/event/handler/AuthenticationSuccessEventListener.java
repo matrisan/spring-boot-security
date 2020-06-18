@@ -28,7 +28,7 @@ public class AuthenticationSuccessEventListener {
 
     @EventListener
     public void authenticationSuccessEvent(@NotNull AuthenticationSuccessEvent event) {
-        repository.updateLastLoginDate();
+//        repository.updateLastLoginDate();
     }
 
 }

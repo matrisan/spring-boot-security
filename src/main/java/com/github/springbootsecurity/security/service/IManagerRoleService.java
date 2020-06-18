@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
  * @since 0.0.1
  */
 
-public interface IRoleManagerService {
+public interface IManagerRoleService {
 
     Page<SystemRoleVO> findAllRoles(Pageable pageable);
 
