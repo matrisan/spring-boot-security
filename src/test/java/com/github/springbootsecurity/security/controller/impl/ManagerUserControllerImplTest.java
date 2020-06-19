@@ -1,7 +1,5 @@
 package com.github.springbootsecurity.security.controller.impl;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import javax.annotation.Resource;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -35,7 +34,7 @@ public class ManagerUserControllerImplTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/manager/user/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.status").value(0))
+                .andExpect(jsonPath("$.status").value(200))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -44,7 +43,13 @@ public class ManagerUserControllerImplTest {
     @WithMockUser(roles = "ROOT", username = "root")
     @Test
     public void findByUserByUsername() throws Exception {
-
+        mockMvc.perform(MockMvcRequestBuilders.get("/manager/user/user/root"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 
     @WithMockUser(roles = "ROOT", username = "root")
@@ -56,6 +61,12 @@ public class ManagerUserControllerImplTest {
     @WithMockUser(roles = "ROOT", username = "root")
     @Test
     public void deleteUserById() throws Exception {
-
+        mockMvc.perform(MockMvcRequestBuilders.delete("/manager/user/user/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 }

@@ -1,0 +1,4 @@
+GET http://{{host}}:{{port}}/manager/role/roles
+Accept: application/json
+
+###
