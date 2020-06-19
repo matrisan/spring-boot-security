@@ -84,7 +84,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
 
-        http.csrf().disable();
+//        http.csrf().disable();
 //        http.apply(smsCodeAuthenticationSecurityConfig);
     }
 
