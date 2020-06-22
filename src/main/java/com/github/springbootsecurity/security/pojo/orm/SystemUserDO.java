@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.springbootsecurity.security.converter.PasswordConverter;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import com.google.common.collect.Lists;
@@ -50,7 +51,7 @@ import java.util.Set;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode(callSuper = false, exclude = "roles")
+@EqualsAndHashCode(callSuper = false, exclude = {"roles", "lastLoginDate"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -83,6 +84,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
+    @JsonManagedReference
     @JsonIgnoreProperties(value = {"users"})
     private Set<SystemRoleDO> roles;
 
@@ -99,7 +101,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     private Date credentialsNonExpired;
 
     @JsonIgnore
-    @Column(name = "last_login_date", columnDefinition = "VARCHAR(100) COMMENT '最后登录时间'")
+    @Column(name = "last_login_date", columnDefinition = "DATETIME COMMENT '最后登录时间'")
     private Date lastLoginDate;
 
     @JsonIgnore

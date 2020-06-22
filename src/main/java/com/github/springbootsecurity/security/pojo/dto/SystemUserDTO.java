@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.pojo.dto;
 
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -15,10 +16,12 @@ import lombok.Data;
  */
 
 @Data
-public class SystemUserDTO extends BaseEntity {
+@EqualsAndHashCode(callSuper = false)
+public class SystemUserDTO<E> extends BaseEntity {
 
     private static final long serialVersionUID = 8244210886033431393L;
 
     private String username;
 
+    private E optional;
 }

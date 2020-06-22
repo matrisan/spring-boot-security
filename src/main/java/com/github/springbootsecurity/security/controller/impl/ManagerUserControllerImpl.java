@@ -1,6 +1,7 @@
 package com.github.springbootsecurity.security.controller.impl;
 
 import com.github.springbootsecurity.security.controller.IManagerUserController;
+import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('ROLE_ROOT')")
 @RequestMapping("/manager/user")
 @RequiredArgsConstructor
-public class ManagerUserControllerImpl implements IManagerUserController<ISystemUserVO> {
+public class ManagerUserControllerImpl implements IManagerUserController<ISystemUserVO,Void> {
 
     private final IManagerUserService service;
 
@@ -45,7 +46,7 @@ public class ManagerUserControllerImpl implements IManagerUserController<ISystem
 
     @PostMapping("/user")
     @Override
-    public ResultVO<ISystemUserVO> createUser(@RequestBody SystemUserDO user) {
+    public ResultVO<ISystemUserVO> createUser(@RequestBody SystemUserDTO<Void> user) {
         return null;
     }
 

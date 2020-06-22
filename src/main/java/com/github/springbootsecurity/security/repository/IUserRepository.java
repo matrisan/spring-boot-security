@@ -91,8 +91,8 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
      * 根据用户名查找用户信息
      *
      * @param username 用户名
-     * @param clz 泛型类型
-     * @param <V> 泛型
+     * @param clz      泛型类型
+     * @param <V>      泛型
      * @return v
      */
     <V> V findByUsernameIs(String username, Class<V> clz);
@@ -118,7 +118,7 @@ public interface IUserRepository extends JpaRepository<SystemUserDO, Long> {
      */
     @Modifying
     @Transactional(rollbackFor = Exception.class)
-    @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = current_date WHERE user.username = :#{principal.username}")
+    @Query("UPDATE SystemUserDO AS user SET user.lastLoginDate = CURRENT_TIMESTAMP WHERE user.username = :#{principal.username}")
     void updateLastLoginDate();
 
 

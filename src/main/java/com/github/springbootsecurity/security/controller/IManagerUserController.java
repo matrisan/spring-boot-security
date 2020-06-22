@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.controller;
 
+import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Pageable;
  * @since 1.0.0
  */
 
-public interface IManagerUserController<T extends ISystemUserVO> {
+public interface IManagerUserController<T extends ISystemUserVO, E> {
 
     /**
      * 分页查找所有的用户
@@ -36,7 +37,7 @@ public interface IManagerUserController<T extends ISystemUserVO> {
      * @param user 用户信息
      * @return ResultVO
      */
-    ResultVO<T> createUser(SystemUserDO user);
+    ResultVO<T> createUser(SystemUserDTO<E> user);
 
     /**
      * 根据用户的 ID 删除用户

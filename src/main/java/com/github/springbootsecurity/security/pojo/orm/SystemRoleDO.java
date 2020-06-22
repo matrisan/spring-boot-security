@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.pojo.orm;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
@@ -58,6 +59,7 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
     @Column(name = "role_code", columnDefinition = "VARCHAR(20) COMMENT '角色编码'")
     private String roleCode;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"roles"})
     private Set<SystemUserDO> users;
