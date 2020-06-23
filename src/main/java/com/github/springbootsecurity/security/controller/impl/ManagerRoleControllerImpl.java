@@ -10,6 +10,8 @@ import com.github.springbootsecurity.security.service.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +36,7 @@ public class ManagerRoleControllerImpl implements IManagerRoleController<SystemR
 
     @GetMapping("roles")
     @Override
-    public ResultVO<Page<ISystemRoleVO>> findAllRoles(Pageable pageable) {
+    public ResultVO<Page<ISystemRoleVO>> findAllRoles(@PageableDefault(direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable) {
         return ResultVO.success(service.findAllRoles(pageable));
     }
 

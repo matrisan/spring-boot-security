@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @date 2020-06-16 17:07
  */
 
-public interface IUserCenterController<V extends ISystemUserVO, E extends SystemUserDTO> {
+public interface IUserCenterController<V extends ISystemUserVO, T extends SystemUserDTO<E>, E> {
 
     /**
      * 获取当前用户信息
@@ -27,7 +27,7 @@ public interface IUserCenterController<V extends ISystemUserVO, E extends System
      * @param systemUser 用户信息
      * @return Void
      */
-    ResultVO<Void> updateUserInfo(@RequestBody E systemUser);
+    ResultVO<Void> updateUserInfo(@RequestBody T systemUser);
 
     /**
      * 重置密码

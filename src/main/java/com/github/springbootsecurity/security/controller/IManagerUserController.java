@@ -6,6 +6,8 @@ import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 /**
  * @author 石少东
@@ -21,7 +23,7 @@ public interface IManagerUserController<T extends ISystemUserVO, E> {
      * @param pageable 分页信息
      * @return Page
      */
-    ResultVO<Page<T>> findAllUsers(Pageable pageable);
+    ResultVO<Page<T>> findAllUsers(@PageableDefault(direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable);
 
     /**
      * 根据用户名查找用户

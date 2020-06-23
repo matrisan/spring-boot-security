@@ -23,7 +23,6 @@ public interface IUserPublicController<T extends UserRegisterDTO> {
      */
     ResultVO<Void> register(@Validated T register);
 
-
     /**
      * 找回密码
      *
@@ -33,5 +32,4 @@ public interface IUserPublicController<T extends UserRegisterDTO> {
      */
     ResultVO<RetrieveMessageVO> retrievePassword(@RetrieveType String type, @RequestBody RetrievePasswordDTO retrieve);
 
-//    ResultVO<Void> resetPassword();
 }
