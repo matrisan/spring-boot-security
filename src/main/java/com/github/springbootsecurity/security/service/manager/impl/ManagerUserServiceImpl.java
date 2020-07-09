@@ -1,11 +1,11 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.manager.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.SystemUserVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
-import com.github.springbootsecurity.security.service.IManagerUserService;
+import com.github.springbootsecurity.security.service.manager.IManagerUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

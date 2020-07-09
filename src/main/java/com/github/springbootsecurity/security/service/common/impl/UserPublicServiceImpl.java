@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.common.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.RetrievePasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;
@@ -6,7 +6,7 @@ import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.RetrieveMessageVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
 import com.github.springbootsecurity.security.retrieve.IRetrievePassword;
-import com.github.springbootsecurity.security.service.IUserPublicService;
+import com.github.springbootsecurity.security.service.common.IUserPublicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

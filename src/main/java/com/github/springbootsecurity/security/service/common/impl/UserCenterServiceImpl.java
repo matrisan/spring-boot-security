@@ -1,10 +1,10 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.common.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.ResetPasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.repository.IUserRepository;
-import com.github.springbootsecurity.security.service.IUserCenterService;
+import com.github.springbootsecurity.security.service.common.IUserCenterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

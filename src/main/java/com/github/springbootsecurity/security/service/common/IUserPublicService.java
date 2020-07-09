@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.common;
 
 import com.github.springbootsecurity.security.pojo.dto.RetrievePasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.UserRegisterDTO;

@@ -1,10 +1,10 @@
-package com.github.springbootsecurity.security.service.impl;
+package com.github.springbootsecurity.security.service.manager.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.repository.IRoleRepository;
-import com.github.springbootsecurity.security.service.IManagerRoleService;
+import com.github.springbootsecurity.security.service.manager.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

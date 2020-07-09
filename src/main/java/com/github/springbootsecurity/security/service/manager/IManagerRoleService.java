@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.service;
+package com.github.springbootsecurity.security.service.manager;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;

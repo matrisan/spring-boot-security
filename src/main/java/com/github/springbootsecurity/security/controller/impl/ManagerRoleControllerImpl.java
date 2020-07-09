@@ -6,7 +6,7 @@ import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
 import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
-import com.github.springbootsecurity.security.service.IManagerRoleService;
+import com.github.springbootsecurity.security.service.manager.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

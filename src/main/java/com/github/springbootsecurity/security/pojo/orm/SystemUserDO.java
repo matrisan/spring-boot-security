@@ -1,7 +1,6 @@
 package com.github.springbootsecurity.security.pojo.orm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.springbootsecurity.security.converter.PasswordConverter;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
@@ -85,7 +84,6 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     @JsonManagedReference
-    @JsonIgnoreProperties(value = {"users"})
     private Set<SystemRoleDO> roles;
 
     @JsonIgnore

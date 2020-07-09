@@ -6,7 +6,7 @@ import com.github.springbootsecurity.security.pojo.dto.ResetPasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
-import com.github.springbootsecurity.security.service.IUserCenterService;
+import com.github.springbootsecurity.security.service.common.IUserCenterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
