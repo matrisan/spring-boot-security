@@ -26,5 +26,4 @@ public class AuthorizedEventListener {
         log.error("AuthorizedEventListener 接收到事件:{}", event.getClass());
     }
 
-
 }

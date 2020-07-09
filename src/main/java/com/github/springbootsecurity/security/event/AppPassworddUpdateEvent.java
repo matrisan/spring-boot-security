@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationEvent;
  */
 
 
-public class AppPasswdUpdateEvent extends ApplicationEvent {
+public class AppPassworddUpdateEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = -3564955735255181733L;
 
-    public AppPasswdUpdateEvent(UserInfoBO source) {
+    public AppPassworddUpdateEvent(UserInfoBO source) {
         super(source);
     }
 

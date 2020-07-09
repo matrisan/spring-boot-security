@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.security.converter;
 
-import com.github.springbootsecurity.security.event.AppPasswdUpdateEvent;
+import com.github.springbootsecurity.security.event.AppPassworddUpdateEvent;
 import com.github.springbootsecurity.security.pojo.bo.UserInfoBO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class PasswordConverter implements AttributeConverter<String, String> {
         SystemUserDO systemUser = (SystemUserDO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserInfoBO user = new UserInfoBO();
         BeanUtils.copyProperties(systemUser, user);
-        eventPublisher.publishEvent(new AppPasswdUpdateEvent(user));
+        eventPublisher.publishEvent(new AppPassworddUpdateEvent(user));
         log.info("发布密码更新事件 - {}", user.getId());
     }
 

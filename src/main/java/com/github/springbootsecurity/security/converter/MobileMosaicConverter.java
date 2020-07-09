@@ -11,6 +11,8 @@ import javax.persistence.AttributeConverter;
 
 public class MobileMosaicConverter implements AttributeConverter<String, String> {
 
+    private static final int MOBILE_LENGTH = 11;
+
     @Override
     public String convertToDatabaseColumn(String attribute) {
         return attribute;
@@ -19,9 +21,9 @@ public class MobileMosaicConverter implements AttributeConverter<String, String>
     @Override
     public String convertToEntityAttribute(String dbData) {
         if (null == dbData) {
-            return dbData;
+            return null;
         }
-        if (dbData.length() == 11) {
+        if (dbData.length() == MOBILE_LENGTH) {
             return new StringBuilder(dbData).replace(3, 7, "****").toString();
         }
         return dbData;

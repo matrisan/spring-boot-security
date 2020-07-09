@@ -26,5 +26,4 @@ public class AuthorizationFailureEventListener {
         log.error("AuthorizationFailureEventListener 接收到事件:{}", event.getClass());
     }
 
-
 }
