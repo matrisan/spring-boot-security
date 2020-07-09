@@ -2,6 +2,7 @@ package com.github.springbootsecurity.security.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.springbootsecurity.security.converter.MobileMosaicConverter;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,10 +77,12 @@ public abstract class BaseEntity implements Serializable {
 
     @CreatedBy
     @Column(name="create_by")
+    @Convert(converter = MobileMosaicConverter.class)
     private String createBy;
 
     @LastModifiedBy
     @Column(name="last_modified_by")
+    @Convert(converter = MobileMosaicConverter.class)
     private String lastModifiedBy;
 
 }

@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -31,6 +32,8 @@ public class SystemContextInitializer implements CommandLineRunner {
     private final IUserRepository userRepository;
 
     private final IRoleRepository roleRepository;
+
+    private final ApplicationContext applicationContext;
 
     @Override
     public void run(String... args) {

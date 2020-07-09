@@ -33,12 +33,8 @@ public class PasswordDecodeProcessingFilter extends OncePerRequestFilter {
 
     private final AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(SYSTEM_LOGIN_USERNAME, POST);
 
-    private final ILoginPasswordDecoder passwordDecoder;
-
     @Autowired(required = false)
-    public PasswordDecodeProcessingFilter(ILoginPasswordDecoder passwordDecoder) {
-        this.passwordDecoder = passwordDecoder;
-    }
+    private ILoginPasswordDecoder passwordDecoder;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
