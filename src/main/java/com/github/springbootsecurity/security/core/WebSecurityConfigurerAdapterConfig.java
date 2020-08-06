@@ -19,6 +19,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 /**
  * <p>
@@ -84,8 +85,8 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
 
-        http.csrf().disable();
-//        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//        http.csrf().disable();
+        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
 //        http.apply(smsCodeAuthenticationSecurityConfig);
     }
 

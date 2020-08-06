@@ -123,7 +123,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @JsonIgnore

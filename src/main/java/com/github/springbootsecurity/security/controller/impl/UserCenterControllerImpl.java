@@ -24,25 +24,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@PreAuthorize("isAuthenticated()")
 @RequestMapping("/user/center")
 @RequiredArgsConstructor
 public class UserCenterControllerImpl implements IUserCenterController<ISystemUserVO, SystemUserDTO<Void>,Void> {
 
     private final IUserCenterService service;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
     @Override
     public ResultVO<ISystemUserVO> me() {
         return ResultVO.success(service.me());
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("/message")
+    public ResultVO<ISystemUserVO> message() {
+        return ResultVO.success(service.me());
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/info")
     @Override
     public ResultVO<Void> updateUserInfo(@RequestBody SystemUserDTO<Void> systemUser) {
         return ResultVO.success(service.updateUserInfo(systemUser));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/password/reset")
     @Override
     public ResultVO<Void> resetPassword(@RequestBody @Validated ResetPasswordDTO resetPassword) {
