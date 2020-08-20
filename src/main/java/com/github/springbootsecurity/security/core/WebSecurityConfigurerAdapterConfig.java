@@ -1,6 +1,5 @@
 package com.github.springbootsecurity.security.core;
 
-import com.github.springbootsecurity.security.core.handler.InvalidSessionStrategyImpl;
 import com.github.springbootsecurity.security.core.handler.SessionInformationExpiredStrategyImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -19,7 +18,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 /**
  * <p>
@@ -31,10 +29,11 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
  * @version 0.0.1
  * @since 0.0.1
  */
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAdapter {
 
     private final LogoutSuccessHandler logoutSuccessHandler;
@@ -47,7 +46,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
 
     private final AuthenticationSuccessHandler successHandler;
 
-    private final InvalidSessionStrategyImpl sessionInvalidStrategy;
+//    private final InvalidSessionStrategyImpl sessionInvalidStrategy;
 
     private final SessionInformationExpiredStrategyImpl sessionExpiredStrategy;
 
@@ -56,28 +55,27 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     private final AccessDeniedHandler accessDeniedHandler;
 
     @Override
-    @SneakyThrows(Exception.class)
-    protected void configure(@NotNull AuthenticationManagerBuilder auth) {
+    protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
-    @SneakyThrows(Exception.class)
-    protected void configure(@NotNull HttpSecurity http) {
+    protected void configure(@NotNull HttpSecurity http) throws Exception {
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin().loginProcessingUrl("/login")
+        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME)
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-                .and().logout().logoutUrl("/logout")
+                .and()
+                .logout().logoutUrl(SecurityConstant.SYSTEM_LOGIN_LOGOUT)
 //                .logoutSuccessHandler()
                 .permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         // 对 Session 的管理
         http.sessionManagement()
                 // 登录超时处理
-                .invalidSessionStrategy(sessionInvalidStrategy)
-                .maximumSessions(1)
+//                .invalidSessionStrategy(sessionInvalidStrategy)
+                .maximumSessions(2)
                 .maxSessionsPreventsLogin(false)
                 // 异地登录处理
                 .expiredSessionStrategy(sessionExpiredStrategy);
@@ -85,8 +83,8 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
         http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
 
-//        http.csrf().disable();
-        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
+        http.csrf().disable();
+//        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
 //        http.apply(smsCodeAuthenticationSecurityConfig);
     }
 
@@ -94,7 +92,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     @SneakyThrows(Exception.class)
     public void configure(@NotNull WebSecurity web) {
         web.ignoring().antMatchers("/");
-//        web.ignoring().antMatchers("/login");
+        web.ignoring().antMatchers(SecurityConstant.SYSTEM_LOGIN_USERNAME);
         web.ignoring().antMatchers("/static/js/**");
         web.ignoring().antMatchers("/static/css/**");
         web.ignoring().antMatchers("/static/image/**");

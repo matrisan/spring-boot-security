@@ -23,7 +23,8 @@ public class AuthorizationFailureEventListener {
 
     @EventListener
     public void event1(@NotNull AuthorizationFailureEvent event) {
-        log.error("AuthorizationFailureEventListener 接收到事件:{}", event.getClass());
+        log.error("AuthorizationFailureEventListener 接收到事件:{} - {}", event.getClass(), event.toString());
+
     }
 
 }

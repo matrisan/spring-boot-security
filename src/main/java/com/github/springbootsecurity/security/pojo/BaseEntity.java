@@ -37,13 +37,13 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
+    @Transient
+    private static final long serialVersionUID = -2191753221757519036L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Transient
-    private static final long serialVersionUID = -2191753221757519036L;
 
     @Column(columnDefinition = "VARCHAR(100) COMMENT '备注'")
     private String note;

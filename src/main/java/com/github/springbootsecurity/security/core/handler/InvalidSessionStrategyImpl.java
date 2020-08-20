@@ -3,8 +3,8 @@ package com.github.springbootsecurity.security.core.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.session.InvalidSessionStrategy;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,19 +23,20 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Component
+//@Component
 public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
 
     @Override
     public void onInvalidSessionDetected(@NotNull HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         log.info("用户登录超时，请重新登录！");
-        // 清空cookie
+//        // 清空cookie
         Cookie[] cookies = httpServletRequest.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 cookie.setMaxAge(0);
             }
         }
+        SecurityContextHolder.clearContext();
         httpServletRequest.getSession().invalidate();
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());

@@ -1,7 +1,7 @@
-package com.github.springbootsecurity.security.controller.impl;
+package com.github.springbootsecurity.security.controller.center.impl;
 
 
-import com.github.springbootsecurity.security.controller.IUserCenterController;
+import com.github.springbootsecurity.security.controller.center.IUserCenterController;
 import com.github.springbootsecurity.security.pojo.dto.ResetPasswordDTO;
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;

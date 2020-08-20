@@ -11,7 +11,14 @@ import lombok.Getter;
 
 public enum RetrieveEnum {
 
+    /**
+     *
+     */
     MOBILE("mobile"),
+
+    /**
+     *
+     */
     EMAIL("email");
 
     @Getter

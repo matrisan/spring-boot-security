@@ -1,6 +1,6 @@
-package com.github.springbootsecurity.security.controller.impl;
+package com.github.springbootsecurity.security.controller.manager.impl;
 
-import com.github.springbootsecurity.security.controller.IManagerUserController;
+import com.github.springbootsecurity.security.controller.manager.IManagerUserController;
 import com.github.springbootsecurity.security.pojo.dto.SystemUserDTO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemUserVO;

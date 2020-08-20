@@ -21,8 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * <p>
@@ -58,9 +59,10 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
     @Column(name = "role_code", columnDefinition = "VARCHAR(20) COMMENT '角色编码'")
     private String roleCode;
 
-    @JsonBackReference
+    @MapKey
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<SystemUserDO> users;
+    @JsonBackReference
+    private Map<Long, SystemUserDO> users;
 
     @JsonIgnore
     @Override

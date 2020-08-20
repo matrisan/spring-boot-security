@@ -29,11 +29,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * <p>
@@ -77,6 +78,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @Column(columnDefinition = "VARCHAR(50) COMMENT '邮箱'")
     private String email;
 
+    @MapKey
     @ManyToMany(targetEntity = SystemRoleDO.class, cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
@@ -84,7 +86,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     @JsonManagedReference
-    private Set<SystemRoleDO> roles;
+    private Map<Long, SystemRoleDO> roles;
 
     @JsonIgnore
     @Column(name = "account_non_expired", columnDefinition = "VARCHAR(100) COMMENT '账户没有过期'")
@@ -105,7 +107,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public Collection<SystemRoleDO> getAuthorities() {
-        return roles;
+        return roles.values();
     }
 
     @JsonIgnore
@@ -123,7 +125,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @JsonIgnore

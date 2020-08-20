@@ -1,13 +1,11 @@
 package com.github.springbootsecurity.security.service.manager.impl;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
-import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.repository.IRoleRepository;
 import com.github.springbootsecurity.security.service.manager.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,18 +30,18 @@ public class ManagerRoleServiceImpl implements IManagerRoleService {
     }
 
     @Override
-    public ISystemRoleVO findByRoleById(@NotNull SystemRoleDO role) {
-        return roleRepository.findById(role.getId(), ISystemRoleVO.class);
+    public ISystemRoleVO findByRoleById(Long roleId) {
+        return roleRepository.findById(roleId, ISystemRoleVO.class);
     }
 
     @Override
-    public ISystemRoleVO createRole(SystemRoleDTO user) {
-        return null;
+    public void createRole(SystemRoleDTO user) {
+
     }
 
     @Override
-    public void deleteRoleById(SystemRoleDO user) {
-         roleRepository.delete(user);
+    public void deleteRoleById(Long roleId) {
+         roleRepository.deleteById(roleId);
     }
 }
 

@@ -4,13 +4,14 @@ import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.orm.SystemUserDO;
 import com.github.springbootsecurity.security.repository.IRoleRepository;
 import com.github.springbootsecurity.security.repository.IUserRepository;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -33,13 +34,13 @@ public class SystemContextInitializer implements CommandLineRunner {
 
     private final IRoleRepository roleRepository;
 
-    private final ApplicationContext applicationContext;
-
     @Override
     public void run(String... args) {
         SystemRoleDO role = roleRepository.save(getRole());
+        Map<Long, SystemRoleDO> map = Maps.newHashMap();
+        map.put(role.getId(), role);
         SystemUserDO user = getUser();
-        user.setRoles(Sets.newHashSet(role));
+        user.setRoles(map);
         userRepository.save(user);
     }
 

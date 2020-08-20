@@ -3,12 +3,13 @@ package com.github.springbootsecurity.security.core;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +30,12 @@ import static org.springframework.security.web.authentication.UsernamePasswordAu
 @Slf4j
 @Component
 @Order(Integer.MIN_VALUE)
+@ConditionalOnBean(ILoginPasswordDecoder.class)
 public class PasswordDecodeProcessingFilter extends OncePerRequestFilter {
 
     private final AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(SYSTEM_LOGIN_USERNAME, POST);
 
-    @Autowired(required = false)
+    @Resource
     private ILoginPasswordDecoder passwordDecoder;
 
     @Override
@@ -69,6 +71,5 @@ public class PasswordDecodeProcessingFilter extends OncePerRequestFilter {
             return passwordDecoder.decode(request, password);
         }
     }
-
 
 }

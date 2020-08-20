@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.center;
 
 import com.github.springbootsecurity.security.constraint.RetrieveType;
 import com.github.springbootsecurity.security.pojo.dto.RetrievePasswordDTO;

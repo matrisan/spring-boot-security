@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 /**
  * <p>
  * 创建时间为 下午8:35 2019/9/17
@@ -28,7 +26,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private final IUserRepository repository;
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SystemUserDO systemUserDO = repository.findByUsernameEquals(username);
         if (null == systemUserDO) {

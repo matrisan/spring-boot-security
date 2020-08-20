@@ -1,10 +1,8 @@
-package com.github.springbootsecurity.security.controller;
+package com.github.springbootsecurity.security.controller.manager;
 
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
-import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
-import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,10 +28,10 @@ public interface IManagerRoleController<T extends SystemRoleDTO> {
     /**
      * 根据ID查找角色
      *
-     * @param role 角色信息
+     * @param roleId 角色信息
      * @return SystemRoleVO
      */
-    ResultVO<SystemRoleVO> findByRoleById(SystemRoleDO role);
+    ResultVO<ISystemRoleVO> findByRoleById(Long roleId);
 
     /**
      * 创建新用户
@@ -41,7 +39,7 @@ public interface IManagerRoleController<T extends SystemRoleDTO> {
      * @param role 用户信息
      * @return SystemRoleVO
      */
-    ResultVO<SystemRoleVO> createRole(T role);
+    ResultVO<Void> createRole(T role);
 
     /**
      * 根据ID删除用户
@@ -49,7 +47,7 @@ public interface IManagerRoleController<T extends SystemRoleDTO> {
      * @param role 用户信息
      * @return Void
      */
-    ResultVO<Void> deleteRoleById(SystemRoleDO role);
+    ResultVO<Void> deleteRoleById( Long roleId);
 
 
 }

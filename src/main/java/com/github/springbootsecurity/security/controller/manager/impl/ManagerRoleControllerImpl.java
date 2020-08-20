@@ -1,11 +1,9 @@
-package com.github.springbootsecurity.security.controller.impl;
+package com.github.springbootsecurity.security.controller.manager.impl;
 
-import com.github.springbootsecurity.security.controller.IManagerRoleController;
+import com.github.springbootsecurity.security.controller.manager.IManagerRoleController;
 import com.github.springbootsecurity.security.pojo.dto.SystemRoleDTO;
-import com.github.springbootsecurity.security.pojo.orm.SystemRoleDO;
 import com.github.springbootsecurity.security.pojo.vo.ISystemRoleVO;
 import com.github.springbootsecurity.security.pojo.vo.ResultVO;
-import com.github.springbootsecurity.security.pojo.vo.SystemRoleVO;
 import com.github.springbootsecurity.security.service.manager.IManagerRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,19 +40,21 @@ public class ManagerRoleControllerImpl implements IManagerRoleController<SystemR
 
     @GetMapping("role/{id}")
     @Override
-    public ResultVO<SystemRoleVO> findByRoleById(@PathVariable("id") SystemRoleDO role) {
-        return null;
+    public ResultVO<ISystemRoleVO> findByRoleById(@PathVariable("id") Long roleId) {
+        return ResultVO.success(service.findByRoleById(roleId));
     }
 
     @PostMapping("role")
     @Override
-    public ResultVO<SystemRoleVO> createRole(SystemRoleDTO role) {
-        return null;
+    public ResultVO<Void> createRole(SystemRoleDTO role) {
+        service.createRole(role);
+        return ResultVO.success();
     }
 
     @DeleteMapping("role/{id}")
     @Override
-    public ResultVO<Void> deleteRoleById(@PathVariable("id") SystemRoleDO role) {
-        return null;
+    public ResultVO<Void> deleteRoleById(@PathVariable("id")  Long roleId) {
+        service.deleteRoleById(roleId);
+        return ResultVO.success();
     }
 }

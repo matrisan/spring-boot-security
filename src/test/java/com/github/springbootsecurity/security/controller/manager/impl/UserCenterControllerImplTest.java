@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.controller.impl;
+package com.github.springbootsecurity.security.controller.manager.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ManagerUserControllerImplTest {
+public class UserCenterControllerImplTest {
 
     @Resource
     private MockMvc mockMvc;
 
     @WithMockUser(roles = "ROOT", username = "root")
     @Test
-    public void findAllUsers() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/manager/user/users"))
+    public void me() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/center/me"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
@@ -42,31 +42,11 @@ public class ManagerUserControllerImplTest {
 
     @WithMockUser(roles = "ROOT", username = "root")
     @Test
-    public void findByUserByUsername() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/manager/user/user/root"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(200))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+    public void updateUserInfo() throws Exception {
     }
 
     @WithMockUser(roles = "ROOT", username = "root")
     @Test
-    public void createUser() throws Exception {
-
-    }
-
-    @WithMockUser(roles = "ROOT", username = "root")
-    @Test
-    public void deleteUserById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/manager/user/user/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(200))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+    public void resetPassword() throws Exception {
     }
 }
