@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.springbootsecurity.security.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +23,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.Table;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.github.springbootsecurity.security.pojo.common.OrmTableName.SYSTEM_ROLE;
 
 /**
  * <p>
@@ -40,11 +42,10 @@ import java.util.Map;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode(callSuper = false, exclude = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "SystemRoleDO")
+@Table(name = SYSTEM_ROLE)
 @DynamicInsert
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
@@ -68,5 +69,22 @@ public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return roleCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SystemRoleDO that = (SystemRoleDO) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId().hashCode());
     }
 }

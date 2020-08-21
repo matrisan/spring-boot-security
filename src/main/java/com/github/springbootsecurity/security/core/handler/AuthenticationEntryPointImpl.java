@@ -12,6 +12,7 @@ import java.io.IOException;
 
 /**
  * 前后端分离时,使用该对象返回对方json 而不是 html
+ * AuthenticationEntryPoint 用来解决匿名用户访问无权限资源时的异常
  *
  * <p>
  * 创建时间为 下午8:38 2019/11/18

@@ -1,6 +1,6 @@
 package com.github.springbootsecurity.application.controller.security.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -40,13 +40,17 @@ public class UserAnnotationControllerImplTest {
     @Resource
     private MockMvc mockMvc;
 
-    @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
+    @Resource
+    private ObjectMapper objectMapper;
+
+
     @Test
-    public void preFilter() {
+    @WithMockUser(roles = "USER", username = "user")
+    public void preFilter() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/prefilter")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JSON.toJSONString(Lists.newArrayList(1, 2, 3, 4, 5))))
+//                .content(JSON.toJSONString(Lists.newArrayList(1, 2, 3, 4, 5))))
+                .content(objectMapper.writeValueAsString(Lists.newArrayList(1, 2, 3, 4, 5))))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn()
@@ -54,13 +58,12 @@ public class UserAnnotationControllerImplTest {
                 .getContentAsString();
     }
 
-    @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
     @Test
-    public void postFilter() {
+    @WithMockUser(roles = "USER", username = "user")
+    public void postFilter() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/postfilter")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JSON.toJSONString(Lists.newArrayList(1, 2, 3, 4, 5))))
+                .content(objectMapper.writeValueAsString(Lists.newArrayList(1, 2, 3, 4, 5))))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn()
@@ -68,17 +71,15 @@ public class UserAnnotationControllerImplTest {
                 .getContentAsString();
     }
 
-    @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
     @Test
-    public void prePostFilter() {
+    @WithMockUser(roles = "USER", username = "user")
+    public void prePostFilter() throws Exception {
     }
 
-    @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
     @Test
-    public void preAuthorize() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/preauthorize/3"))
+    @WithMockUser(roles = "USER", username = "user")
+    public void postAuthorize() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/postauthorize/2"))
                 .andDo(print())
                 .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.status").value(0))
@@ -87,11 +88,10 @@ public class UserAnnotationControllerImplTest {
                 .getContentAsString();
     }
 
-    @WithMockUser(roles = "USER", username = "user")
-    @SneakyThrows(Exception.class)
     @Test
-    public void postAuthorize() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/postauthorize/2"))
+    @WithMockUser(roles = "USER", username = "user")
+    public void preAuthorize() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/preauthorize/3"))
                 .andDo(print())
                 .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.status").value(0))

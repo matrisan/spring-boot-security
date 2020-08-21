@@ -7,7 +7,6 @@ import com.github.springbootsecurity.security.pojo.BaseEntity;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +34,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.github.springbootsecurity.security.pojo.common.OrmTableName.SYSTEM_USER;
+import static com.github.springbootsecurity.security.pojo.common.OrmTableName.USER_ROLE;
 
 /**
  * <p>
@@ -51,11 +54,10 @@ import java.util.Map;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode(callSuper = false, exclude = {"roles", "lastLoginDate"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "SystemUserDO")
+@Table(name = SYSTEM_USER)
 @DynamicInsert
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
@@ -81,7 +83,7 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
     @MapKey
     @ManyToMany(targetEntity = SystemRoleDO.class, cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
+            name = USER_ROLE,
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
@@ -144,4 +146,20 @@ public class SystemUserDO extends BaseEntity implements UserDetails {
         System.out.println("CallBackMethod");
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SystemUserDO that = (SystemUserDO) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId().hashCode());
+    }
 }

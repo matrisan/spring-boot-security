@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.github.springbootsecurity.security.core.SecurityConstant.POST;
-import static com.github.springbootsecurity.security.core.SecurityConstant.SYSTEM_LOGIN_USERNAME;
+import static com.github.springbootsecurity.security.core.common.SecurityConstant.POST;
+import static com.github.springbootsecurity.security.core.common.SecurityConstant.SYSTEM_LOGIN_USERNAME;
 import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
 
 /**

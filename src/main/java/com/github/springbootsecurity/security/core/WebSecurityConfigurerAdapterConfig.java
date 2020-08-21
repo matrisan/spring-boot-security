@@ -1,5 +1,6 @@
 package com.github.springbootsecurity.security.core;
 
+import com.github.springbootsecurity.security.core.common.SecurityConstant;
 import com.github.springbootsecurity.security.core.handler.SessionInformationExpiredStrategyImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -63,25 +64,25 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     protected void configure(@NotNull HttpSecurity http) throws Exception {
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME)
+        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME).permitAll()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
                 .and()
                 .logout().logoutUrl(SecurityConstant.SYSTEM_LOGIN_LOGOUT)
 //                .logoutSuccessHandler()
-                .permitAll();
+//                .permitAll()
+        ;
         http.authorizeRequests().anyRequest().authenticated();
         // 对 Session 的管理
         http.sessionManagement()
                 // 登录超时处理
-//                .invalidSessionStrategy(sessionInvalidStrategy)
+                // .invalidSessionStrategy(sessionInvalidStrategy)
                 .maximumSessions(2)
                 .maxSessionsPreventsLogin(false)
                 // 异地登录处理
                 .expiredSessionStrategy(sessionExpiredStrategy);
 
-        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
+        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler);
 
         http.csrf().disable();
 //        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
