@@ -27,8 +27,8 @@ import java.io.IOException;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-    @SneakyThrows(IOException.class)
     @Override
+    @SneakyThrows(IOException.class)
     public void commence(HttpServletRequest request, @NotNull HttpServletResponse response, AuthenticationException authException) {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setCharacterEncoding("UTF-8");

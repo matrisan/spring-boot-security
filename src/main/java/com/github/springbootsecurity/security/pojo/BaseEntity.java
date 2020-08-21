@@ -37,7 +37,6 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
-    @Transient
     private static final long serialVersionUID = -2191753221757519036L;
 
     @Id

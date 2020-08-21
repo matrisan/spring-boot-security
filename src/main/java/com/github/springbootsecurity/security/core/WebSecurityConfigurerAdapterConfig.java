@@ -64,7 +64,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
     protected void configure(@NotNull HttpSecurity http) throws Exception {
         // 自定义的登录接口,使用表单登录
         // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME).permitAll()
+        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME)
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
                 .and()
@@ -82,7 +82,7 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
                 // 异地登录处理
                 .expiredSessionStrategy(sessionExpiredStrategy);
 
-        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler);
+//        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler);
 
         http.csrf().disable();
 //        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());

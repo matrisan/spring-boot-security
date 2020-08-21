@@ -51,7 +51,6 @@ import static com.github.springbootsecurity.security.pojo.common.OrmTableName.SY
 @EntityListeners(AuditingEntityListener.class)
 public class SystemRoleDO extends BaseEntity implements GrantedAuthority {
 
-    @Transient
     private static final long serialVersionUID = -3157807413812174641L;
 
     @Column(name = "role_name", columnDefinition = "VARCHAR(20) COMMENT '角色名称'")

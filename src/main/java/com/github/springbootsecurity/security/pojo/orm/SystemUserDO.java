@@ -63,7 +63,6 @@ import static com.github.springbootsecurity.security.pojo.common.OrmTableName.US
 @EntityListeners(AuditingEntityListener.class)
 public class SystemUserDO extends BaseEntity implements UserDetails {
 
-    @Transient
     private static final long serialVersionUID = 6949655530047745714L;
 
     @Column(columnDefinition = "VARCHAR(20) COMMENT '用户名'")
