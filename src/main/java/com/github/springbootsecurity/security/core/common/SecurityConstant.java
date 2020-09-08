@@ -37,4 +37,6 @@ public interface SecurityConstant {
 
     String SMS_CODE = "smsCode";
 
+    String[] PERMIT_ALL = {SYSTEM_LOGIN_USERNAME, SYSTEM_LOGIN_LOGOUT, SYSTEM_TRIAL_CAPTCHA};
+
 }

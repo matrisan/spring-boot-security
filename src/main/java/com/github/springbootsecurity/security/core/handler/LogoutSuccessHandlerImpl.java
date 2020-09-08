@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Component
+//@Component
 @RequiredArgsConstructor
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 

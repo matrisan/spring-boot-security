@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Component
+//@Component
 public class SessionInformationExpiredStrategyImpl implements SessionInformationExpiredStrategy {
 
     @Override

@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.core;
+package com.github.springbootsecurity.security.core.password;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -13,7 +13,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *
  * @author shao
  */
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 @EnableJpaAuditing
 @SpringBootApplication
 public class SpringBootSecurityApplication {

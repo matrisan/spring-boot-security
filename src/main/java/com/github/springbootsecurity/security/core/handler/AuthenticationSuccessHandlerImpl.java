@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Configuration
+//@Configuration
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     private static final RedirectStrategy STRATEGY = new DefaultRedirectStrategy();

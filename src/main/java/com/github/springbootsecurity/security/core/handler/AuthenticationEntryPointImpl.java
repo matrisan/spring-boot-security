@@ -24,7 +24,7 @@ import java.io.IOException;
  * @since 0.0.1
  */
 
-@Component
+//@Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override

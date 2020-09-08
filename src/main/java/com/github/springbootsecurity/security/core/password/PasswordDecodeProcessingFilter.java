@@ -1,4 +1,4 @@
-package com.github.springbootsecurity.security.core;
+package com.github.springbootsecurity.security.core.password;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

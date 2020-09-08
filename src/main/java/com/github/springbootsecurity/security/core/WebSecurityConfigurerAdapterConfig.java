@@ -20,6 +20,9 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import static com.github.springbootsecurity.security.core.common.SecurityConstant.PERMIT_ALL;
+import static com.github.springbootsecurity.security.core.common.SecurityConstant.SYSTEM_LOGIN_USERNAME;
+
 /**
  * <p>
  * 创建时间为 下午8:34 2019/9/17
@@ -37,23 +40,23 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAdapter {
 
-    private final LogoutSuccessHandler logoutSuccessHandler;
+//    private final LogoutSuccessHandler logoutSuccessHandler;
 
     private final UserDetailsService userDetailsService;
 
     private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationFailureHandler failureHandler;
-
-    private final AuthenticationSuccessHandler successHandler;
-
-//    private final InvalidSessionStrategyImpl sessionInvalidStrategy;
-
-    private final SessionInformationExpiredStrategyImpl sessionExpiredStrategy;
-
-    private final AuthenticationEntryPoint unauthorizedEntryPoint;
-
-    private final AccessDeniedHandler accessDeniedHandler;
+//
+//    private final AuthenticationFailureHandler failureHandler;
+//
+//    private final AuthenticationSuccessHandler successHandler;
+//
+////    private final InvalidSessionStrategyImpl sessionInvalidStrategy;
+//
+//    private final SessionInformationExpiredStrategyImpl sessionExpiredStrategy;
+//
+//    private final AuthenticationEntryPoint unauthorizedEntryPoint;
+//
+//    private final AccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
@@ -62,38 +65,52 @@ public class WebSecurityConfigurerAdapterConfig extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
-        // 自定义的登录接口,使用表单登录
-        // 自定义登录/登出url，自定义登录成功/失败处理器
-        http.formLogin().loginProcessingUrl(SecurityConstant.SYSTEM_LOGIN_USERNAME)
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
-                .and()
-                .logout().logoutUrl(SecurityConstant.SYSTEM_LOGIN_LOGOUT)
-//                .logoutSuccessHandler()
-//                .permitAll()
-        ;
-        http.authorizeRequests().anyRequest().authenticated();
-        // 对 Session 的管理
-        http.sessionManagement()
-                // 登录超时处理
-                // .invalidSessionStrategy(sessionInvalidStrategy)
-                .maximumSessions(2)
-                .maxSessionsPreventsLogin(false)
-                // 异地登录处理
-                .expiredSessionStrategy(sessionExpiredStrategy);
 
-//        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler);
+        http.authorizeRequests().antMatchers(PERMIT_ALL).permitAll().anyRequest().authenticated();
+        http.formLogin().loginProcessingUrl(SYSTEM_LOGIN_USERNAME).permitAll();
+        http.logout().logoutUrl(SecurityConstant.SYSTEM_LOGIN_LOGOUT).permitAll();
 
+        http.httpBasic().disable();
         http.csrf().disable();
-//        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
-//        http.apply(smsCodeAuthenticationSecurityConfig);
+
+//        // 自定义的登录接口,使用表单登录
+//        // 自定义登录/登出url，自定义登录成功/失败处理器
+//        http.formLogin().loginProcessingUrl("/login")
+////                .successHandler(successHandler)
+////                .failureHandler(failureHandler)
+//                .and()
+//                .logout().logoutUrl(SecurityConstant.SYSTEM_LOGIN_LOGOUT)
+////                .logoutSuccessHandler()
+////                .permitAll()
+//        ;
+//        http.authorizeRequests()
+//
+//                .antMatcher(SYSTEM_LOGIN_USERNAME)
+//                .and().antMatcher(SYSTEM_LOGIN_USERNAME);
+//        // 对 Session 的管理
+//        http.sessionManagement()
+//                // 登录超时处理
+//                // .invalidSessionStrategy(sessionInvalidStrategy)
+//                .maximumSessions(2)
+//                .maxSessionsPreventsLogin(false)
+//        // 异地登录处理
+////                .expiredSessionStrategy(sessionExpiredStrategy)
+//        ;
+//
+////        http.exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler);
+//
+//        http.csrf().disable();
+////        http.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
+////        http.apply(smsCodeAuthenticationSecurityConfig);
     }
 
     @Override
     @SneakyThrows(Exception.class)
     public void configure(@NotNull WebSecurity web) {
         web.ignoring().antMatchers("/");
-        web.ignoring().antMatchers(SecurityConstant.SYSTEM_LOGIN_USERNAME);
+        web.ignoring().antMatchers("/login");
+        web.ignoring().antMatchers(SYSTEM_LOGIN_USERNAME);
+
         web.ignoring().antMatchers("/static/js/**");
         web.ignoring().antMatchers("/static/css/**");
         web.ignoring().antMatchers("/static/image/**");

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizationFailureEventListener {
 
-//    @EventListener
+    @EventListener
     public void event1(@NotNull AuthorizationFailureEvent event) {
         log.error("AuthorizationFailureEventListener 接收到事件:{} - {}", event.getClass(), event.toString());
 
